@@ -7,6 +7,7 @@ import { AboutSection } from './AboutSection';
 import { TestimonialsSection } from './TestimonialsSection';
 import { PricingSection } from './PricingSection';
 import { CTASection } from './CTASection';
+import { LandingFooter } from './LandingFooter';
 
 /**
  * Container component for all landing page sections
@@ -21,6 +22,7 @@ export const LandingSections = () => {
       <TestimonialsSection />
       <PricingSection />
       <CTASection />
+      <LandingFooter />
     </>
   );
 };
