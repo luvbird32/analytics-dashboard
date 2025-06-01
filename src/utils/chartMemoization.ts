@@ -12,35 +12,24 @@ interface ChartProps {
 }
 
 /**
- * Creates a memoized version of a chart component
- * @param Component - The chart component to memoize
- * @param propsAreEqual - Optional custom comparison function
- * @returns Memoized chart component
- */
-export const memoizeChart = <T extends ChartProps>(
-  Component: React.ComponentType<T>,
-  propsAreEqual?: (prevProps: T, nextProps: T) => boolean
-) => {
-  return memo(Component, propsAreEqual);
-};
-
-/**
  * Default props comparison for chart components
  * Compares data arrays and other props for equality
  */
-export const defaultChartPropsAreEqual = <T extends ChartProps>(
+export const defaultChartComparison = <T extends ChartProps>(
   prevProps: T,
   nextProps: T
 ): boolean => {
   // Compare data arrays
-  if (prevProps.data.length !== nextProps.data.length) {
+  if (prevProps.data?.length !== nextProps.data?.length) {
     return false;
   }
 
   // Deep comparison of data array
-  for (let i = 0; i < prevProps.data.length; i++) {
-    if (JSON.stringify(prevProps.data[i]) !== JSON.stringify(nextProps.data[i])) {
-      return false;
+  if (prevProps.data && nextProps.data) {
+    for (let i = 0; i < prevProps.data.length; i++) {
+      if (JSON.stringify(prevProps.data[i]) !== JSON.stringify(nextProps.data[i])) {
+        return false;
+      }
     }
   }
 
@@ -62,10 +51,54 @@ export const defaultChartPropsAreEqual = <T extends ChartProps>(
 };
 
 /**
- * Creates a memoized chart with default comparison
+ * Live chart comparison that also checks for isLive prop
+ */
+export const liveChartComparison = <T extends ChartProps & { isLive?: boolean }>(
+  prevProps: T,
+  nextProps: T
+): boolean => {
+  // First check the default comparison
+  if (!defaultChartComparison(prevProps, nextProps)) {
+    return false;
+  }
+
+  // Also check isLive prop
+  return prevProps.isLive === nextProps.isLive;
+};
+
+/**
+ * Creates a memoized version of a chart component
+ * @param Component - The chart component to memoize
+ * @param componentName - Name for debugging (optional)
+ * @param propsAreEqual - Optional custom comparison function
+ * @returns Memoized chart component
  */
 export const createMemoizedChart = <T extends ChartProps>(
-  Component: React.ComponentType<T>
+  Component: React.ComponentType<T>,
+  componentName?: string,
+  propsAreEqual?: (prevProps: T, nextProps: T) => boolean
 ) => {
-  return memoizeChart(Component, defaultChartPropsAreEqual);
+  const MemoizedComponent = memo(Component, propsAreEqual || defaultChartComparison);
+  
+  // Set display name for debugging
+  if (componentName) {
+    MemoizedComponent.displayName = `Memoized${componentName}`;
+  }
+  
+  return MemoizedComponent;
 };
+
+/**
+ * Creates a memoized chart with default comparison
+ */
+export const memoizeChart = <T extends ChartProps>(
+  Component: React.ComponentType<T>,
+  propsAreEqual?: (prevProps: T, nextProps: T) => boolean
+) => {
+  return memo(Component, propsAreEqual);
+};
+
+/**
+ * Default props comparison for chart components (legacy)
+ */
+export const defaultChartPropsAreEqual = defaultChartComparison;
