@@ -1,9 +1,6 @@
-
 import { render } from '@/test/utils/testUtils';
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe } from 'jest-axe';
 import Index from '@/pages/Index';
-
-expect.extend(toHaveNoViolations);
 
 describe('Dashboard Accessibility Tests', () => {
   it('should not have any accessibility violations', async () => {

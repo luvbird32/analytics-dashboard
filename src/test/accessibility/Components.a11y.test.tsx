@@ -1,11 +1,8 @@
-
 import { render } from '@/test/utils/testUtils';
-import { axe, toHaveNoViolations } from 'jest-axe';
+import { axe } from 'jest-axe';
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { SalesChart } from '@/components/dashboard/SalesChart';
 import { mockPerformanceMetrics, mockSalesData } from '@/test/mocks/mockData';
-
-expect.extend(toHaveNoViolations);
 
 describe('Component Accessibility Tests', () => {
   it('MetricCard should be accessible', async () => {

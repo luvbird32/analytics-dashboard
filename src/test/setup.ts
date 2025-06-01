@@ -1,6 +1,10 @@
 
 import '@testing-library/jest-dom';
 import { configure } from '@testing-library/react';
+import 'jest-axe/extend-expect';
+
+// Import our custom types
+import './types/jest-axe';
 
 // Configure testing library
 configure({ testIdAttribute: 'data-testid' });
