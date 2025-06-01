@@ -10,7 +10,7 @@ interface CryptocurrencySectionProps {
 }
 
 /**
- * Cryptocurrency analytics section
+ * Cryptocurrency analytics section with separate rows for better visual experience
  */
 export const CryptocurrencySection = ({
   cryptoData,
@@ -22,13 +22,15 @@ export const CryptocurrencySection = ({
         <DollarSign className="h-5 w-5 lg:h-6 lg:w-6" />
         Cryptocurrency Analytics
       </h2>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-        <div className="w-full">
-          <CryptoChart data={cryptoData} symbol="BTC" />
-        </div>
-        <div className="w-full">
-          <CandlestickChart data={candlestickData} />
-        </div>
+      
+      {/* Crypto Chart - Full Width Row */}
+      <div className="w-full">
+        <CryptoChart data={cryptoData} symbol="BTC" />
+      </div>
+      
+      {/* Candlestick Chart - Full Width Row */}
+      <div className="w-full">
+        <CandlestickChart data={candlestickData} />
       </div>
     </div>
   );

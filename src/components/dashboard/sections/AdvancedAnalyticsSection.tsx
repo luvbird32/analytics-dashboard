@@ -12,7 +12,7 @@ interface AdvancedAnalyticsSectionProps {
 }
 
 /**
- * Advanced analytics section
+ * Advanced analytics section with separate rows for better visual experience
  */
 export const AdvancedAnalyticsSection = ({
   areaData,
@@ -26,16 +26,19 @@ export const AdvancedAnalyticsSection = ({
         Advanced Analytics
       </h2>
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-        <div className="w-full">
-          <AreaChart data={areaData} />
-        </div>
-        <div className="w-full">
-          <RadarChart data={radarData} />
-        </div>
-        <div className="w-full">
-          <SankeyChart data={sankeyData} />
-        </div>
+      {/* Area Chart - Full Width Row */}
+      <div className="w-full">
+        <AreaChart data={areaData} />
+      </div>
+      
+      {/* Radar Chart - Full Width Row */}
+      <div className="w-full">
+        <RadarChart data={radarData} />
+      </div>
+      
+      {/* Sankey Chart - Full Width Row */}
+      <div className="w-full">
+        <SankeyChart data={sankeyData} />
       </div>
     </div>
   );

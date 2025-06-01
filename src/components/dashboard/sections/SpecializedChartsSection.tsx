@@ -25,7 +25,7 @@ interface SpecializedChartsSectionProps {
 }
 
 /**
- * Specialized visualizations section
+ * Specialized visualizations section with separate rows for better visual experience
  */
 export const SpecializedChartsSection = ({
   treemapData,
@@ -42,30 +42,34 @@ export const SpecializedChartsSection = ({
         Specialized Visualizations
       </h2>
       
-      {/* First Row - 3 Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-        <div className="w-full">
-          <TreemapChart data={treemapData} />
-        </div>
-        <div className="w-full">
-          <ScatterChart data={scatterData} />
-        </div>
-        <div className="w-full">
-          <FunnelChart data={funnelData} />
-        </div>
+      {/* Treemap Chart - Full Width Row */}
+      <div className="w-full">
+        <TreemapChart data={treemapData} />
       </div>
       
-      {/* Second Row - 3 Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-        <div className="w-full">
-          <GaugeChart data={gaugeData} />
-        </div>
-        <div className="w-full">
-          <DonutChart data={donutData} />
-        </div>
-        <div className="w-full">
-          <BarChart data={barData} />
-        </div>
+      {/* Scatter Chart - Full Width Row */}
+      <div className="w-full">
+        <ScatterChart data={scatterData} />
+      </div>
+      
+      {/* Funnel Chart - Full Width Row */}
+      <div className="w-full">
+        <FunnelChart data={funnelData} />
+      </div>
+      
+      {/* Gauge Chart - Full Width Row */}
+      <div className="w-full">
+        <GaugeChart data={gaugeData} />
+      </div>
+      
+      {/* Donut Chart - Full Width Row */}
+      <div className="w-full">
+        <DonutChart data={donutData} />
+      </div>
+      
+      {/* Bar Chart - Full Width Row */}
+      <div className="w-full">
+        <BarChart data={barData} />
       </div>
     </div>
   );
