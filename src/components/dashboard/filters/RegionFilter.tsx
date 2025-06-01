@@ -19,15 +19,15 @@ export const RegionFilter = ({ filters, onFiltersChange }: RegionFilterProps) =>
     { id: 'latin-america', label: 'Latin America' }
   ];
 
-  // Ensure filters and filters.region exist with proper defaults
-  const safeFilters = filters || {
-    dateRange: '30d' as const,
-    category: [],
-    region: [],
-    userType: []
+  // Ensure filters exists and has all required properties with proper defaults
+  const safeFilters: DashboardFilters = {
+    dateRange: filters?.dateRange || '30d',
+    category: filters?.category || [],
+    region: filters?.region || [],
+    userType: filters?.userType || []
   };
 
-  const currentRegions = safeFilters.region || [];
+  const currentRegions = safeFilters.region;
 
   const handleRegionToggle = (regionId: string) => {
     const newRegions = FilterUtils.toggleFilterValue(currentRegions, regionId);

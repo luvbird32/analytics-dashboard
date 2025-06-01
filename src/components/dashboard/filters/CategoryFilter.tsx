@@ -19,15 +19,15 @@ export const CategoryFilter = ({ filters, onFiltersChange }: CategoryFilterProps
     { id: 'conversion', label: 'Conversion' }
   ];
 
-  // Ensure filters and filters.category exist with proper defaults
-  const safeFilters = filters || {
-    dateRange: '30d' as const,
-    category: [],
-    region: [],
-    userType: []
+  // Ensure filters exists and has all required properties with proper defaults
+  const safeFilters: DashboardFilters = {
+    dateRange: filters?.dateRange || '30d',
+    category: filters?.category || [],
+    region: filters?.region || [],
+    userType: filters?.userType || []
   };
 
-  const currentCategories = safeFilters.category || [];
+  const currentCategories = safeFilters.category;
 
   const handleCategoryToggle = (categoryId: string) => {
     const newCategories = FilterUtils.toggleFilterValue(currentCategories, categoryId);
