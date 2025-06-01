@@ -11,6 +11,8 @@ import { CandlestickChart } from './charts/CandlestickChart';
 import { DonutChart } from './charts/DonutChart';
 import { SankeyChart } from './charts/SankeyChart';
 import { CryptoChart } from './charts/CryptoChart';
+import { BarChart } from './charts/BarChart';
+import { ScatterChart } from './charts/ScatterChart';
 import { ErrorBoundary } from '../ErrorBoundary';
 
 /**
@@ -89,6 +91,19 @@ export const MemoizedCryptoChart = memo(({ data, symbol }: any) => (
   </ErrorBoundary>
 ));
 
+export const MemoizedBarChart = memo(({ data }: any) => (
+  <ErrorBoundary>
+    <BarChart data={data} />
+  </ErrorBoundary>
+));
+
+export const MemoizedScatterChart = memo(({ data }: any) => (
+  <ErrorBoundary>
+    <ScatterChart data={data} />
+  </ErrorBoundary>
+));
+
+// Set display names for better debugging
 MemoizedSalesChart.displayName = 'MemoizedSalesChart';
 MemoizedTrafficChart.displayName = 'MemoizedTrafficChart';
 MemoizedLiveChart.displayName = 'MemoizedLiveChart';
@@ -100,3 +115,5 @@ MemoizedCandlestickChart.displayName = 'MemoizedCandlestickChart';
 MemoizedDonutChart.displayName = 'MemoizedDonutChart';
 MemoizedSankeyChart.displayName = 'MemoizedSankeyChart';
 MemoizedCryptoChart.displayName = 'MemoizedCryptoChart';
+MemoizedBarChart.displayName = 'MemoizedBarChart';
+MemoizedScatterChart.displayName = 'MemoizedScatterChart';

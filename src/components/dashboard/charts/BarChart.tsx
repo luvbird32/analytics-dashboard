@@ -1,17 +1,17 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { BarChart as RechartsBarChart, Bar, XAxis, YAxis, ResponsiveContainer, ReferenceLine } from 'recharts';
+import { BarChart as RechartsBarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import { BarData } from '@/types/dashboard';
 
-interface BarChartProps {
+interface CustomBarChartProps {
   data: BarData[];
 }
 
 /**
- * Bar chart for performance metrics with targets
+ * Custom bar chart for performance metrics with targets
  */
-export const BarChart = ({ data }: BarChartProps) => {
+export const BarChart = ({ data }: CustomBarChartProps) => {
   const chartConfig = {
     value: {
       label: "Actual",
