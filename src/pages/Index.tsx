@@ -8,9 +8,10 @@ import { AreaChart } from '@/components/dashboard/AreaChart';
 import { RadarChart } from '@/components/dashboard/RadarChart';
 import { NotificationPanel } from '@/components/dashboard/NotificationPanel';
 import { DashboardControls } from '@/components/dashboard/DashboardControls';
+import { DashboardFilters } from '@/components/dashboard/DashboardFilters';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BarChart, LineChart, PieChart, Activity, TrendingUp } from 'lucide-react';
+import { BarChart, LineChart, PieChart, Activity, TrendingUp, Filter } from 'lucide-react';
 
 /**
  * Enterprise-Grade Real-time Analytics Dashboard
@@ -27,10 +28,13 @@ const Index = () => {
     areaData,
     radarData,
     notifications,
+    filters,
     toggleLiveData,
     refreshData,
     clearNotifications,
-    markNotificationAsRead
+    markNotificationAsRead,
+    setFilters,
+    handleExport
   } = useRealTimeData();
 
   return (
@@ -68,6 +72,10 @@ const Index = () => {
                 <TrendingUp className="h-4 w-4" />
                 Performance Tracking
               </span>
+              <span className="flex items-center gap-1">
+                <Filter className="h-4 w-4" />
+                Interactive Filters
+              </span>
             </div>
           </div>
           <div className="flex flex-col sm:flex-row items-end gap-3">
@@ -79,16 +87,34 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Enhanced Performance Metrics Grid */}
-        <div>
-          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            <TrendingUp className="h-5 w-5" />
-            Performance Metrics
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {performanceMetrics.map((metric) => (
-              <EnhancedMetricCard key={metric.id} metric={metric} />
-            ))}
+        {/* Filters Section */}
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+          <div className="xl:col-span-1">
+            <DashboardFilters
+              filters={filters}
+              onFiltersChange={setFilters}
+              onExport={handleExport}
+            />
+          </div>
+          
+          {/* Enhanced Performance Metrics Grid */}
+          <div className="xl:col-span-3">
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold flex items-center gap-2">
+                <TrendingUp className="h-5 w-5" />
+                Performance Metrics
+                {filters.category.length > 0 && (
+                  <Badge variant="secondary">
+                    Filtered by {filters.category.length} categories
+                  </Badge>
+                )}
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                {performanceMetrics.map((metric) => (
+                  <EnhancedMetricCard key={metric.id} metric={metric} />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -130,7 +156,7 @@ const Index = () => {
         {/* Dashboard Statistics Footer */}
         <Card className="bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20">
           <CardContent className="p-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
               <div>
                 <p className="text-2xl font-bold text-primary">{metrics.length}</p>
                 <p className="text-sm text-muted-foreground">Data Points</p>
@@ -142,6 +168,12 @@ const Index = () => {
               <div>
                 <p className="text-2xl font-bold text-primary">{notifications.length}</p>
                 <p className="text-sm text-muted-foreground">Live Alerts</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-primary">
+                  {filters.category.length + filters.region.length + filters.userType.length}
+                </p>
+                <p className="text-sm text-muted-foreground">Active Filters</p>
               </div>
               <div>
                 <p className="text-2xl font-bold text-primary">

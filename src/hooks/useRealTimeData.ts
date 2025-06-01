@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useCallback } from 'react';
 import { 
   MetricData, 
@@ -8,12 +7,13 @@ import {
   HeatmapData, 
   RadarData, 
   AreaData,
-  NotificationData 
+  NotificationData,
+  DashboardFilters
 } from '@/types/dashboard';
 
 /**
- * Advanced real-time dashboard data management
- * Simulates enterprise-level analytics with complex data structures
+ * Advanced real-time dashboard data management with filtering capabilities
+ * Simulates enterprise-level analytics with complex data structures and filters
  */
 export const useRealTimeData = () => {
   const [isLive, setIsLive] = useState(false);
@@ -25,6 +25,12 @@ export const useRealTimeData = () => {
   const [radarData, setRadarData] = useState<RadarData[]>([]);
   const [areaData, setAreaData] = useState<AreaData[]>([]);
   const [notifications, setNotifications] = useState<NotificationData[]>([]);
+  const [filters, setFilters] = useState<DashboardFilters>({
+    dateRange: '30d',
+    category: [],
+    region: [],
+    userType: []
+  });
 
   // Generate comprehensive initial data
   const generateInitialData = useCallback(() => {
@@ -229,6 +235,28 @@ export const useRealTimeData = () => {
     }
   }, [isLive]);
 
+  // Filter data based on current filters
+  const getFilteredPerformanceMetrics = () => {
+    if (filters.category.length === 0) return performanceMetrics;
+    return performanceMetrics.filter(metric => filters.category.includes(metric.category));
+  };
+
+  const handleExport = (format: 'pdf' | 'excel' | 'csv' | 'png') => {
+    console.log(`📤 Exporting dashboard data as ${format.toUpperCase()}...`);
+    
+    // Simulate export process
+    const notification: NotificationData = {
+      id: `export-${Date.now()}`,
+      type: 'success',
+      title: 'Export Completed',
+      message: `Dashboard data exported successfully as ${format.toUpperCase()}`,
+      timestamp: new Date(),
+      isRead: false
+    };
+    
+    setNotifications(prev => [notification, ...prev.slice(0, 9)]);
+  };
+
   useEffect(() => {
     generateInitialData();
   }, [generateInitialData]);
@@ -260,14 +288,17 @@ export const useRealTimeData = () => {
     metrics,
     salesData,
     trafficData,
-    performanceMetrics,
+    performanceMetrics: getFilteredPerformanceMetrics(),
     heatmapData,
     radarData,
     areaData,
     notifications,
+    filters,
     toggleLiveData,
     refreshData: generateInitialData,
     clearNotifications,
-    markNotificationAsRead
+    markNotificationAsRead,
+    setFilters,
+    handleExport
   };
 };
