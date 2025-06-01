@@ -1,211 +1,512 @@
 
 # API Documentation
 
-This document describes the data structures and mock services used in the Analytics Dashboard.
-
 ## Overview
 
-The dashboard uses mock data generators that simulate real-time analytics data. In a production environment, these would be replaced with actual API calls to your analytics backend.
+The Analytics Dashboard uses a service-layer architecture to manage data generation, processing, and storage. This document outlines the available services, hooks, and storage APIs.
 
-## Data Services
+## Core Services
 
-### Core Metrics Service
+### MetricsService
 
-Located in `src/services/core/metricsService.ts`
+Handles core dashboard metrics and performance data.
 
 ```typescript
-interface Metric {
-  id: string;
-  label: string;
-  value: number;
-  change: number;
-  trend: 'up' | 'down' | 'stable';
-  icon: LucideIcon;
-}
+import { MetricsService } from '@/services/core/metricsService';
+
+// Generate initial metrics
+const metrics = MetricsService.generateMetrics();
+
+// Generate performance metrics
+const performanceMetrics = MetricsService.generatePerformanceMetrics();
+
+// Calculate trend indicators
+const trends = MetricsService.calculateTrends(data);
 ```
 
 **Methods:**
-- `generateMetrics()`: Returns current dashboard metrics
-- `generatePerformanceMetrics()`: Returns system performance data
+- `generateMetrics(): MetricData[]` - Generates 6 core dashboard metrics
+- `generatePerformanceMetrics(): PerformanceMetricData[]` - Generates system performance data
+- `calculateTrends(data: number[]): TrendData` - Calculates trend indicators
 
-### Charts Data Service
+### Advanced Charts Service
 
-Located in `src/services/charts/advancedChartsService.ts`
+Manages complex chart data generation.
 
-**Chart Types Supported:**
-- Line Charts (time series data)
-- Bar Charts (categorical data)
-- Area Charts (filled time series)
-- Pie/Donut Charts (proportional data)
-- Scatter Charts (correlation data)
-- Radar Charts (multi-dimensional data)
-- Treemap Charts (hierarchical data)
-- Funnel Charts (conversion data)
-- Gauge Charts (single value indicators)
-- Sankey Charts (flow visualization)
-- Candlestick Charts (financial data)
+```typescript
+import { AdvancedChartsService } from '@/services/charts/advancedChartsService';
+
+// Generate various chart types
+const salesData = AdvancedChartsService.generateSalesData();
+const trafficData = AdvancedChartsService.generateTrafficData();
+const heatmapData = AdvancedChartsService.generateHeatmapData();
+const radarData = AdvancedChartsService.generateRadarData();
+```
+
+**Methods:**
+- `generateSalesData(): SalesData[]` - Sales trend data
+- `generateTrafficData(): TrafficData[]` - Website traffic analytics
+- `generateHeatmapData(): HeatmapData[]` - User interaction heatmap
+- `generateRadarData(): RadarData[]` - Multi-dimensional analysis
+- `generateAreaData(): AreaData[]` - Area chart data
+- `generateTreemapData(): TreemapData[]` - Hierarchical data
+- `generateScatterData(): ScatterData[]` - Correlation analysis
+- `generateFunnelData(): FunnelData[]` - Conversion funnel
+- `generateGaugeData(): GaugeData[]` - Performance gauges
+- `generateSankeyData(): SankeyData` - Flow visualization
+- `generateCandlestickData(): CandlestickData[]` - Financial OHLC data
+- `generateDonutData(): DonutData[]` - Proportional data
+- `generateBarData(): BarData[]` - Categorical comparisons
 
 ### Social Media Service
 
-Located in `src/services/social/socialMediaService.ts`
+Provides social media analytics data.
 
 ```typescript
-interface SentimentData {
-  time: string;
-  positive: number;
-  negative: number;
-  neutral: number;
-}
+import { SocialMediaService } from '@/services/social/socialMediaService';
 
-interface HashtagData {
-  hashtag: string;
-  mentions: number;
-  engagement: number;
-  reach: number;
-}
+// Generate social analytics
+const sentimentData = SocialMediaService.generateSentimentData();
+const engagementData = SocialMediaService.generateEngagementData();
+const hashtagData = SocialMediaService.generateHashtagData();
 ```
+
+**Methods:**
+- `generateSentimentData(): SentimentData[]` - Social sentiment analysis
+- `generateEngagementData(): EngagementData[]` - Social engagement metrics
+- `generateHashtagData(): HashtagData[]` - Trending hashtags analysis
 
 ### Crypto Service
 
-Located in `src/services/crypto/cryptoService.ts`
+Handles cryptocurrency data generation.
 
 ```typescript
-interface CryptoData {
-  time: string;
-  bitcoin: number;
-  ethereum: number;
-  cardano: number;
-  solana: number;
-}
+import { CryptoService } from '@/services/crypto/cryptoService';
+
+// Generate crypto data
+const cryptoData = CryptoService.generateCryptoData();
+const priceHistory = CryptoService.generatePriceHistory('BTC');
 ```
 
-## Real-time Data
+**Methods:**
+- `generateCryptoData(): CryptoData[]` - Multi-currency price data
+- `generatePriceHistory(symbol: string): PriceData[]` - Historical price data
 
-### WebSocket Simulation
+### Notification Service
 
-The dashboard simulates real-time updates using `setInterval`:
+Manages dashboard notifications.
 
 ```typescript
-const useRealTimeData = () => {
-  const [isLive, setIsLive] = useState(false);
-  
-  useEffect(() => {
-    if (!isLive) return;
-    
-    const interval = setInterval(() => {
-      // Update data every 2 seconds
-      updateData();
-    }, 2000);
-    
-    return () => clearInterval(interval);
-  }, [isLive]);
-};
+import { NotificationService } from '@/services/notificationService';
+
+// Generate notifications
+const notification = NotificationService.createNotification('update', 'Data refreshed');
+
+// Export functionality
+await NotificationService.exportData(data, 'pdf');
 ```
 
-### Data Update Frequency
+**Methods:**
+- `createNotification(type: string, message: string): NotificationData` - Create new notification
+- `exportData(data: any, format: ExportFormat): Promise<void>` - Export dashboard data
 
-- **Metrics**: Every 2 seconds when live
-- **Charts**: Every 3-5 seconds when live
-- **Notifications**: Event-driven
+## Custom Hooks
 
-## Filters and Parameters
+### useRealTimeData
 
-### Available Filters
+Main orchestration hook for dashboard data management.
 
 ```typescript
-interface DashboardFilters {
-  dateRange: {
-    start: Date;
-    end: Date;
-  };
-  category: 'all' | 'sales' | 'traffic' | 'engagement';
-  region: 'all' | 'north-america' | 'europe' | 'asia' | 'other';
-  userType: 'all' | 'new' | 'returning' | 'premium';
-}
+import { useRealTimeData } from '@/hooks/useRealTimeData';
+
+const {
+  isLive,
+  metrics,
+  salesData,
+  trafficData,
+  notifications,
+  filters,
+  toggleLiveData,
+  refreshData,
+  setFilters,
+  handleExport
+} = useRealTimeData();
 ```
 
-### Filter Implementation
+**Returns:**
+- `isLive: boolean` - Real-time update status
+- `metrics: MetricData[]` - Core dashboard metrics
+- `salesData: SalesData[]` - Sales analytics
+- `trafficData: TrafficData[]` - Traffic analytics
+- `notifications: NotificationData[]` - System notifications
+- `filters: DashboardFilters` - Current filter state
+- `toggleLiveData: () => void` - Toggle real-time updates
+- `refreshData: () => void` - Refresh all data
+- `setFilters: (filters: DashboardFilters) => void` - Update filters
+- `handleExport: (format: ExportFormat) => void` - Export data
 
-Filters are applied client-side to mock data. In production, these would be query parameters sent to your API:
+### useMetricsData
+
+Specialized hook for metrics management.
 
 ```typescript
-// Example API call structure
-const fetchMetrics = async (filters: DashboardFilters) => {
-  const params = new URLSearchParams({
-    start: filters.dateRange.start.toISOString(),
-    end: filters.dateRange.end.toISOString(),
-    category: filters.category,
-    region: filters.region,
-    userType: filters.userType,
+import { useMetricsData } from '@/hooks/useMetricsData';
+
+const {
+  metrics,
+  performanceMetrics,
+  generateInitialMetrics,
+  updateMetrics
+} = useMetricsData();
+```
+
+### useChartsData
+
+Manages chart data generation and updates.
+
+```typescript
+import { useChartsData } from '@/hooks/useChartsData';
+
+const {
+  salesData,
+  trafficData,
+  heatmapData,
+  radarData,
+  generateInitialCharts,
+  updateTrafficData
+} = useChartsData();
+```
+
+### useNotifications
+
+Notification management hook.
+
+```typescript
+import { useNotifications } from '@/hooks/useNotifications';
+
+const {
+  notifications,
+  addNotification,
+  clearNotifications,
+  markNotificationAsRead,
+  handleExport
+} = useNotifications();
+```
+
+### useSocialCryptoData
+
+Social media and cryptocurrency data management.
+
+```typescript
+import { useSocialCryptoData } from '@/hooks/useSocialCryptoData';
+
+const {
+  sentimentData,
+  engagementData,
+  cryptoData,
+  hashtagData,
+  generateInitialSocialCrypto
+} = useSocialCryptoData();
+```
+
+## Storage APIs
+
+### localStorage Integration
+
+Using `use-local-storage-state` for simple data persistence.
+
+```typescript
+import useLocalStorageState from 'use-local-storage-state';
+
+// User preferences
+const [preferences, setPreferences] = useLocalStorageState('dashboard-prefs', {
+  defaultValue: {
+    theme: 'light',
+    filters: {},
+    chartSettings: {}
+  }
+});
+
+// Dashboard filters
+const [filters, setFilters] = useLocalStorageState('dashboard-filters', {
+  defaultValue: {
+    dateRange: '30d',
+    category: [],
+    region: [],
+    userType: []
+  }
+});
+```
+
+### IndexedDB Integration
+
+Using `idb` for complex data storage.
+
+```typescript
+import { openDB } from 'idb';
+
+// Initialize database
+const initDB = async () => {
+  return openDB('analytics-dashboard', 1, {
+    upgrade(db) {
+      // Create object stores
+      if (!db.objectStoreNames.contains('chartData')) {
+        db.createObjectStore('chartData', { keyPath: 'id' });
+      }
+      if (!db.objectStoreNames.contains('userSessions')) {
+        db.createObjectStore('userSessions', { keyPath: 'sessionId' });
+      }
+    },
   });
-  
-  return fetch(`/api/metrics?${params}`);
 };
-```
 
-## Export Functionality
+// Save chart data
+const saveChartData = async (chartId: string, data: any) => {
+  const db = await initDB();
+  await db.put('chartData', {
+    id: chartId,
+    data,
+    timestamp: Date.now()
+  });
+};
 
-### Supported Export Formats
+// Retrieve chart data
+const getChartData = async (chartId: string) => {
+  const db = await initDB();
+  return db.get('chartData', chartId);
+};
 
-- **PDF**: Chart visualizations and summary data
-- **Excel**: Raw data in spreadsheet format
-- **CSV**: Comma-separated values for data analysis
-- **PNG**: High-resolution chart images
-
-### Export Implementation
-
-```typescript
-const handleExport = (format: ExportFormat) => {
-  switch (format) {
-    case 'pdf':
-      return exportToPDF(chartData, metrics);
-    case 'excel':
-      return exportToExcel(rawData);
-    case 'csv':
-      return exportToCSV(rawData);
-    case 'png':
-      return exportChartToPNG(chartRef.current);
+// Clear expired data
+const clearExpiredData = async (maxAge: number) => {
+  const db = await initDB();
+  const tx = db.transaction('chartData', 'readwrite');
+  const store = tx.objectStore('chartData');
+  const allData = await store.getAll();
+  
+  const cutoff = Date.now() - maxAge;
+  for (const item of allData) {
+    if (item.timestamp < cutoff) {
+      await store.delete(item.id);
+    }
   }
 };
 ```
 
-## Integration Guide
+### localforage Integration
 
-### Replacing Mock Data
-
-To integrate with real APIs:
-
-1. **Update Service Files**: Replace mock generators with actual API calls
-2. **Add Authentication**: Implement JWT or API key authentication
-3. **Error Handling**: Add proper error boundaries and retry logic
-4. **Caching**: Implement React Query for data caching and synchronization
-
-### Example Real API Integration
+Using `localforage` for unified storage API.
 
 ```typescript
-// services/api/metricsApi.ts
-import { useQuery } from '@tanstack/react-query';
+import localforage from 'localforage';
 
-export const useMetrics = (filters: DashboardFilters) => {
-  return useQuery({
-    queryKey: ['metrics', filters],
-    queryFn: () => fetchMetrics(filters),
-    refetchInterval: 30000, // 30 seconds
-  });
+// Configure storage
+localforage.config({
+  driver: [
+    localforage.INDEXEDDB,
+    localforage.LOCALSTORAGE,
+    localforage.WEBSQL
+  ],
+  name: 'analytics-dashboard',
+  storeName: 'dashboard_data',
+  description: 'Analytics Dashboard Storage'
+});
+
+// Save data with automatic driver selection
+const saveData = async (key: string, data: any) => {
+  try {
+    await localforage.setItem(key, data);
+    console.log(`Data saved to ${localforage.driver()}`);
+  } catch (error) {
+    console.error('Storage error:', error);
+  }
+};
+
+// Retrieve data
+const getData = async (key: string) => {
+  try {
+    return await localforage.getItem(key);
+  } catch (error) {
+    console.error('Retrieval error:', error);
+    return null;
+  }
+};
+
+// Bulk operations
+const saveBulkData = async (data: Record<string, any>) => {
+  const promises = Object.entries(data).map(([key, value]) =>
+    localforage.setItem(key, value)
+  );
+  await Promise.all(promises);
+};
+```
+
+## TypeScript Interfaces
+
+### Core Data Types
+
+```typescript
+// Dashboard metrics
+interface MetricData {
+  id: string;
+  label: string;
+  value: number;
+  change: number;
+  trend: 'up' | 'down';
+}
+
+// Performance metrics
+interface PerformanceMetricData {
+  id: string;
+  name: string;
+  value: number;
+  status: 'good' | 'warning' | 'critical';
+  unit: string;
+}
+
+// Chart data types
+interface SalesData {
+  month: string;
+  sales: number;
+  target: number;
+}
+
+interface TrafficData {
+  source: string;
+  visitors: number;
+  conversionRate: number;
+}
+
+// Filter configuration
+interface DashboardFilters {
+  dateRange: '7d' | '30d' | '90d' | '1y';
+  category: string[];
+  region: string[];
+  userType: string[];
+}
+
+// Notification data
+interface NotificationData {
+  id: string;
+  type: 'info' | 'warning' | 'error' | 'success';
+  message: string;
+  timestamp: number;
+  read: boolean;
+}
+```
+
+### Storage Interfaces
+
+```typescript
+// User preferences
+interface UserPreferences {
+  theme: 'light' | 'dark' | 'system';
+  filters: DashboardFilters;
+  chartSettings: {
+    autoRefresh: boolean;
+    refreshInterval: number;
+    showAnimations: boolean;
+  };
+  exportSettings: {
+    defaultFormat: ExportFormat;
+    includeFilters: boolean;
+  };
+}
+
+// Cache entry
+interface CacheEntry<T = any> {
+  data: T;
+  timestamp: number;
+  ttl?: number;
+  version?: string;
+}
+
+// Storage configuration
+interface StorageConfig {
+  driver: string[];
+  name: string;
+  storeName: string;
+  description?: string;
+}
+```
+
+## Error Handling
+
+### Service Layer Errors
+
+```typescript
+try {
+  const data = MetricsService.generateMetrics();
+} catch (error) {
+  console.error('Failed to generate metrics:', error);
+  // Handle gracefully with fallback data
+}
+```
+
+### Storage Errors
+
+```typescript
+const saveWithErrorHandling = async (key: string, data: any) => {
+  try {
+    await localforage.setItem(key, data);
+  } catch (error) {
+    if (error.name === 'QuotaExceededError') {
+      // Handle storage quota exceeded
+      await clearOldData();
+      await localforage.setItem(key, data);
+    } else {
+      console.error('Storage error:', error);
+      throw error;
+    }
+  }
 };
 ```
 
 ## Performance Considerations
 
-- **Data Pagination**: Implement for large datasets
-- **Debounced Updates**: Prevent excessive re-renders
-- **Memoization**: Cache expensive calculations
-- **Virtual Scrolling**: For large lists
-- **Progressive Loading**: Load charts as they come into view
+### Data Generation Optimization
 
-## Security
+```typescript
+// Use web workers for heavy computations
+const generateLargeDataset = async () => {
+  const worker = new Worker('/data-generator-worker.js');
+  return new Promise((resolve) => {
+    worker.postMessage({ type: 'generate', size: 10000 });
+    worker.onmessage = (e) => resolve(e.data);
+  });
+};
+```
 
-- **API Authentication**: Secure all endpoints
-- **Data Validation**: Validate all inputs
-- **Rate Limiting**: Prevent API abuse
-- **CORS Configuration**: Proper cross-origin settings
+### Storage Optimization
+
+```typescript
+// Implement data compression
+const saveCompressedData = async (key: string, data: any) => {
+  const compressed = JSON.stringify(data);
+  await localforage.setItem(key, compressed);
+};
+
+// Implement cache invalidation
+const getCachedDataWithTTL = async (key: string, ttl: number) => {
+  const cached = await localforage.getItem<CacheEntry>(key);
+  
+  if (!cached) return null;
+  
+  if (Date.now() - cached.timestamp > ttl) {
+    await localforage.removeItem(key);
+    return null;
+  }
+  
+  return cached.data;
+};
+```
+
+## Best Practices
+
+1. **Always handle storage errors gracefully**
+2. **Implement proper cache invalidation strategies**
+3. **Use appropriate storage method for data size and complexity**
+4. **Compress large datasets before storing**
+5. **Monitor storage quota usage**
+6. **Implement proper cleanup routines**
+7. **Use TypeScript interfaces for type safety**
+8. **Test storage functionality across browsers**

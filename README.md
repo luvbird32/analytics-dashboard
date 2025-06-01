@@ -7,7 +7,7 @@
 [![Vite](https://img.shields.io/badge/Vite-5.0+-646cff.svg)](https://vitejs.dev/)
 [![Build Status](https://github.com/username/analytics-dashboard/workflows/CI/badge.svg)](https://github.com/username/analytics-dashboard/actions)
 
-A comprehensive, real-time analytics dashboard built with modern web technologies. Features 12+ chart types, real-time data streaming, advanced filtering, and enterprise-grade visualization capabilities.
+A comprehensive, real-time analytics dashboard built with modern web technologies. Features 12+ chart types, real-time data streaming, advanced filtering, persistent storage, and enterprise-grade visualization capabilities.
 
 [🚀 Live Demo](https://your-demo-url.com) | [📖 Documentation](./ARCHITECTURE.md) | [🤝 Contributing](./CONTRIBUTING.md)
 
@@ -21,27 +21,31 @@ A comprehensive, real-time analytics dashboard built with modern web technologie
 
 ### 🎯 Enterprise Features
 - **Advanced Filtering**: Date range, category, region, user type filters
+- **Persistent Storage**: User preferences and data caching with localStorage/IndexedDB
 - **Export Capabilities**: PDF, Excel, CSV, PNG export options
 - **Notification System**: Real-time alerts and updates
 - **Performance Monitoring**: System metrics and health indicators
+- **Offline Support**: Data caching for offline viewing
 
 ### 🎨 User Experience
 - **Modern UI**: Built with shadcn/ui and Tailwind CSS
 - **Accessibility**: WCAG 2.1 compliant, keyboard navigation
 - **Dark/Light Themes**: Automatic theme switching
 - **Loading States**: Skeleton screens and smooth transitions
+- **Settings Persistence**: User preferences saved across sessions
 
 ### 🔧 Technical Excellence
 - **TypeScript**: Full type safety and IntelliSense
 - **Performance**: Code splitting, lazy loading, memoization
 - **Testing Ready**: Component structure optimized for testing
 - **Clean Architecture**: Feature-based organization, separation of concerns
+- **Storage Integration**: localStorage, IndexedDB, and WebSQL support
 
 ## 🏁 Quick Start
 
 ### Prerequisites
 - Node.js 18+ and npm
-- Modern web browser
+- Modern web browser with IndexedDB support
 - Git
 
 ### Installation
@@ -78,6 +82,7 @@ Deploy your dashboard to various platforms:
 - **Netlify**: [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/username/analytics-dashboard)
 - **GitHub Pages**: Automatic deployment via GitHub Actions
 - **Docker**: Full containerization support
+- **Cloud Platforms**: AWS, Azure, GCP deployment guides included
 
 See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
 
@@ -93,6 +98,8 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
 | 🔄 Funnel Charts | Conversion tracking | Step-by-step analysis |
 | ⚡ Gauge Charts | Single value indicators | Custom ranges, thresholds |
 | 🌊 Sankey | Flow visualization | Interactive flows, custom colors |
+| 📈 Candlestick | Financial data | OHLC values, technical analysis |
+| 🎯 Scatter Plots | Correlation analysis | Custom sizing, color coding |
 
 ## 🛠️ Technology Stack
 
@@ -112,20 +119,26 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
 - **React Query** - Server state management
 - **Custom Hooks** - Reusable business logic
 
+### Storage & Persistence
+- **use-local-storage-state** - React hooks for localStorage
+- **idb** - Promise-based IndexedDB wrapper
+- **localforage** - Unified storage API (IndexedDB/localStorage/WebSQL)
+
 ## 📁 Project Structure
 
 ```
 src/
 ├── components/
-│   ├── ui/                 # Base UI components
+│   ├── ui/                 # Base UI components (shadcn/ui)
 │   └── dashboard/          # Dashboard components
 │       ├── charts/         # Chart components
-│       └── filters/        # Filter components
+│       ├── filters/        # Filter components
+│       └── sections/       # Dashboard sections
 ├── hooks/                  # Custom React hooks
 ├── services/               # Business logic
 │   ├── core/              # Core services
-│   ├── charts/            # Chart data
-│   ├── crypto/            # Crypto data
+│   ├── charts/            # Chart data services
+│   ├── crypto/            # Cryptocurrency data
 │   └── social/            # Social analytics
 ├── types/                  # TypeScript definitions
 ├── utils/                  # Utility functions
@@ -159,21 +172,29 @@ const Dashboard = () => {
 };
 ```
 
-### Custom Chart Implementation
+### Persistent Storage Integration
 
 ```typescript
-import { LineChart } from '@/components/dashboard/charts/LineChart';
+import useLocalStorageState from 'use-local-storage-state';
+import { openDB } from 'idb';
 
-const CustomChart = () => {
-  const data = useChartData();
+// Simple localStorage for preferences
+const useUserPreferences = () => {
+  const [preferences, setPreferences] = useLocalStorageState('dashboard-prefs', {
+    defaultValue: { theme: 'light', filters: {} }
+  });
   
-  return (
-    <LineChart
-      data={data}
-      title="Sales Trends"
-      color="#3b82f6"
-    />
-  );
+  return { preferences, setPreferences };
+};
+
+// IndexedDB for complex data
+const useCachedData = () => {
+  const saveData = async (data: any) => {
+    const db = await openDB('dashboard-cache', 1);
+    await db.put('charts', data);
+  };
+  
+  return { saveData };
 };
 ```
 
@@ -204,6 +225,23 @@ const useRealTimeMetrics = () => {
 3. Implement the data service in `src/services/charts/`
 4. Export from the charts grid component
 
+### Custom Storage Strategies
+
+```typescript
+// Configure localforage for advanced storage
+import localforage from 'localforage';
+
+localforage.config({
+  driver: [
+    localforage.INDEXEDDB,
+    localforage.LOCALSTORAGE,
+    localforage.WEBSQL
+  ],
+  name: 'analytics-dashboard',
+  storeName: 'dashboard_data'
+});
+```
+
 ### Custom Themes
 
 Modify `src/index.css` for custom color schemes:
@@ -216,18 +254,6 @@ Modify `src/index.css` for custom color schemes:
 }
 ```
 
-### Data Integration
-
-Replace mock services with real API calls:
-
-```typescript
-// Replace in src/services/core/metricsService.ts
-export const fetchMetrics = async () => {
-  const response = await fetch('/api/metrics');
-  return response.json();
-};
-```
-
 ## 🧪 Testing
 
 ```bash
@@ -237,8 +263,11 @@ npm test
 # Run tests with coverage
 npm test -- --coverage
 
-# Run tests in watch mode
-npm test -- --watch
+# Run accessibility tests
+npm run test:a11y
+
+# Run performance tests
+npm run test:performance
 ```
 
 ## 📈 Performance
@@ -249,6 +278,27 @@ The dashboard is optimized for performance:
 - **Bundle Size**: < 500KB gzipped
 - **Load Time**: < 2s on 3G networks
 - **Memory Usage**: Optimized for long-running sessions
+- **Storage**: Efficient data caching and offline support
+
+## 🔄 Storage Features
+
+### User Preferences
+- Chart configurations saved automatically
+- Filter settings persist across sessions
+- Theme preferences remembered
+- Export format preferences
+
+### Data Caching
+- Chart data cached for offline viewing
+- Intelligent cache invalidation
+- Background data updates
+- Storage quota management
+
+### Offline Support
+- Progressive Web App capabilities
+- Service worker integration
+- Cached data availability
+- Offline-first design patterns
 
 ## 🤝 Contributing
 
@@ -286,6 +336,8 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 - [shadcn/ui](https://ui.shadcn.com/) for beautiful component designs
 - [Tailwind CSS](https://tailwindcss.com/) for utility-first styling
 - [Lucide](https://lucide.dev/) for consistent iconography
+- [localforage](https://localforage.github.io/localForage/) for unified storage
+- [IDB](https://github.com/jakearchibald/idb) for IndexedDB promises
 
 ## ⭐ Star History
 
