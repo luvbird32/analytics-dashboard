@@ -2,12 +2,13 @@
 import React from 'react';
 import { Star, Quote } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { type Testimonial } from '@/types/testimonials';
 
 /**
  * Testimonials section with customer reviews
  */
 export const TestimonialsSection = () => {
-  const testimonials = [
+  const testimonials: Testimonial[] = [
     {
       name: "Sarah Johnson",
       role: "Data Analyst",
@@ -48,27 +49,44 @@ export const TestimonialsSection = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-10">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="bg-white/90 backdrop-blur hover:shadow-xl transition-all duration-300 hover:scale-[1.02] card-mobile h-full">
+            <Card key={`${testimonial.name}-${index}`} className="bg-white/90 backdrop-blur hover:shadow-xl transition-all duration-300 hover:scale-[1.02] card-mobile h-full">
               <CardContent className="p-4 sm:p-6 md:p-8 h-full flex flex-col">
-                <Quote className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-primary mb-3 sm:mb-4 md:mb-6 flex-shrink-0" />
-                <p className="text-gray-700 mb-4 sm:mb-6 md:mb-8 leading-relaxed text-sm sm:text-base md:text-lg flex-grow">
+                <Quote className="h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 text-primary mb-3 sm:mb-4 md:mb-6 flex-shrink-0" aria-hidden="true" />
+                <blockquote className="text-gray-700 mb-4 sm:mb-6 md:mb-8 leading-relaxed text-sm sm:text-base md:text-lg flex-grow">
                   "{testimonial.content}"
-                </p>
+                </blockquote>
                 <div className="mt-auto">
-                  <div className="flex items-center gap-1 mb-3 sm:mb-4 md:mb-6">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 fill-yellow-400 text-yellow-400" />
+                  <div className="flex items-center gap-1 mb-3 sm:mb-4 md:mb-6" role="img" aria-label={`${testimonial.rating} out of 5 stars`}>
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <Star 
+                        key={i} 
+                        className={`h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5 ${
+                          i < testimonial.rating 
+                            ? 'fill-yellow-400 text-yellow-400' 
+                            : 'text-gray-300'
+                        }`}
+                        aria-hidden="true"
+                      />
                     ))}
                   </div>
                   <div className="flex items-center gap-3 sm:gap-4">
                     <img 
                       src={testimonial.avatar} 
-                      alt={testimonial.name}
+                      alt={`${testimonial.name}, ${testimonial.role} at ${testimonial.company}`}
                       className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full object-cover flex-shrink-0"
+                      loading="lazy"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = '/placeholder.svg';
+                      }}
                     />
                     <div className="min-w-0">
-                      <div className="font-semibold text-gray-900 text-sm sm:text-base md:text-lg truncate">{testimonial.name}</div>
-                      <div className="text-xs sm:text-sm md:text-base text-gray-600 truncate">{testimonial.role} at {testimonial.company}</div>
+                      <div className="font-semibold text-gray-900 text-sm sm:text-base md:text-lg truncate">
+                        {testimonial.name}
+                      </div>
+                      <div className="text-xs sm:text-sm md:text-base text-gray-600 truncate">
+                        {testimonial.role} at {testimonial.company}
+                      </div>
                     </div>
                   </div>
                 </div>
