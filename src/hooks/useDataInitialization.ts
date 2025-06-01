@@ -10,9 +10,11 @@ import { useDashboardState } from './useDashboardState';
  */
 export const useDataInitialization = () => {
   const { setLoading, setError } = useDashboardState();
-  const { generateInitialMetrics } = useMetricsData();
-  const { generateInitialCharts } = useChartsData();
-  const { generateInitialSocialCrypto } = useSocialCryptoData();
+  
+  // Get the generation functions from the data hooks
+  const metricsHook = useMetricsData();
+  const chartsHook = useChartsData();
+  const socialCryptoHook = useSocialCryptoData();
 
   const generateInitialData = useCallback(async () => {
     setLoading(true);
@@ -22,9 +24,9 @@ export const useDataInitialization = () => {
       console.log('🚀 Generating comprehensive dashboard data...');
       
       await Promise.all([
-        generateInitialMetrics(),
-        generateInitialCharts(),
-        generateInitialSocialCrypto()
+        metricsHook.generateInitialMetrics(),
+        chartsHook.generateInitialCharts(),
+        socialCryptoHook.generateInitialSocialCrypto()
       ]);
 
       console.log('✅ Comprehensive dashboard data generated successfully');
@@ -34,7 +36,7 @@ export const useDataInitialization = () => {
     } finally {
       setLoading(false);
     }
-  }, [generateInitialMetrics, generateInitialCharts, generateInitialSocialCrypto, setLoading, setError]);
+  }, [metricsHook.generateInitialMetrics, chartsHook.generateInitialCharts, socialCryptoHook.generateInitialSocialCrypto, setLoading, setError]);
 
   return {
     generateInitialData

@@ -13,14 +13,8 @@ import { useExportHandling } from './useExportHandling';
  * Optimized real-time data hook with better state management
  */
 export const useOptimizedRealTimeData = () => {
+  // Always call hooks in the same order - no conditional calls
   const { state, toggleLiveData, setFilters, clearNotifications, markNotificationAsRead } = useDashboardState();
-  const { generateInitialData } = useDataInitialization();
-  const { handleExport } = useExportHandling();
-  
-  // Initialize real-time updates
-  useRealTimeUpdates();
-
-  // Use specialized hooks with memoization
   const { metrics, performanceMetrics } = useMetricsData();
   const {
     salesData,
@@ -37,6 +31,11 @@ export const useOptimizedRealTimeData = () => {
     barData
   } = useChartsData();
   const { sentimentData, engagementData, cryptoData, hashtagData } = useSocialCryptoData();
+  const { generateInitialData } = useDataInitialization();
+  const { handleExport } = useExportHandling();
+  
+  // Initialize real-time updates - this must come after all other hooks
+  useRealTimeUpdates();
 
   // Memoized filtered performance metrics
   const filteredPerformanceMetrics = useMemo(() => 
