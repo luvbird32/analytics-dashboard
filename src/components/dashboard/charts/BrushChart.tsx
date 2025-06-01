@@ -19,12 +19,45 @@ export const BrushChart: React.FC<BrushChartProps> = ({ data }) => {
     tooltip: {
       trigger: 'axis'
     },
+    brush: {
+      toolbox: ['rect', 'polygon', 'clear'],
+      xAxisIndex: 0
+    },
+    xAxis: {
+      type: 'category',
+      data: data.map(item => item.date),
+      boundaryGap: false
+    },
+    yAxis: {
+      type: 'value',
+      name: 'Value'
+    },
+    dataZoom: [
+      {
+        type: 'slider',
+        start: 0,
+        end: 100,
+        xAxisIndex: 0
+      },
+      {
+        type: 'inside',
+        start: 0,
+        end: 100,
+        xAxisIndex: 0
+      }
+    ],
     series: [
       {
         type: 'line',
-        data: data.map(item => [item.date, item.value]),
+        name: 'Time Series Data',
+        data: data.map(item => item.value),
+        smooth: true,
         itemStyle: {
           color: '#3b82f6'
+        },
+        lineStyle: {
+          color: '#3b82f6',
+          width: 2
         }
       }
     ]

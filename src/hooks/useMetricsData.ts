@@ -29,7 +29,7 @@ export const useMetricsData = () => {
   /**
    * Updates metrics with real-time data
    */
-  const updateMetrics = useCallback((isLive: boolean, onNotification: (notification: any) => void) => {
+  const updateMetrics = useCallback((isLive: boolean, onNotification?: (notification: any) => void) => {
     if (!isLive) return;
 
     // Update metrics with new mock-based data
@@ -50,7 +50,7 @@ export const useMetricsData = () => {
         const newValue = Math.max(0, metric.value + change);
         
         // Generate notification for significant changes
-        if (Math.abs(change) > 2) {
+        if (Math.abs(change) > 2 && onNotification) {
           const notification = NotificationService.createMetricChangeNotification(metric, change);
           onNotification(notification);
         }

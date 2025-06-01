@@ -34,17 +34,36 @@ export interface EChartsEvent {
   value?: any;
 }
 
+// More specific and complete ECharts option interface
 export interface EChartsOption {
   title?: {
     text?: string;
-    left?: string;
+    left?: string | number;
     textStyle?: {
       fontSize?: number;
+      color?: string;
     };
   };
   tooltip?: {
-    trigger?: string;
+    trigger?: 'item' | 'axis' | 'none';
     formatter?: string | ((params: any) => string);
+    show?: boolean;
+  };
+  legend?: {
+    data?: string[];
+    orient?: 'horizontal' | 'vertical';
+    left?: string | number;
+    top?: string | number;
+  };
+  xAxis?: {
+    type?: 'category' | 'value' | 'time' | 'log';
+    data?: any[];
+    name?: string;
+    boundaryGap?: boolean;
+  };
+  yAxis?: {
+    type?: 'category' | 'value' | 'time' | 'log';
+    name?: string;
   };
   geo?: {
     map?: string;
@@ -61,6 +80,11 @@ export interface EChartsOption {
       };
     };
   };
+  brush?: {
+    toolbox?: string[];
+    xAxisIndex?: number | number[];
+    yAxisIndex?: number | number[];
+  };
   visualMap?: {
     show?: boolean;
     dimension?: number;
@@ -69,42 +93,53 @@ export interface EChartsOption {
     inRange?: {
       color?: string[];
     };
+    type?: 'continuous' | 'piecewise';
   };
   xAxis3D?: {
-    type?: string;
+    type?: 'category' | 'value' | 'time' | 'log';
     name?: string;
+    min?: number;
+    max?: number;
   };
   yAxis3D?: {
-    type?: string;
+    type?: 'category' | 'value' | 'time' | 'log';
     name?: string;
+    min?: number;
+    max?: number;
   };
   zAxis3D?: {
-    type?: string;
+    type?: 'category' | 'value' | 'time' | 'log';
     name?: string;
+    min?: number;
+    max?: number;
   };
   grid3D?: {
     boxWidth?: number;
     boxDepth?: number;
     boxHeight?: number;
     viewControl?: {
-      projection?: string;
+      projection?: 'perspective' | 'orthographic';
       autoRotate?: boolean;
-      autoRotateDirection?: string;
+      autoRotateDirection?: 'cw' | 'ccw';
       autoRotateSpeed?: number;
+      distance?: number;
     };
     light?: {
       main?: {
         intensity?: number;
         shadow?: boolean;
+        color?: string;
       };
       ambient?: {
         intensity?: number;
+        color?: string;
       };
     };
   };
   series?: Array<{
-    type: string;
-    coordinateSystem?: string;
+    type: 'line' | 'bar' | 'pie' | 'scatter' | 'surface' | 'map' | 'heatmap';
+    name?: string;
+    coordinateSystem?: 'cartesian2d' | 'geo' | 'cartesian3D';
     data?: any[];
     symbolSize?: number | ((val: any) => number);
     itemStyle?: {
@@ -116,8 +151,22 @@ export interface EChartsOption {
     emphasis?: {
       itemStyle?: {
         color?: string;
+        shadowBlur?: number;
+        opacity?: number;
       };
     };
-    shading?: string;
+    shading?: 'color' | 'lambert' | 'realistic';
+    smooth?: boolean;
+    lineStyle?: {
+      color?: string;
+      width?: number;
+    };
+  }>;
+  dataZoom?: Array<{
+    type?: 'slider' | 'inside';
+    start?: number;
+    end?: number;
+    xAxisIndex?: number | number[];
+    yAxisIndex?: number | number[];
   }>;
 }

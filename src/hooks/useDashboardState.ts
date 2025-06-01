@@ -1,7 +1,6 @@
 
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { useDashboard } from '@/contexts/DashboardContext';
-import { FilterUtils } from '@/utils/filterUtils';
 
 /**
  * Hook for managing dashboard state operations
