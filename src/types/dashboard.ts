@@ -138,3 +138,17 @@ export interface NetworkData {
   nodes: { id: string; name: string; group: number; size: number }[];
   links: { source: string; target: string; value: number }[];
 }
+
+export interface DonutData {
+  name: string;
+  value: number;
+  color: string;
+  percentage: number;
+}
+
+export interface BarData {
+  name: string;
+  value: number;
+  target?: number;
+  category: string;
+}

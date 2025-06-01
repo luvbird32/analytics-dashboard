@@ -14,7 +14,9 @@ import {
   FunnelData,
   GaugeData,
   SankeyData,
-  CandlestickData
+  CandlestickData,
+  DonutData,
+  BarData
 } from '@/types/dashboard';
 import { DataGeneratorService } from '@/services/dataGenerator';
 import { NotificationService } from '@/services/notificationService';
@@ -46,6 +48,8 @@ export const useRealTimeData = () => {
   const [gaugeData, setGaugeData] = useState<GaugeData[]>([]);
   const [sankeyData, setSankeyData] = useState<SankeyData>({ nodes: [], links: [] });
   const [candlestickData, setCandlestickData] = useState<CandlestickData[]>([]);
+  const [donutData, setDonutData] = useState<DonutData[]>([]);
+  const [barData, setBarData] = useState<BarData[]>([]);
 
   /**
    * Generates comprehensive initial data using services
@@ -85,6 +89,8 @@ export const useRealTimeData = () => {
     setGaugeData(DataGeneratorService.generateGaugeData());
     setSankeyData(DataGeneratorService.generateSankeyData());
     setCandlestickData(DataGeneratorService.generateCandlestickData());
+    setDonutData(DataGeneratorService.generateDonutData());
+    setBarData(DataGeneratorService.generateBarData());
 
     console.log('✅ Comprehensive dashboard data generated successfully');
   }, []);
@@ -198,6 +204,8 @@ export const useRealTimeData = () => {
     gaugeData,
     sankeyData,
     candlestickData,
+    donutData,
+    barData,
     toggleLiveData,
     refreshData: generateInitialData,
     clearNotifications,

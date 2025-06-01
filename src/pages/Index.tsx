@@ -10,13 +10,15 @@ import { DashboardControls } from '@/components/dashboard/DashboardControls';
 import { DashboardFilters } from '@/components/dashboard/DashboardFilters';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BarChart, LineChart, PieChart, Activity, TrendingUp, Filter } from 'lucide-react';
+import { BarChart as IconBarChart, LineChart, PieChart, Activity, TrendingUp, Filter } from 'lucide-react';
 import { TreemapChart } from '@/components/dashboard/charts/TreemapChart';
 import { ScatterChart } from '@/components/dashboard/charts/ScatterChart';
 import { FunnelChart } from '@/components/dashboard/charts/FunnelChart';
 import { GaugeChart } from '@/components/dashboard/charts/GaugeChart';
 import { SankeyChart } from '@/components/dashboard/charts/SankeyChart';
 import { CandlestickChart } from '@/components/dashboard/charts/CandlestickChart';
+import { DonutChart } from '@/components/dashboard/charts/DonutChart';
+import { BarChart } from '@/components/dashboard/charts/BarChart';
 
 /**
  * Enterprise-Grade Real-time Analytics Dashboard
@@ -45,7 +47,9 @@ const Index = () => {
     clearNotifications,
     markNotificationAsRead,
     setFilters,
-    handleExport
+    handleExport,
+    donutData,
+    barData,
   } = useRealTimeData();
 
   return (
@@ -68,7 +72,7 @@ const Index = () => {
             </p>
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <span className="flex items-center gap-1">
-                <BarChart className="h-4 w-4" />
+                <IconBarChart className="h-4 w-4" />
                 12+ Chart Types
               </span>
               <span className="flex items-center gap-1">
@@ -175,6 +179,8 @@ const Index = () => {
             <ScatterChart data={scatterData} />
             <FunnelChart data={funnelData} />
             <GaugeChart data={gaugeData} />
+            <DonutChart data={donutData} />
+            <BarChart data={barData} />
             <SankeyChart data={sankeyData} />
             <CandlestickChart data={candlestickData} />
           </div>

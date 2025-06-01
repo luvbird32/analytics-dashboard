@@ -12,7 +12,9 @@ import {
   FunnelData,
   GaugeData,
   CandlestickData,
-  SankeyData
+  SankeyData,
+  DonutData,
+  BarData
 } from '@/types/dashboard';
 
 /**
@@ -288,5 +290,35 @@ export class DataGeneratorService {
         { source: 'middle2', target: 'end2', value: 140 }
       ]
     };
+  }
+
+  /**
+   * Generates donut chart data for category distribution
+   */
+  static generateDonutData(): DonutData[] {
+    const categories = [
+      { name: 'Desktop', value: 45, color: '#0088FE' },
+      { name: 'Mobile', value: 35, color: '#00C49F' },
+      { name: 'Tablet', value: 15, color: '#FFBB28' },
+      { name: 'Other', value: 5, color: '#FF8042' }
+    ];
+
+    return categories.map(category => ({
+      ...category,
+      percentage: category.value
+    }));
+  }
+
+  /**
+   * Generates bar chart data for performance metrics
+   */
+  static generateBarData(): BarData[] {
+    const metrics = ['Q1', 'Q2', 'Q3', 'Q4'];
+    return metrics.map(quarter => ({
+      name: quarter,
+      value: Math.floor(Math.random() * 80000) + 20000,
+      target: Math.floor(Math.random() * 70000) + 50000,
+      category: 'quarterly'
+    }));
   }
 }
