@@ -32,20 +32,6 @@ export class BasicChartsService {
   }
 
   /**
-   * Generates radar chart data for performance metrics
-   */
-  static generateRadarData() {
-    return [
-      { metric: 'Sales', current: 85, previous: 75, fullMark: 100 },
-      { metric: 'Marketing', current: 92, previous: 88, fullMark: 100 },
-      { metric: 'Support', current: 78, previous: 82, fullMark: 100 },
-      { metric: 'Development', current: 88, previous: 85, fullMark: 100 },
-      { metric: 'Quality', current: 95, previous: 90, fullMark: 100 },
-      { metric: 'Operations', current: 82, previous: 79, fullMark: 100 }
-    ];
-  }
-
-  /**
    * Generates area chart data for device usage
    */
   static generateAreaData() {
@@ -56,6 +42,20 @@ export class BasicChartsService {
       { name: 'Apr', desktop: 2780, mobile: 3908, tablet: 1400, total: 8088 },
       { name: 'May', desktop: 1890, mobile: 4800, tablet: 1500, total: 8190 },
       { name: 'Jun', desktop: 2390, mobile: 3800, tablet: 1600, total: 7790 }
+    ];
+  }
+
+  /**
+   * Generates radar chart data for performance metrics
+   */
+  static generateRadarData() {
+    return [
+      { metric: 'Sales', current: 85, previous: 75, fullMark: 100 },
+      { metric: 'Marketing', current: 92, previous: 88, fullMark: 100 },
+      { metric: 'Support', current: 78, previous: 82, fullMark: 100 },
+      { metric: 'Development', current: 88, previous: 85, fullMark: 100 },
+      { metric: 'Quality', current: 95, previous: 90, fullMark: 100 },
+      { metric: 'Operations', current: 82, previous: 79, fullMark: 100 }
     ];
   }
 }

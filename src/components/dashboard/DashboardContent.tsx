@@ -1,9 +1,10 @@
 
-import React, { useEffect, Suspense } from 'react';
+import React, { useEffect, Suspense, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useDashboardData } from '@/hooks/useDashboardData';
+import { DashboardDataService } from '@/services/dashboardDataService';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { DashboardSkeleton } from '@/components/LoadingProvider';
 import { DashboardHeader } from './DashboardHeader';
@@ -31,11 +32,16 @@ export const DashboardContent = () => {
     markNotificationAsRead
   } = useDashboardData();
 
+  const [dashboardData, setDashboardData] = useState<any>(null);
+
   // Initialize data on mount
   useEffect(() => {
-    const data = initializeData();
-    if (!data) {
-      console.error('Failed to initialize dashboard data');
+    try {
+      const data = DashboardDataService.generateInitialData();
+      setDashboardData(data);
+      initializeData();
+    } catch (error) {
+      console.error('Failed to initialize dashboard data:', error);
     }
   }, [initializeData]);
 
@@ -63,7 +69,7 @@ export const DashboardContent = () => {
   }
 
   // Loading state
-  if (isLoading) {
+  if (isLoading || !dashboardData) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
         <div className="container mx-auto p-4 lg:p-6 xl:p-8 max-w-[1920px]">
@@ -103,7 +109,7 @@ export const DashboardContent = () => {
           <ErrorBoundary>
             <Suspense fallback={<DashboardSkeleton />}>
               <MetricsSection
-                performanceMetrics={[]}
+                performanceMetrics={dashboardData.performanceMetrics || []}
                 filters={filters}
                 onFiltersChange={setFilters}
                 onExport={() => console.log('Export metrics')}
@@ -115,24 +121,24 @@ export const DashboardContent = () => {
           <ErrorBoundary>
             <Suspense fallback={<DashboardSkeleton />}>
               <ChartsGrid
-                metrics={[]}
-                salesData={[]}
-                trafficData={[]}
-                areaData={[]}
-                radarData={[]}
+                metrics={dashboardData.metrics || []}
+                salesData={dashboardData.salesData || []}
+                trafficData={dashboardData.trafficData || []}
+                areaData={dashboardData.areaData || []}
+                radarData={dashboardData.radarData || []}
                 notifications={notifications}
-                treemapData={[]}
-                scatterData={[]}
-                funnelData={[]}
-                gaugeData={[]}
-                sankeyData={[]}
-                candlestickData={[]}
-                donutData={[]}
-                barData={[]}
-                sentimentData={[]}
-                engagementData={[]}
-                cryptoData={[]}
-                hashtagData={[]}
+                treemapData={dashboardData.treemapData || []}
+                scatterData={dashboardData.scatterData || []}
+                funnelData={dashboardData.funnelData || []}
+                gaugeData={dashboardData.gaugeData || []}
+                sankeyData={dashboardData.sankeyData || { nodes: [], links: [] }}
+                candlestickData={dashboardData.candlestickData || []}
+                donutData={dashboardData.donutData || []}
+                barData={dashboardData.barData || []}
+                sentimentData={dashboardData.sentimentData || []}
+                engagementData={dashboardData.engagementData || []}
+                cryptoData={dashboardData.cryptoData || []}
+                hashtagData={dashboardData.hashtagData || []}
                 isLive={isLive}
                 onClearNotifications={clearNotifications}
                 onMarkNotificationAsRead={markNotificationAsRead}
@@ -143,8 +149,8 @@ export const DashboardContent = () => {
           {/* Dashboard Footer */}
           <ErrorBoundary>
             <DashboardFooter
-              metrics={[]}
-              performanceMetrics={[]}
+              metrics={dashboardData.metrics || []}
+              performanceMetrics={dashboardData.performanceMetrics || []}
               notifications={notifications}
               filters={filters}
               isLive={isLive}

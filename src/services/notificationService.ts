@@ -38,6 +38,32 @@ export class NotificationService {
   }
 
   /**
+   * Generates a random notification for real-time updates
+   */
+  static generateRandomNotification(): NotificationData {
+    const types = ['success', 'warning', 'info', 'error'] as const;
+    const messages = [
+      { title: 'Sales Update', message: 'New order received for $2,450' },
+      { title: 'Traffic Alert', message: 'Website traffic increased by 15%' },
+      { title: 'System Update', message: 'Dashboard data refreshed successfully' },
+      { title: 'Performance Alert', message: 'Server response time improved' },
+      { title: 'User Activity', message: 'New user registration completed' }
+    ];
+    
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    const randomType = types[Math.floor(Math.random() * types.length)];
+    
+    return {
+      id: `random-${Date.now()}-${Math.random()}`,
+      type: randomType,
+      title: randomMessage.title,
+      message: randomMessage.message,
+      timestamp: new Date(),
+      isRead: false
+    };
+  }
+
+  /**
    * Adds a notification to the list while maintaining max count
    */
   static addNotification(

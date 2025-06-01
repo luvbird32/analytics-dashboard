@@ -7,7 +7,7 @@ import { SocialMediaService } from './social/socialMediaService';
 import { CryptoService } from './crypto/cryptoService';
 import { 
   MetricData, 
-  PerformanceMetricData, 
+  PerformanceMetric, 
   SalesData, 
   TrafficData,
   AreaData,
@@ -36,20 +36,20 @@ export class DashboardDataService {
    */
   static generateInitialData() {
     return {
-      metrics: MetricsService.generateMetrics(),
+      metrics: MetricsService.generateInitialMetrics(),
       performanceMetrics: MetricsService.generatePerformanceMetrics(),
       salesData: BasicChartsService.generateSalesData(),
       trafficData: BasicChartsService.generateTrafficData(),
-      areaData: AdvancedChartsService.generateAreaData(),
-      radarData: AdvancedChartsService.generateRadarData(),
+      areaData: MetricsService.generateAreaData(),
+      radarData: MetricsService.generateRadarData(),
       treemapData: AdvancedChartsService.generateTreemapData(),
       scatterData: AdvancedChartsService.generateScatterData(),
       funnelData: AdvancedChartsService.generateFunnelData(),
       gaugeData: AdvancedChartsService.generateGaugeData(),
-      sankeyData: AdvancedChartsService.generateSankeyData(),
+      sankeyData: FinancialChartsService.generateSankeyData(),
       candlestickData: FinancialChartsService.generateCandlestickData(),
-      donutData: BasicChartsService.generateDonutData(),
-      barData: BasicChartsService.generateBarData(),
+      donutData: FinancialChartsService.generateDonutData(),
+      barData: FinancialChartsService.generateBarData(),
       sentimentData: SocialMediaService.generateSentimentData(),
       engagementData: SocialMediaService.generateEngagementData(),
       cryptoData: CryptoService.generateCryptoData(),
