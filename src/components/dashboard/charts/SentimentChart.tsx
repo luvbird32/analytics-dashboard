@@ -37,7 +37,7 @@ export const SentimentChart = ({ data }: SentimentChartProps) => {
         <CardTitle>Sentiment Analysis</CardTitle>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px]">
+        <ChartContainer config={chartConfig} className="h-[400px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data}>
               <XAxis dataKey="date" tick={{ fontSize: 12 }} />

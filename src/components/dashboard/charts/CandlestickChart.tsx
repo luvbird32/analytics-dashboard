@@ -29,7 +29,7 @@ export const CandlestickChart = ({ data }: CandlestickChartProps) => {
         <CardTitle>Price Movement</CardTitle>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px]">
+        <ChartContainer config={chartConfig} className="h-[450px]">
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={data}>
               <XAxis dataKey="date" tick={{ fontSize: 10 }} />

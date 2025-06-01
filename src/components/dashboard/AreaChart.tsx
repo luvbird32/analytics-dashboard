@@ -33,7 +33,7 @@ export const AreaChart = ({ data }: AreaChartProps) => {
         <CardTitle>Device Usage Trends</CardTitle>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px]">
+        <ChartContainer config={chartConfig} className="h-[400px]">
           <ResponsiveContainer width="100%" height="100%">
             <RechartsAreaChart data={data}>
               <XAxis dataKey="name" tick={{ fontSize: 12 }} />

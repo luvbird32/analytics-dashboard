@@ -37,7 +37,7 @@ export const EngagementChart = ({ data }: EngagementChartProps) => {
         <CardTitle>Platform Engagement</CardTitle>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px]">
+        <ChartContainer config={chartConfig} className="h-[400px]">
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={data}>
               <XAxis dataKey="platform" tick={{ fontSize: 12 }} />

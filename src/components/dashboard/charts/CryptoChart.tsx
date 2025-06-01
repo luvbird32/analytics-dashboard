@@ -30,7 +30,7 @@ export const CryptoChart = ({ data, symbol = "BTC" }: CryptoChartProps) => {
         <CardTitle>{symbol} Price & Volume</CardTitle>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px]">
+        <ChartContainer config={chartConfig} className="h-[450px]">
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={data}>
               <XAxis dataKey="timestamp" tick={{ fontSize: 10 }} />

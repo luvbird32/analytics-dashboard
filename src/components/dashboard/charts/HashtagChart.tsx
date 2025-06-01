@@ -40,15 +40,15 @@ export const HashtagChart = ({ data }: HashtagChartProps) => {
         <CardTitle>Trending Hashtags</CardTitle>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px]">
+        <ChartContainer config={chartConfig} className="h-[400px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data} layout="horizontal">
               <XAxis type="number" tick={{ fontSize: 12 }} />
               <YAxis 
                 dataKey="tag" 
                 type="category" 
-                tick={{ fontSize: 10 }} 
-                width={80}
+                tick={{ fontSize: 11 }} 
+                width={90}
               />
               <ChartTooltip 
                 content={<ChartTooltipContent />}
