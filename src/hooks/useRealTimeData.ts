@@ -112,7 +112,7 @@ export const useRealTimeData = () => {
         ...source,
         sessions: source.sessions + Math.floor((Math.random() - 0.5) * 100),
         growth: source.growth + (Math.random() - 0.5) * 2
-      }));
+      })));
     }
   }, [isLive]);
 
