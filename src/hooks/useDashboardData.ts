@@ -2,7 +2,6 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useDashboard } from '@/contexts/DashboardContext';
 import { DashboardDataService } from '@/services/dashboardDataService';
-import { FilterUtils } from '@/utils/filterUtils';
 import { NotificationService } from '@/services/notificationService';
 
 /**
@@ -19,9 +18,6 @@ export const useDashboardData = () => {
     
     try {
       const initialData = DashboardDataService.generateInitialData();
-      
-      // Store data in context state (would typically dispatch actions for each data type)
-      // For now, we'll use the existing pattern but with proper service layer
       
       dispatch({ type: 'SET_LOADING', payload: false });
       console.log('✅ Dashboard data initialized successfully');

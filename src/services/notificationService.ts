@@ -2,87 +2,91 @@
 import { NotificationData, PerformanceMetric } from '@/types/dashboard';
 
 /**
- * Notification service for real-time alerts and updates
- * Manages notification generation and state
+ * Service for managing dashboard notifications
+ * Provides methods for creating, managing, and updating notifications
  */
 export class NotificationService {
   /**
-   * Creates a notification for metric changes
+   * Generates a random notification for real-time updates
    */
-  static createMetricChangeNotification(
-    metric: PerformanceMetric, 
-    change: number
-  ): NotificationData {
+  static generateRandomNotification(): NotificationData {
+    const types: ('info' | 'warning' | 'success' | 'error')[] = ['info', 'warning', 'success', 'error'];
+    const messages = [
+      'System performance is optimal',
+      'New user registration detected',
+      'Revenue target exceeded for this month',
+      'Server response time improved',
+      'Database backup completed successfully',
+      'High traffic detected on landing page',
+      'Conversion rate increased by 5%',
+      'New feature deployment successful'
+    ];
+
+    const type = types[Math.floor(Math.random() * types.length)];
+    const message = messages[Math.floor(Math.random() * messages.length)];
+
     return {
-      id: `notif-${Date.now()}-${Math.random()}`,
-      type: change > 0 ? 'success' : 'warning',
-      title: `${metric.title} ${change > 0 ? 'Increased' : 'Decreased'}`,
-      message: `${metric.title} ${change > 0 ? 'rose' : 'fell'} by ${Math.abs(change).toFixed(1)}${metric.unit}`,
-      timestamp: new Date(),
-      isRead: false
+      id: `notification-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      type,
+      message,
+      timestamp: new Date().toISOString(),
+      read: false,
+      priority: Math.random() > 0.7 ? 'high' : 'normal'
     };
   }
 
   /**
-   * Creates an export completion notification
+   * Creates a metric change notification
+   */
+  static createMetricChangeNotification(metric: PerformanceMetric, change: number): NotificationData {
+    const isPositive = change > 0;
+    const type = isPositive ? 'success' : 'warning';
+    const direction = isPositive ? 'increased' : 'decreased';
+    
+    return {
+      id: `metric-${metric.id}-${Date.now()}`,
+      type,
+      message: `${metric.name} ${direction} by ${Math.abs(change).toFixed(1)}${metric.unit || ''}`,
+      timestamp: new Date().toISOString(),
+      read: false,
+      priority: Math.abs(change) > 5 ? 'high' : 'normal'
+    };
+  }
+
+  /**
+   * Creates an export notification
    */
   static createExportNotification(format: string): NotificationData {
     return {
       id: `export-${Date.now()}`,
       type: 'success',
-      title: 'Export Completed',
-      message: `Dashboard data exported successfully as ${format.toUpperCase()}`,
-      timestamp: new Date(),
-      isRead: false
+      message: `Dashboard data exported as ${format.toUpperCase()} successfully`,
+      timestamp: new Date().toISOString(),
+      read: false,
+      priority: 'normal'
     };
   }
 
   /**
-   * Generates a random notification for real-time updates
+   * Adds a notification to the list
    */
-  static generateRandomNotification(): NotificationData {
-    const types = ['success', 'warning', 'info', 'error'] as const;
-    const messages = [
-      { title: 'Sales Update', message: 'New order received for $2,450' },
-      { title: 'Traffic Alert', message: 'Website traffic increased by 15%' },
-      { title: 'System Update', message: 'Dashboard data refreshed successfully' },
-      { title: 'Performance Alert', message: 'Server response time improved' },
-      { title: 'User Activity', message: 'New user registration completed' }
-    ];
-    
-    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-    const randomType = types[Math.floor(Math.random() * types.length)];
-    
-    return {
-      id: `random-${Date.now()}-${Math.random()}`,
-      type: randomType,
-      title: randomMessage.title,
-      message: randomMessage.message,
-      timestamp: new Date(),
-      isRead: false
-    };
-  }
-
-  /**
-   * Adds a notification to the list while maintaining max count
-   */
-  static addNotification(
-    notifications: NotificationData[], 
-    newNotification: NotificationData,
-    maxCount: number = 10
-  ): NotificationData[] {
-    return [newNotification, ...notifications.slice(0, maxCount - 1)];
+  static addNotification(notifications: NotificationData[], notification: NotificationData): NotificationData[] {
+    return [notification, ...notifications.slice(0, 9)]; // Keep only last 10 notifications
   }
 
   /**
    * Marks a notification as read
    */
-  static markAsRead(
-    notifications: NotificationData[], 
-    id: string
-  ): NotificationData[] {
-    return notifications.map(notif => 
-      notif.id === id ? { ...notif, isRead: true } : notif
+  static markAsRead(notifications: NotificationData[], id: string): NotificationData[] {
+    return notifications.map(notification =>
+      notification.id === id ? { ...notification, read: true } : notification
     );
+  }
+
+  /**
+   * Clears all notifications
+   */
+  static clearAll(): NotificationData[] {
+    return [];
   }
 }

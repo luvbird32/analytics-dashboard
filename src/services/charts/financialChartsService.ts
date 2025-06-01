@@ -1,93 +1,83 @@
 
+import { SankeyData, CandlestickData, DonutData, BarData } from '@/types/dashboard';
+
 /**
- * Service for generating financial chart data (candlestick, donut, bar, sankey)
+ * Service for generating financial chart data
  */
 export class FinancialChartsService {
   /**
    * Generates Sankey diagram data for flow visualization
    */
-  static generateSankeyData() {
+  static generateSankeyData(): SankeyData {
     return {
       nodes: [
-        { id: 'source1', name: 'Organic Search' },
-        { id: 'source2', name: 'Social Media' },
-        { id: 'source3', name: 'Direct Traffic' },
-        { id: 'page1', name: 'Homepage' },
-        { id: 'page2', name: 'Product Page' },
-        { id: 'outcome1', name: 'Purchase' },
-        { id: 'outcome2', name: 'Signup' },
-        { id: 'outcome3', name: 'Exit' }
+        { id: 'Traffic', name: 'Website Traffic', value: 10000 },
+        { id: 'Visitors', name: 'Unique Visitors', value: 7500 },
+        { id: 'Leads', name: 'Qualified Leads', value: 2500 },
+        { id: 'Customers', name: 'New Customers', value: 750 },
+        { id: 'Revenue', name: 'Revenue Generated', value: 500000 }
       ],
       links: [
-        { source: 'source1', target: 'page1', value: 4000 },
-        { source: 'source2', target: 'page1', value: 2000 },
-        { source: 'source3', target: 'page2', value: 3000 },
-        { source: 'page1', target: 'outcome1', value: 2500 },
-        { source: 'page1', target: 'outcome2', value: 1500 },
-        { source: 'page2', target: 'outcome1', value: 2000 },
-        { source: 'page2', target: 'outcome3', value: 1000 }
+        { source: 'Traffic', target: 'Visitors', value: 7500 },
+        { source: 'Visitors', target: 'Leads', value: 2500 },
+        { source: 'Leads', target: 'Customers', value: 750 },
+        { source: 'Customers', target: 'Revenue', value: 500000 }
       ]
     };
   }
 
   /**
-   * Generates candlestick data for financial visualization
+   * Generates candlestick chart data for financial analysis
    */
-  static generateCandlestickData() {
-    const data = [];
-    let price = 100;
+  static generateCandlestickData(): CandlestickData[] {
+    const data: CandlestickData[] = [];
+    let basePrice = 100;
     
     for (let i = 0; i < 30; i++) {
-      const change = (Math.random() - 0.5) * 10;
-      price += change;
-      
-      const open = price;
-      const close = price + (Math.random() - 0.5) * 5;
-      const high = Math.max(open, close) + Math.random() * 3;
-      const low = Math.min(open, close) - Math.random() * 3;
+      const volatility = 0.02;
+      const change = (Math.random() - 0.5) * volatility * basePrice;
+      const open = basePrice;
+      const close = basePrice + change;
+      const high = Math.max(open, close) + Math.random() * 2;
+      const low = Math.min(open, close) - Math.random() * 2;
       
       data.push({
         date: new Date(Date.now() - (29 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-        open: Number(open.toFixed(2)),
-        close: Number(close.toFixed(2)),
-        high: Number(high.toFixed(2)),
-        low: Number(low.toFixed(2)),
+        open: Math.round(open * 100) / 100,
+        high: Math.round(high * 100) / 100,
+        low: Math.round(low * 100) / 100,
+        close: Math.round(close * 100) / 100,
         volume: Math.floor(Math.random() * 1000000)
       });
+      
+      basePrice = close;
     }
     
     return data;
   }
 
   /**
-   * Generates donut chart data for category distribution
+   * Generates donut chart data for portfolio distribution
    */
-  static generateDonutData() {
-    const data = [
-      { name: 'Desktop', value: 45, color: '#8884d8' },
-      { name: 'Mobile', value: 35, color: '#82ca9d' },
-      { name: 'Tablet', value: 15, color: '#ffc658' },
-      { name: 'Other', value: 5, color: '#ff7300' }
+  static generateDonutData(): DonutData[] {
+    return [
+      { name: 'Stocks', value: 45, color: '#8884d8' },
+      { name: 'Bonds', value: 25, color: '#82ca9d' },
+      { name: 'Real Estate', value: 15, color: '#ffc658' },
+      { name: 'Commodities', value: 10, color: '#ff7300' },
+      { name: 'Cash', value: 5, color: '#00ff88' }
     ];
-
-    const total = data.reduce((sum, item) => sum + item.value, 0);
-    return data.map(item => ({
-      ...item,
-      percentage: Number(((item.value / total) * 100).toFixed(1))
-    }));
   }
 
   /**
-   * Generates bar chart data for performance vs targets
+   * Generates bar chart data for financial metrics
    */
-  static generateBarData() {
+  static generateBarData(): BarData[] {
     return [
-      { name: 'Q1 Sales', value: 8500, target: 9000, category: 'sales' },
-      { name: 'Q2 Sales', value: 9200, target: 9500, category: 'sales' },
-      { name: 'Q3 Sales', value: 8800, target: 8500, category: 'sales' },
-      { name: 'Q4 Sales', value: 9600, target: 10000, category: 'sales' },
-      { name: 'Marketing', value: 7200, target: 7500, category: 'marketing' },
-      { name: 'Support', value: 8900, target: 8000, category: 'support' }
+      { category: 'Q1', revenue: 45000, expenses: 32000, profit: 13000 },
+      { category: 'Q2', revenue: 52000, expenses: 38000, profit: 14000 },
+      { category: 'Q3', revenue: 48000, expenses: 35000, profit: 13000 },
+      { category: 'Q4', revenue: 61000, expenses: 42000, profit: 19000 }
     ];
   }
 }

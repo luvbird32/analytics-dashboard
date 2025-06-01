@@ -5,26 +5,6 @@ import { AdvancedChartsService } from './charts/advancedChartsService';
 import { FinancialChartsService } from './charts/financialChartsService';
 import { SocialMediaService } from './social/socialMediaService';
 import { CryptoService } from './crypto/cryptoService';
-import { 
-  MetricData, 
-  PerformanceMetric, 
-  SalesData, 
-  TrafficData,
-  AreaData,
-  RadarData,
-  TreemapData,
-  ScatterData,
-  FunnelData,
-  GaugeData,
-  SankeyData,
-  CandlestickData,
-  DonutData,
-  BarData,
-  SentimentData,
-  EngagementData,
-  CryptoData,
-  HashtagData
-} from '@/types/dashboard';
 
 /**
  * Centralized service for all dashboard data operations
@@ -60,7 +40,7 @@ export class DashboardDataService {
   /**
    * Update metrics with real-time data
    */
-  static updateMetrics(currentMetrics: MetricData[]): MetricData[] {
+  static updateMetrics(currentMetrics: any[]): any[] {
     return currentMetrics.map(metric => ({
       ...metric,
       value: Math.floor(Math.random() * 10000),
@@ -72,7 +52,7 @@ export class DashboardDataService {
   /**
    * Update traffic data for real-time simulation
    */
-  static updateTrafficData(currentData: TrafficData[]): TrafficData[] {
+  static updateTrafficData(currentData: any[]): any[] {
     return currentData.map(item => ({
       ...item,
       visitors: Math.floor(Math.random() * 5000),

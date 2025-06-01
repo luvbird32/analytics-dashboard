@@ -1,118 +1,76 @@
 
-import { 
-  MetricData, 
-  SalesData, 
-  TrafficData, 
-  PerformanceMetric, 
-  HeatmapData, 
-  RadarData, 
-  AreaData 
-} from '@/types/dashboard';
+import { MetricData, PerformanceMetric, AreaData, RadarData } from '@/types/dashboard';
 
 /**
- * Core metrics data generation service
- * Handles basic dashboard performance and analytics data
+ * Service for generating core metrics data
+ * Centralized metrics generation with consistent data structures
  */
 export class MetricsService {
   /**
-   * Generates initial performance metrics with targets and priorities
+   * Generates initial metrics data for the dashboard
+   */
+  static generateInitialMetrics(): MetricData[] {
+    return [
+      { timestamp: '00:00', value: 120, label: 'Revenue', category: 'revenue' },
+      { timestamp: '01:00', value: 98, label: 'Users', category: 'users' },
+      { timestamp: '02:00', value: 156, label: 'Conversion', category: 'conversion' },
+      { timestamp: '03:00', value: 134, label: 'Traffic', category: 'traffic' },
+      { timestamp: '04:00', value: 187, label: 'Sales', category: 'sales' }
+    ];
+  }
+
+  /**
+   * Generates performance metrics for dashboard cards
    */
   static generatePerformanceMetrics(): PerformanceMetric[] {
     return [
       {
-        id: 'revenue',
-        title: 'Total Revenue',
-        value: 245231,
-        change: 15.2,
+        id: '1',
+        name: 'Revenue',
+        value: 45678,
+        change: 12.5,
         trend: 'up',
-        unit: '$',
-        target: 300000,
-        category: 'revenue',
-        priority: 'high'
+        category: 'financial',
+        period: 'month',
+        target: 50000,
+        unit: '$'
       },
       {
-        id: 'users',
-        title: 'Active Users',
+        id: '2',
+        name: 'Active Users',
         value: 12543,
         change: -2.1,
         trend: 'down',
-        unit: '',
+        category: 'engagement',
+        period: 'week',
         target: 15000,
-        category: 'users',
-        priority: 'high'
+        unit: 'users'
       },
       {
-        id: 'conversion',
-        title: 'Conversion Rate',
-        value: 4.67,
-        change: 1.3,
+        id: '3',
+        name: 'Conversion Rate',
+        value: 3.45,
+        change: 0.8,
         trend: 'up',
-        unit: '%',
-        target: 5.0,
         category: 'conversion',
-        priority: 'medium'
-      },
-      {
-        id: 'bounce',
-        title: 'Bounce Rate',
-        value: 38.2,
-        change: -3.5,
-        trend: 'down',
-        unit: '%',
-        target: 35.0,
-        category: 'performance',
-        priority: 'medium'
-      },
-      {
-        id: 'loadTime',
-        title: 'Avg Load Time',
-        value: 1.34,
-        change: -0.15,
-        trend: 'down',
-        unit: 's',
-        target: 1.0,
-        category: 'performance',
-        priority: 'high'
-      },
-      {
-        id: 'satisfaction',
-        title: 'User Satisfaction',
-        value: 4.8,
-        change: 0.2,
-        trend: 'up',
-        unit: '/5',
-        target: 4.5,
-        category: 'users',
-        priority: 'medium'
+        period: 'day',
+        target: 4.0,
+        unit: '%'
       }
     ];
   }
 
   /**
-   * Generates enhanced sales data with profit and targets
+   * Generates area chart data for device usage
    */
-  static generateSalesData(): SalesData[] {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return months.map(month => ({
-      month,
-      revenue: Math.floor(Math.random() * 80000) + 40000,
-      orders: Math.floor(Math.random() * 800) + 400,
-      customers: Math.floor(Math.random() * 500) + 250,
-      profit: Math.floor(Math.random() * 25000) + 15000,
-      expenses: Math.floor(Math.random() * 20000) + 10000,
-      target: Math.floor(Math.random() * 70000) + 50000
-    }));
-  }
-
-  /**
-   * Generates traffic sources with growth metrics
-   */
-  static generateTrafficData(): TrafficData[] {
+  static generateAreaData(): AreaData[] {
     return [
-      { name: 'Organic Search', value: 45, color: '#0088FE', growth: 12.5, sessions: 15420 },
-      { name: 'Direct Traffic', value: 25, color: '#00C49F', growth: -2.3, sessions: 8560 },
-      { name: 'Social Media', value: 20, color: '#FFBB28', growth: 8.7, sessions: 6840 },
-      { name: 'Email Marketing', value: 10, color: '#FF8042', growth: 15.2, sessions: 3420 }
+      { name: 'Jan', desktop: 4000, mobile: 2400, tablet: 1200, total: 7600 },
+      { name: 'Feb', desktop: 3000, mobile: 1398, tablet: 1100, total: 5498 },
+      { name: 'Mar', desktop: 2000, mobile: 9800, tablet: 1300, total: 13100 },
+      { name: 'Apr', desktop: 2780, mobile: 3908, tablet: 1400, total: 8088 },
+      { name: 'May', desktop: 1890, mobile: 4800, tablet: 1500, total: 8190 },
+      { name: 'Jun', desktop: 2390, mobile: 3800, tablet: 1600, total: 7790 }
     ];
   }
 
@@ -121,54 +79,27 @@ export class MetricsService {
    */
   static generateRadarData(): RadarData[] {
     return [
-      { metric: 'Performance', current: 85, previous: 80, fullMark: 100 },
-      { metric: 'Security', current: 92, previous: 88, fullMark: 100 },
-      { metric: 'Usability', current: 78, previous: 75, fullMark: 100 },
-      { metric: 'Accessibility', current: 88, previous: 82, fullMark: 100 },
-      { metric: 'SEO', current: 94, previous: 90, fullMark: 100 },
-      { metric: 'Mobile', current: 87, previous: 85, fullMark: 100 }
+      { metric: 'Sales', current: 85, previous: 75, fullMark: 100 },
+      { metric: 'Marketing', current: 92, previous: 88, fullMark: 100 },
+      { metric: 'Support', current: 78, previous: 82, fullMark: 100 },
+      { metric: 'Development', current: 88, previous: 85, fullMark: 100 },
+      { metric: 'Quality', current: 95, previous: 90, fullMark: 100 },
+      { metric: 'Operations', current: 82, previous: 79, fullMark: 100 }
     ];
   }
 
   /**
-   * Generates area chart data for device usage
+   * Generates a new random metric for real-time updates
    */
-  static generateAreaData(): AreaData[] {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'];
-    return months.map(month => ({
-      name: month,
-      desktop: Math.floor(Math.random() * 3000) + 2000,
-      mobile: Math.floor(Math.random() * 4000) + 3000,
-      tablet: Math.floor(Math.random() * 1000) + 500,
-      total: 0
-    })).map(item => ({
-      ...item,
-      total: item.desktop + item.mobile + item.tablet
-    }));
-  }
-
-  /**
-   * Generates initial real-time metrics
-   */
-  static generateInitialMetrics(): MetricData[] {
-    const now = new Date();
-    return Array.from({ length: 20 }, (_, i) => ({
-      timestamp: new Date(now.getTime() - (19 - i) * 60000).toLocaleTimeString(),
-      value: Math.floor(Math.random() * 150) + 50,
-      label: `Point ${i + 1}`,
-      category: ['sales', 'traffic', 'engagement'][Math.floor(Math.random() * 3)]
-    }));
-  }
-
-  /**
-   * Generates a new real-time metric data point
-   */
-  static generateNewMetric(previousCount: number): MetricData {
+  static generateNewMetric(): MetricData {
+    const categories = ['revenue', 'users', 'conversion', 'traffic', 'sales'];
+    const category = categories[Math.floor(Math.random() * categories.length)];
+    
     return {
       timestamp: new Date().toLocaleTimeString(),
-      value: Math.floor(Math.random() * 150) + 50,
-      label: `Live ${previousCount + 1}`,
-      category: ['sales', 'traffic', 'engagement'][Math.floor(Math.random() * 3)]
+      value: Math.floor(Math.random() * 200) + 50,
+      label: `Live ${category}`,
+      category
     };
   }
 }
