@@ -1,14 +1,10 @@
-
-import React from 'react';
 import { MainChartsSection } from './sections/MainChartsSection';
 import { SalesTrafficSection } from './sections/SalesTrafficSection';
 import { SocialMediaSection } from './sections/SocialMediaSection';
 import { CryptocurrencySection } from './sections/CryptocurrencySection';
 import { AdvancedAnalyticsSection } from './sections/AdvancedAnalyticsSection';
 import { SpecializedChartsSection } from './sections/SpecializedChartsSection';
-import { EChartsSection } from './sections/EChartsSection';
 import { DetailedAnalyticsSection } from './analytics/DetailedAnalyticsSection';
-import { useChartsGridData } from '@/hooks/useChartsGridData';
 import {
   MetricData,
   SalesData,
@@ -57,19 +53,78 @@ interface ChartsGridProps {
 /**
  * Organized charts grid layout with consistent spacing
  */
-export const ChartsGrid: React.FC<ChartsGridProps> = (props) => {
-  const sectionsData = useChartsGridData(props);
-
+export const ChartsGrid = ({
+  metrics,
+  salesData,
+  trafficData,
+  areaData,
+  radarData,
+  notifications,
+  treemapData,
+  scatterData,
+  funnelData,
+  gaugeData,
+  sankeyData,
+  candlestickData,
+  donutData,
+  barData,
+  sentimentData,
+  engagementData,
+  cryptoData,
+  hashtagData,
+  isLive,
+  onClearNotifications,
+  onMarkNotificationAsRead
+}: ChartsGridProps) => {
   return (
     <div className="space-y-12 lg:space-y-16">
-      <MainChartsSection {...sectionsData.main} />
-      <EChartsSection />
+      {/* Main Charts Section */}
+      <MainChartsSection
+        metrics={metrics}
+        notifications={notifications}
+        isLive={isLive}
+        onClearNotifications={onClearNotifications}
+        onMarkNotificationAsRead={onMarkNotificationAsRead}
+      />
+
+      {/* Detailed Analytics Section */}
       <DetailedAnalyticsSection />
-      <SalesTrafficSection {...sectionsData.salesTraffic} />
-      <SocialMediaSection {...sectionsData.social} />
-      <CryptocurrencySection {...sectionsData.crypto} />
-      <AdvancedAnalyticsSection {...sectionsData.advanced} />
-      <SpecializedChartsSection {...sectionsData.specialized} />
+
+      {/* Sales & Traffic Charts */}
+      <SalesTrafficSection
+        salesData={salesData}
+        trafficData={trafficData}
+      />
+
+      {/* Social Media Analytics */}
+      <SocialMediaSection
+        sentimentData={sentimentData}
+        engagementData={engagementData}
+        hashtagData={hashtagData}
+      />
+
+      {/* Cryptocurrency Analytics */}
+      <CryptocurrencySection
+        cryptoData={cryptoData}
+        candlestickData={candlestickData}
+      />
+
+      {/* Advanced Analytics */}
+      <AdvancedAnalyticsSection
+        areaData={areaData}
+        radarData={radarData}
+        sankeyData={sankeyData}
+      />
+
+      {/* Specialized Charts */}
+      <SpecializedChartsSection
+        treemapData={treemapData}
+        scatterData={scatterData}
+        funnelData={funnelData}
+        gaugeData={gaugeData}
+        donutData={donutData}
+        barData={barData}
+      />
     </div>
   );
 };

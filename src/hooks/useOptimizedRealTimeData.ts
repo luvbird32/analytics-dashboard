@@ -6,6 +6,7 @@ import { useChartsData } from './useChartsData';
 import { useSocialCryptoData } from './useSocialCryptoData';
 import { useDashboardState } from './useDashboardState';
 import { useDataInitialization } from './useDataInitialization';
+import { useRealTimeUpdates } from './useRealTimeUpdates';
 import { useExportHandling } from './useExportHandling';
 
 /**
@@ -32,6 +33,9 @@ export const useOptimizedRealTimeData = () => {
   const { sentimentData, engagementData, cryptoData, hashtagData } = useSocialCryptoData();
   const { generateInitialData } = useDataInitialization();
   const { handleExport } = useExportHandling();
+  
+  // Initialize real-time updates - this must come after all other hooks
+  useRealTimeUpdates();
 
   // Memoized filtered performance metrics
   const filteredPerformanceMetrics = useMemo(() => 

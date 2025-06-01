@@ -12,10 +12,6 @@ interface RegionFilterProps {
  * Region filter component for dashboard data
  */
 export const RegionFilter = ({ filters, onFiltersChange }: RegionFilterProps) => {
-  console.log('RegionFilter - received filters:', filters);
-  console.log('RegionFilter - filters type:', typeof filters);
-  console.log('RegionFilter - filters keys:', filters ? Object.keys(filters) : 'filters is null/undefined');
-
   const regions = [
     { id: 'north-america', label: 'North America' },
     { id: 'europe', label: 'Europe' },
@@ -23,21 +19,9 @@ export const RegionFilter = ({ filters, onFiltersChange }: RegionFilterProps) =>
     { id: 'latin-america', label: 'Latin America' }
   ];
 
-  // Ensure filters exists and has all required properties with proper defaults
-  const safeFilters: DashboardFilters = {
-    dateRange: filters?.dateRange || '30d',
-    category: filters?.category || [],
-    region: filters?.region || [],
-    userType: filters?.userType || []
-  };
-
-  console.log('RegionFilter - safeFilters:', safeFilters);
-
-  const currentRegions = safeFilters.region;
-
   const handleRegionToggle = (regionId: string) => {
-    const newRegions = FilterUtils.toggleFilterValue(currentRegions, regionId);
-    onFiltersChange({ ...safeFilters, region: newRegions });
+    const newRegions = FilterUtils.toggleFilterValue(filters.region, regionId);
+    onFiltersChange({ ...filters, region: newRegions });
   };
 
   return (
@@ -48,7 +32,7 @@ export const RegionFilter = ({ filters, onFiltersChange }: RegionFilterProps) =>
           <div key={region.id} className="flex items-center space-x-2">
             <Checkbox
               id={region.id}
-              checked={currentRegions.includes(region.id)}
+              checked={filters.region.includes(region.id)}
               onCheckedChange={() => handleRegionToggle(region.id)}
             />
             <label

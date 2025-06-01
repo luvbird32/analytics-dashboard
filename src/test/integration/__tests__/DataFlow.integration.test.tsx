@@ -7,13 +7,12 @@ describe('Data Flow Integration', () => {
     render(<Index />);
     
     await waitFor(() => {
-      const container = document.querySelector('.min-h-screen');
-      expect(container).toBeInTheDocument();
-    }, { timeout: 5000 });
+      expect(screen.getByText(/Analytics Dashboard/i)).toBeInTheDocument();
+    });
 
     // Check that data is being rendered in components
-    const dashboardContainer = document.querySelector('.container');
-    expect(dashboardContainer).toBeInTheDocument();
+    const container = document.querySelector('.container');
+    expect(container).toBeInTheDocument();
   });
 
   it('handles filter state management', async () => {
@@ -23,7 +22,7 @@ describe('Data Flow Integration', () => {
       // Check for filter components or controls
       const dashboardContent = document.querySelector('.container');
       expect(dashboardContent).toBeInTheDocument();
-    }, { timeout: 5000 });
+    });
   });
 
   it('manages notification state correctly', async () => {
@@ -31,8 +30,7 @@ describe('Data Flow Integration', () => {
     
     await waitFor(() => {
       // Verify the dashboard renders without errors
-      const container = document.querySelector('.container');
-      expect(container).toBeInTheDocument();
-    }, { timeout: 5000 });
+      expect(document.querySelector('.container')).toBeInTheDocument();
+    });
   });
 });

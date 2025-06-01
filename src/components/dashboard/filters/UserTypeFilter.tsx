@@ -9,46 +9,29 @@ interface UserTypeFilterProps {
 }
 
 /**
- * User type filter component for dashboard data
+ * User type filter component for dashboard analytics
  */
 export const UserTypeFilter = ({ filters, onFiltersChange }: UserTypeFilterProps) => {
-  console.log('UserTypeFilter - received filters:', filters);
-  console.log('UserTypeFilter - filters type:', typeof filters);
-  console.log('UserTypeFilter - filters keys:', filters ? Object.keys(filters) : 'filters is null/undefined');
-
   const userTypes = [
-    { id: 'new', label: 'New Users' },
-    { id: 'returning', label: 'Returning Users' },
-    { id: 'premium', label: 'Premium Users' },
-    { id: 'enterprise', label: 'Enterprise Users' }
+    { id: 'premium', label: 'Premium' },
+    { id: 'standard', label: 'Standard' },
+    { id: 'trial', label: 'Trial' }
   ];
 
-  // Ensure filters exists and has all required properties with proper defaults
-  const safeFilters: DashboardFilters = {
-    dateRange: filters?.dateRange || '30d',
-    category: filters?.category || [],
-    region: filters?.region || [],
-    userType: filters?.userType || []
-  };
-
-  console.log('UserTypeFilter - safeFilters:', safeFilters);
-
-  const currentUserTypes = safeFilters.userType;
-
   const handleUserTypeToggle = (userTypeId: string) => {
-    const newUserTypes = FilterUtils.toggleFilterValue(currentUserTypes, userTypeId);
-    onFiltersChange({ ...safeFilters, userType: newUserTypes });
+    const newUserTypes = FilterUtils.toggleFilterValue(filters.userType, userTypeId);
+    onFiltersChange({ ...filters, userType: newUserTypes });
   };
 
   return (
     <div className="space-y-2">
       <label className="text-sm font-medium">User Types</label>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="flex flex-wrap gap-2">
         {userTypes.map(userType => (
           <div key={userType.id} className="flex items-center space-x-2">
             <Checkbox
               id={userType.id}
-              checked={currentUserTypes.includes(userType.id)}
+              checked={filters.userType.includes(userType.id)}
               onCheckedChange={() => handleUserTypeToggle(userType.id)}
             />
             <label

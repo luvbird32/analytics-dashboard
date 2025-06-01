@@ -1,5 +1,8 @@
 
 import { useCallback } from 'react';
+import { useMetricsData } from './useMetricsData';
+import { useChartsData } from './useChartsData';
+import { useSocialCryptoData } from './useSocialCryptoData';
 import { useDashboardState } from './useDashboardState';
 
 /**
@@ -7,6 +10,11 @@ import { useDashboardState } from './useDashboardState';
  */
 export const useDataInitialization = () => {
   const { setLoading, setError } = useDashboardState();
+  
+  // Get the generation functions from the data hooks
+  const metricsHook = useMetricsData();
+  const chartsHook = useChartsData();
+  const socialCryptoHook = useSocialCryptoData();
 
   const generateInitialData = useCallback(async () => {
     setLoading(true);
@@ -15,10 +23,14 @@ export const useDataInitialization = () => {
     try {
       console.log('🚀 Generating comprehensive dashboard data with mock data...');
       
-      // Simulate data loading
-      await new Promise(resolve => setTimeout(resolve, 100));
+      // Force synchronous execution to ensure data is loaded
+      metricsHook.generateInitialMetrics();
+      chartsHook.generateInitialCharts();
+      socialCryptoHook.generateInitialSocialCrypto();
 
       console.log('✅ Mock dashboard data loaded successfully');
+      console.log('📊 Metrics data:', metricsHook);
+      console.log('📈 Charts data:', chartsHook);
     } catch (error) {
       console.error('❌ Error loading mock dashboard data:', error);
       setError('Failed to load dashboard data');
@@ -28,7 +40,7 @@ export const useDataInitialization = () => {
         setLoading(false);
       }, 100);
     }
-  }, [setLoading, setError]);
+  }, [metricsHook.generateInitialMetrics, chartsHook.generateInitialCharts, socialCryptoHook.generateInitialSocialCrypto, setLoading, setError]);
 
   return {
     generateInitialData

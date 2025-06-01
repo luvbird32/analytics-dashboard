@@ -1,40 +1,22 @@
 
 import { useEffect } from 'react';
-import { useDashboardState } from './useDashboardState';
+import { useRealTimeCoordinator } from './useRealTimeCoordinator';
 
 /**
- * Hook for managing real-time data updates
+ * Hook for managing real-time data updates with coordination
  */
 export const useRealTimeUpdates = () => {
-  const { state, addNotification } = useDashboardState();
-
-  const updateRealTimeData = () => {
-    if (!state.isLive) return;
-
-    console.log('📊 Updating real-time data...');
-
-    // Simulate real-time updates with notifications
-    if (Math.random() > 0.7) {
-      addNotification({
-        id: Date.now().toString(),
-        title: 'Real-time Update',
-        message: 'Dashboard data refreshed',
-        type: 'info',
-        timestamp: new Date().toISOString(),
-        read: false
-      });
-    }
-  };
+  const { coordinateUpdates, isLive } = useRealTimeCoordinator();
 
   // Set up real-time updates with cleanup
   useEffect(() => {
-    if (!state.isLive) return;
+    if (!isLive) return;
     
-    const interval = setInterval(updateRealTimeData, 1500);
+    const interval = setInterval(coordinateUpdates, 1500);
     return () => clearInterval(interval);
-  }, [state.isLive, addNotification]);
+  }, [isLive, coordinateUpdates]);
 
   return {
-    updateRealTimeData
+    updateRealTimeData: coordinateUpdates
   };
 };

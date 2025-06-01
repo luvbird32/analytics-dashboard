@@ -31,6 +31,7 @@ export const useRealTimeData = () => {
   const {
     salesData,
     trafficData,
+    heatmapData,
     radarData,
     areaData,
     treemapData,
@@ -113,6 +114,7 @@ export const useRealTimeData = () => {
     salesData,
     trafficData,
     performanceMetrics: FilterUtils.filterPerformanceMetrics(performanceMetrics, filters),
+    heatmapData,
     radarData,
     areaData,
     notifications,
