@@ -49,6 +49,13 @@ export const DashboardFooter = ({
             <p className="text-xs sm:text-sm text-muted-foreground">Update Interval</p>
           </div>
         </div>
+        
+        {/* Copyright Notice */}
+        <div className="mt-6 pt-4 border-t border-gray-200 text-center">
+          <p className="text-sm text-muted-foreground">
+            © {new Date().getFullYear()} Victor Aniemeka. All rights reserved.
+          </p>
+        </div>
       </CardContent>
     </Card>
   );
