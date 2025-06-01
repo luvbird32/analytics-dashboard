@@ -20,12 +20,12 @@ export const TreemapChart = ({ data }: TreemapChartProps) => {
   };
 
   return (
-    <Card className="animate-fade-in">
+    <Card className="animate-fade-in h-full">
       <CardHeader>
-        <CardTitle>Category Distribution</CardTitle>
+        <CardTitle className="text-base lg:text-lg">Category Distribution</CardTitle>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px]">
+      <CardContent className="p-4 lg:p-6 h-full">
+        <ChartContainer config={chartConfig} className="w-full h-[350px]">
           <ResponsiveContainer width="100%" height="100%">
             <Treemap
               data={data}

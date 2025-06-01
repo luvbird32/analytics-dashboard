@@ -12,27 +12,27 @@ interface GaugeChartProps {
  */
 export const GaugeChart = ({ data }: GaugeChartProps) => {
   return (
-    <Card className="animate-fade-in">
+    <Card className="animate-fade-in h-full">
       <CardHeader>
-        <CardTitle>Performance Gauges</CardTitle>
+        <CardTitle className="text-base lg:text-lg">Performance Gauges</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-6 p-4 lg:p-6 h-full">
         {data.map((gauge, index) => {
           const currentSegment = gauge.segments.find(
             segment => gauge.value >= segment.min && gauge.value <= segment.max
           );
           
           return (
-            <div key={index} className="space-y-2">
+            <div key={index} className="space-y-3">
               <div className="flex justify-between items-center">
-                <span className="font-medium">{gauge.name}</span>
+                <span className="font-medium text-sm lg:text-base">{gauge.name}</span>
                 <span className="text-sm text-muted-foreground">
                   {gauge.value}/{gauge.max}
                 </span>
               </div>
               <Progress 
                 value={(gauge.value / gauge.max) * 100} 
-                className="h-3"
+                className="h-4"
                 style={{ 
                   '--progress-background': currentSegment?.color || 'hsl(var(--primary))'
                 } as React.CSSProperties}

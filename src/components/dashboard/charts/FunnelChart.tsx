@@ -20,12 +20,12 @@ export const FunnelChart = ({ data }: FunnelChartProps) => {
   };
 
   return (
-    <Card className="animate-fade-in">
+    <Card className="animate-fade-in h-full">
       <CardHeader>
-        <CardTitle>Conversion Funnel</CardTitle>
+        <CardTitle className="text-base lg:text-lg">Conversion Funnel</CardTitle>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig} className="h-[350px]">
+      <CardContent className="p-4 lg:p-6 h-full">
+        <ChartContainer config={chartConfig} className="w-full h-[350px]">
           <ResponsiveContainer width="100%" height="100%">
             <RechartsFunnelChart>
               <ChartTooltip content={<ChartTooltipContent />} />

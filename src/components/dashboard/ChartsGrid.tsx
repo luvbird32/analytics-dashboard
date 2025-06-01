@@ -90,13 +90,13 @@ export const ChartsGrid = ({
   onMarkNotificationAsRead
 }: ChartsGridProps) => {
   return (
-    <div className="space-y-6 lg:space-y-8">
-      {/* Main Charts Grid - Desktop Optimized */}
-      <div className="grid grid-cols-1 xl:grid-cols-4 gap-4 lg:gap-6">
-        <div className="xl:col-span-3">
+    <div className="space-y-8 lg:space-y-12">
+      {/* Main Charts Section - Full Width */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="lg:col-span-2">
           <LiveChart data={metrics} isLive={isLive} />
         </div>
-        <div className="xl:col-span-1">
+        <div className="lg:col-span-1">
           <NotificationPanel
             notifications={notifications}
             onClear={onClearNotifications}
@@ -105,65 +105,95 @@ export const ChartsGrid = ({
         </div>
       </div>
 
-      {/* Secondary Charts - Desktop Enhanced */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 lg:gap-6">
-        <SalesChart data={salesData} />
-        <TrafficChart data={trafficData} />
+      {/* Sales & Traffic Charts - Full Width Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+        <div className="w-full">
+          <SalesChart data={salesData} />
+        </div>
+        <div className="w-full">
+          <TrafficChart data={trafficData} />
+        </div>
       </div>
 
-      {/* Social Media Analytics Section */}
-      <div className="space-y-4 lg:space-y-6">
+      {/* Social Media Analytics Section - Full Width */}
+      <div className="space-y-6 lg:space-y-8">
         <h2 className="text-xl lg:text-2xl font-semibold flex items-center gap-3">
           <Users className="h-5 w-5 lg:h-6 lg:w-6" />
           Social Media Analytics
         </h2>
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 lg:gap-6">
-          <SentimentChart data={sentimentData} />
-          <EngagementChart data={engagementData} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          <div className="w-full">
+            <SentimentChart data={sentimentData} />
+          </div>
+          <div className="w-full">
+            <EngagementChart data={engagementData} />
+          </div>
         </div>
-        <div className="grid grid-cols-1">
+        <div className="w-full">
           <HashtagChart data={hashtagData} />
         </div>
       </div>
 
-      {/* Cryptocurrency Analytics Section */}
-      <div className="space-y-4 lg:space-y-6">
+      {/* Cryptocurrency Analytics Section - Full Width */}
+      <div className="space-y-6 lg:space-y-8">
         <h2 className="text-xl lg:text-2xl font-semibold flex items-center gap-3">
           <DollarSign className="h-5 w-5 lg:h-6 lg:w-6" />
           Cryptocurrency Analytics
         </h2>
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 lg:gap-6">
-          <CryptoChart data={cryptoData} symbol="BTC" />
-          <CandlestickChart data={candlestickData} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          <div className="w-full">
+            <CryptoChart data={cryptoData} symbol="BTC" />
+          </div>
+          <div className="w-full">
+            <CandlestickChart data={candlestickData} />
+          </div>
         </div>
       </div>
 
-      {/* Advanced Analytics Section */}
-      <div className="space-y-4 lg:space-y-6">
+      {/* Advanced Analytics Section - Full Width */}
+      <div className="space-y-6 lg:space-y-8">
         <h2 className="text-xl lg:text-2xl font-semibold flex items-center gap-3">
           <Activity className="h-5 w-5 lg:h-6 lg:w-6" />
           Advanced Analytics
         </h2>
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 lg:gap-6">
-          <AreaChart data={areaData} />
-          <RadarChart data={radarData} />
-          <SankeyChart data={sankeyData} />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="w-full">
+            <AreaChart data={areaData} />
+          </div>
+          <div className="w-full">
+            <RadarChart data={radarData} />
+          </div>
+          <div className="w-full">
+            <SankeyChart data={sankeyData} />
+          </div>
         </div>
       </div>
 
-      {/* Specialized Charts - Desktop Grid */}
-      <div className="space-y-4 lg:space-y-6">
+      {/* Specialized Charts - Auto-sizing Grid */}
+      <div className="space-y-6 lg:space-y-8">
         <h2 className="text-xl lg:text-2xl font-semibold flex items-center gap-3">
           <TrendingUp className="h-5 w-5 lg:h-6 lg:w-6" />
           Specialized Visualizations
         </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 lg:gap-6">
-          <TreemapChart data={treemapData} />
-          <ScatterChart data={scatterData} />
-          <FunnelChart data={funnelData} />
-          <GaugeChart data={gaugeData} />
-          <DonutChart data={donutData} />
-          <BarChart data={barData} />
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+          <div className="w-full">
+            <TreemapChart data={treemapData} />
+          </div>
+          <div className="w-full">
+            <ScatterChart data={scatterData} />
+          </div>
+          <div className="w-full">
+            <FunnelChart data={funnelData} />
+          </div>
+          <div className="w-full">
+            <GaugeChart data={gaugeData} />
+          </div>
+          <div className="w-full">
+            <DonutChart data={donutData} />
+          </div>
+          <div className="w-full">
+            <BarChart data={barData} />
+          </div>
         </div>
       </div>
     </div>

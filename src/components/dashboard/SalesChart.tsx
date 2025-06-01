@@ -24,14 +24,14 @@ export const SalesChart = ({ data }: SalesChartProps) => {
   };
 
   return (
-    <Card className="animate-fade-in">
+    <Card className="animate-fade-in h-full">
       <CardHeader>
-        <CardTitle>Sales Overview</CardTitle>
+        <CardTitle className="text-base lg:text-lg">Sales Overview</CardTitle>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px]">
+      <CardContent className="p-4 lg:p-6 h-full">
+        <ChartContainer config={chartConfig} className="w-full h-[350px]">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data}>
+            <BarChart data={data} margin={{ top: 20, right: 20, left: 10, bottom: 20 }}>
               <XAxis dataKey="month" tick={{ fontSize: 12 }} />
               <YAxis tick={{ fontSize: 12 }} />
               <ChartTooltip content={<ChartTooltipContent />} />

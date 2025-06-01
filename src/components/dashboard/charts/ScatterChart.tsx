@@ -28,16 +28,16 @@ export const ScatterChart = ({ data }: ScatterChartProps) => {
   const categoryC = data.filter(d => d.category === 'C');
 
   return (
-    <Card className="animate-fade-in">
+    <Card className="animate-fade-in h-full">
       <CardHeader>
-        <CardTitle>Correlation Analysis</CardTitle>
+        <CardTitle className="text-base lg:text-lg">Correlation Analysis</CardTitle>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px]">
+      <CardContent className="p-4 lg:p-6 h-full">
+        <ChartContainer config={chartConfig} className="w-full h-[350px]">
           <ResponsiveContainer width="100%" height="100%">
-            <RechartsScatterChart>
-              <XAxis dataKey="x" type="number" name="X" />
-              <YAxis dataKey="y" type="number" name="Y" />
+            <RechartsScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+              <XAxis dataKey="x" type="number" name="X" tick={{ fontSize: 12 }} />
+              <YAxis dataKey="y" type="number" name="Y" tick={{ fontSize: 12 }} />
               <ZAxis dataKey="z" type="number" range={[60, 400]} name="Size" />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Scatter name="Category A" data={categoryA} fill="#8884d8" />
