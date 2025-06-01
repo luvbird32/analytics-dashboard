@@ -21,19 +21,19 @@ export const DonutChart = ({ data }: DonutChartProps) => {
 
   return (
     <Card className="animate-fade-in">
-      <CardHeader>
-        <CardTitle>Category Distribution</CardTitle>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-sm sm:text-base">Category Distribution</CardTitle>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px]">
+      <CardContent className="p-2 sm:p-6">
+        <ChartContainer config={chartConfig} className="h-[250px] sm:h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={data}
                 cx="50%"
                 cy="50%"
-                innerRadius={60}
-                outerRadius={100}
+                innerRadius={40}
+                outerRadius={80}
                 paddingAngle={5}
                 dataKey="value"
               >
@@ -42,7 +42,10 @@ export const DonutChart = ({ data }: DonutChartProps) => {
                 ))}
               </Pie>
               <ChartTooltip content={<ChartTooltipContent />} />
-              <Legend />
+              <Legend 
+                wrapperStyle={{ fontSize: '12px' }}
+                iconSize={10}
+              />
             </PieChart>
           </ResponsiveContainer>
         </ChartContainer>

@@ -25,25 +25,32 @@ export const BarChart = ({ data }: BarChartProps) => {
 
   return (
     <Card className="animate-fade-in">
-      <CardHeader>
-        <CardTitle>Performance vs Target</CardTitle>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-sm sm:text-base">Performance vs Target</CardTitle>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px]">
+      <CardContent className="p-2 sm:p-6">
+        <ChartContainer config={chartConfig} className="h-[250px] sm:h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
-            <RechartsBarChart data={data}>
-              <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-              <YAxis tick={{ fontSize: 12 }} />
+            <RechartsBarChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+              <XAxis 
+                dataKey="name" 
+                tick={{ fontSize: 10 }}
+                interval={0}
+                angle={-45}
+                textAnchor="end"
+                height={60}
+              />
+              <YAxis tick={{ fontSize: 10 }} width={40} />
               <ChartTooltip content={<ChartTooltipContent />} />
               <Bar
                 dataKey="value"
                 fill="var(--color-value)"
-                radius={[4, 4, 0, 0]}
+                radius={[2, 2, 0, 0]}
               />
               <Bar
                 dataKey="target"
                 fill="var(--color-target)"
-                radius={[4, 4, 0, 0]}
+                radius={[2, 2, 0, 0]}
                 opacity={0.6}
               />
             </RechartsBarChart>
