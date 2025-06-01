@@ -152,3 +152,42 @@ export interface BarData {
   target?: number;
   category: string;
 }
+
+export interface SentimentData {
+  date: string;
+  positive: number;
+  negative: number;
+  neutral: number;
+  overall: number;
+}
+
+export interface EngagementData {
+  platform: string;
+  likes: number;
+  shares: number;
+  comments: number;
+  reach: number;
+  engagement_rate: number;
+}
+
+export interface CryptoData {
+  timestamp: string;
+  price: number;
+  volume: number;
+  marketCap: number;
+  change24h: number;
+}
+
+export interface HashtagData {
+  tag: string;
+  mentions: number;
+  sentiment: number;
+  trend: 'up' | 'down' | 'stable';
+}
+
+export interface VolumeProfileData {
+  price: number;
+  volume: number;
+  buyVolume: number;
+  sellVolume: number;
+}

@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback } from 'react';
 import { 
   MetricData, 
@@ -16,7 +17,11 @@ import {
   SankeyData,
   CandlestickData,
   DonutData,
-  BarData
+  BarData,
+  SentimentData,
+  EngagementData,
+  CryptoData,
+  HashtagData
 } from '@/types/dashboard';
 import { DataGeneratorService } from '@/services/dataGenerator';
 import { NotificationService } from '@/services/notificationService';
@@ -50,6 +55,10 @@ export const useRealTimeData = () => {
   const [candlestickData, setCandlestickData] = useState<CandlestickData[]>([]);
   const [donutData, setDonutData] = useState<DonutData[]>([]);
   const [barData, setBarData] = useState<BarData[]>([]);
+  const [sentimentData, setSentimentData] = useState<SentimentData[]>([]);
+  const [engagementData, setEngagementData] = useState<EngagementData[]>([]);
+  const [cryptoData, setCryptoData] = useState<CryptoData[]>([]);
+  const [hashtagData, setHashtagData] = useState<HashtagData[]>([]);
 
   /**
    * Generates comprehensive initial data using services
@@ -91,6 +100,12 @@ export const useRealTimeData = () => {
     setCandlestickData(DataGeneratorService.generateCandlestickData());
     setDonutData(DataGeneratorService.generateDonutData());
     setBarData(DataGeneratorService.generateBarData());
+
+    // Generate social media and crypto data
+    setSentimentData(DataGeneratorService.generateSentimentData());
+    setEngagementData(DataGeneratorService.generateEngagementData());
+    setCryptoData(DataGeneratorService.generateCryptoData());
+    setHashtagData(DataGeneratorService.generateHashtagData());
 
     console.log('✅ Comprehensive dashboard data generated successfully');
   }, []);
@@ -206,6 +221,10 @@ export const useRealTimeData = () => {
     candlestickData,
     donutData,
     barData,
+    sentimentData,
+    engagementData,
+    cryptoData,
+    hashtagData,
     toggleLiveData,
     refreshData: generateInitialData,
     clearNotifications,

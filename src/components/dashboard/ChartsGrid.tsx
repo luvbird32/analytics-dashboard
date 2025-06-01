@@ -1,5 +1,5 @@
 
-import { Activity, TrendingUp } from 'lucide-react';
+import { Activity, TrendingUp, Users, DollarSign } from 'lucide-react';
 import { LiveChart } from './LiveChart';
 import { NotificationPanel } from './NotificationPanel';
 import { SalesChart } from './SalesChart';
@@ -14,6 +14,10 @@ import { DonutChart } from './charts/DonutChart';
 import { BarChart } from './charts/BarChart';
 import { SankeyChart } from './charts/SankeyChart';
 import { CandlestickChart } from './charts/CandlestickChart';
+import { SentimentChart } from './charts/SentimentChart';
+import { EngagementChart } from './charts/EngagementChart';
+import { CryptoChart } from './charts/CryptoChart';
+import { HashtagChart } from './charts/HashtagChart';
 import {
   MetricData,
   SalesData,
@@ -28,7 +32,11 @@ import {
   SankeyData,
   CandlestickData,
   DonutData,
-  BarData
+  BarData,
+  SentimentData,
+  EngagementData,
+  CryptoData,
+  HashtagData
 } from '@/types/dashboard';
 
 interface ChartsGridProps {
@@ -46,6 +54,10 @@ interface ChartsGridProps {
   candlestickData: CandlestickData[];
   donutData: DonutData[];
   barData: BarData[];
+  sentimentData: SentimentData[];
+  engagementData: EngagementData[];
+  cryptoData: CryptoData[];
+  hashtagData: HashtagData[];
   isLive: boolean;
   onClearNotifications: () => void;
   onMarkNotificationAsRead: (id: string) => void;
@@ -69,6 +81,10 @@ export const ChartsGrid = ({
   candlestickData,
   donutData,
   barData,
+  sentimentData,
+  engagementData,
+  cryptoData,
+  hashtagData,
   isLive,
   onClearNotifications,
   onMarkNotificationAsRead
@@ -95,6 +111,33 @@ export const ChartsGrid = ({
         <TrafficChart data={trafficData} />
       </div>
 
+      {/* Social Media Analytics */}
+      <div>
+        <h2 className="text-lg sm:text-xl font-semibold mb-4 flex items-center gap-2">
+          <Users className="h-4 w-4 sm:h-5 sm:w-5" />
+          Social Media Analytics
+        </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+          <SentimentChart data={sentimentData} />
+          <EngagementChart data={engagementData} />
+          <div className="lg:col-span-2">
+            <HashtagChart data={hashtagData} />
+          </div>
+        </div>
+      </div>
+
+      {/* Cryptocurrency Analytics */}
+      <div>
+        <h2 className="text-lg sm:text-xl font-semibold mb-4 flex items-center gap-2">
+          <DollarSign className="h-4 w-4 sm:h-5 sm:w-5" />
+          Cryptocurrency Analytics
+        </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+          <CryptoChart data={cryptoData} symbol="BTC" />
+          <CandlestickChart data={candlestickData} />
+        </div>
+      </div>
+
       {/* Advanced Analytics */}
       <div>
         <h2 className="text-lg sm:text-xl font-semibold mb-4 flex items-center gap-2">
@@ -104,20 +147,7 @@ export const ChartsGrid = ({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           <AreaChart data={areaData} />
           <RadarChart data={radarData} />
-        </div>
-      </div>
-
-      {/* Financial & Trading Charts */}
-      <div>
-        <h2 className="text-lg sm:text-xl font-semibold mb-4 flex items-center gap-2">
-          <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5" />
-          Financial Analysis
-        </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-          <CandlestickChart data={candlestickData} />
-          <div className="lg:col-span-1">
-            <SankeyChart data={sankeyData} />
-          </div>
+          <SankeyChart data={sankeyData} />
         </div>
       </div>
 

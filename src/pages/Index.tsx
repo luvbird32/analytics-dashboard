@@ -27,14 +27,18 @@ const Index = () => {
     gaugeData,
     sankeyData,
     candlestickData,
+    donutData,
+    barData,
+    sentimentData,
+    engagementData,
+    cryptoData,
+    hashtagData,
     toggleLiveData,
     refreshData,
     clearNotifications,
     markNotificationAsRead,
     setFilters,
     handleExport,
-    donutData,
-    barData,
   } = useRealTimeData();
 
   return (
@@ -74,6 +78,10 @@ const Index = () => {
           candlestickData={candlestickData}
           donutData={donutData}
           barData={barData}
+          sentimentData={sentimentData}
+          engagementData={engagementData}
+          cryptoData={cryptoData}
+          hashtagData={hashtagData}
           isLive={isLive}
           onClearNotifications={clearNotifications}
           onMarkNotificationAsRead={markNotificationAsRead}
