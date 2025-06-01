@@ -1,4 +1,3 @@
-
 import { useRealTimeData } from '@/hooks/useRealTimeData';
 import { EnhancedMetricCard } from '@/components/dashboard/EnhancedMetricCard';
 import { LiveChart } from '@/components/dashboard/LiveChart';
@@ -12,6 +11,12 @@ import { DashboardFilters } from '@/components/dashboard/DashboardFilters';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, LineChart, PieChart, Activity, TrendingUp, Filter } from 'lucide-react';
+import { TreemapChart } from '@/components/dashboard/charts/TreemapChart';
+import { ScatterChart } from '@/components/dashboard/charts/ScatterChart';
+import { FunnelChart } from '@/components/dashboard/charts/FunnelChart';
+import { GaugeChart } from '@/components/dashboard/charts/GaugeChart';
+import { SankeyChart } from '@/components/dashboard/charts/SankeyChart';
+import { CandlestickChart } from '@/components/dashboard/charts/CandlestickChart';
 
 /**
  * Enterprise-Grade Real-time Analytics Dashboard
@@ -29,6 +34,12 @@ const Index = () => {
     radarData,
     notifications,
     filters,
+    treemapData,
+    scatterData,
+    funnelData,
+    gaugeData,
+    sankeyData,
+    candlestickData,
     toggleLiveData,
     refreshData,
     clearNotifications,
@@ -58,7 +69,7 @@ const Index = () => {
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <span className="flex items-center gap-1">
                 <BarChart className="h-4 w-4" />
-                6 Chart Types
+                12+ Chart Types
               </span>
               <span className="flex items-center gap-1">
                 <LineChart className="h-4 w-4" />
@@ -150,6 +161,22 @@ const Index = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <AreaChart data={areaData} />
             <RadarChart data={radarData} />
+          </div>
+        </div>
+
+        {/* Specialized Chart Types */}
+        <div>
+          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+            <TrendingUp className="h-5 w-5" />
+            Specialized Visualizations
+          </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            <TreemapChart data={treemapData} />
+            <ScatterChart data={scatterData} />
+            <FunnelChart data={funnelData} />
+            <GaugeChart data={gaugeData} />
+            <SankeyChart data={sankeyData} />
+            <CandlestickChart data={candlestickData} />
           </div>
         </div>
 

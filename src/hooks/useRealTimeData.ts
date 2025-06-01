@@ -8,7 +8,13 @@ import {
   RadarData, 
   AreaData,
   NotificationData,
-  DashboardFilters
+  DashboardFilters,
+  TreemapData,
+  ScatterData,
+  FunnelData,
+  GaugeData,
+  SankeyData,
+  CandlestickData
 } from '@/types/dashboard';
 import { DataGeneratorService } from '@/services/dataGenerator';
 import { NotificationService } from '@/services/notificationService';
@@ -34,6 +40,12 @@ export const useRealTimeData = () => {
     region: [],
     userType: []
   });
+  const [treemapData, setTreemapData] = useState<TreemapData[]>([]);
+  const [scatterData, setScatterData] = useState<ScatterData[]>([]);
+  const [funnelData, setFunnelData] = useState<FunnelData[]>([]);
+  const [gaugeData, setGaugeData] = useState<GaugeData[]>([]);
+  const [sankeyData, setSankeyData] = useState<SankeyData>({ nodes: [], links: [] });
+  const [candlestickData, setCandlestickData] = useState<CandlestickData[]>([]);
 
   /**
    * Generates comprehensive initial data using services
@@ -65,6 +77,14 @@ export const useRealTimeData = () => {
       }
     });
     setHeatmapData(heatmapPoints);
+
+    // Generate new chart data
+    setTreemapData(DataGeneratorService.generateTreemapData());
+    setScatterData(DataGeneratorService.generateScatterData());
+    setFunnelData(DataGeneratorService.generateFunnelData());
+    setGaugeData(DataGeneratorService.generateGaugeData());
+    setSankeyData(DataGeneratorService.generateSankeyData());
+    setCandlestickData(DataGeneratorService.generateCandlestickData());
 
     console.log('✅ Comprehensive dashboard data generated successfully');
   }, []);
@@ -172,6 +192,12 @@ export const useRealTimeData = () => {
     areaData,
     notifications,
     filters,
+    treemapData,
+    scatterData,
+    funnelData,
+    gaugeData,
+    sankeyData,
+    candlestickData,
     toggleLiveData,
     refreshData: generateInitialData,
     clearNotifications,

@@ -1,4 +1,3 @@
-
 /**
  * Comprehensive dashboard data types and interfaces
  * Supporting advanced analytics and real-time visualizations
@@ -92,4 +91,50 @@ export interface ExportOptions {
   format: 'pdf' | 'excel' | 'csv' | 'png';
   includeCharts: boolean;
   dateRange: string;
+}
+
+export interface TreemapData {
+  name: string;
+  value: number;
+  color: string;
+  children?: TreemapData[];
+}
+
+export interface ScatterData {
+  x: number;
+  y: number;
+  z: number;
+  category: string;
+}
+
+export interface FunnelData {
+  name: string;
+  value: number;
+  conversion: number;
+}
+
+export interface GaugeData {
+  name: string;
+  value: number;
+  max: number;
+  segments: { min: number; max: number; color: string; label: string }[];
+}
+
+export interface SankeyData {
+  nodes: { id: string; name: string }[];
+  links: { source: string; target: string; value: number }[];
+}
+
+export interface CandlestickData {
+  date: string;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+}
+
+export interface NetworkData {
+  nodes: { id: string; name: string; group: number; size: number }[];
+  links: { source: string; target: string; value: number }[];
 }
