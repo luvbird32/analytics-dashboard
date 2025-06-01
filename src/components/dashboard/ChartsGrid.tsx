@@ -64,7 +64,7 @@ interface ChartsGridProps {
 }
 
 /**
- * Organized charts grid layout with responsive design
+ * Organized charts grid layout with responsive design optimized for desktop
  */
 export const ChartsGrid = ({
   metrics,
@@ -90,13 +90,13 @@ export const ChartsGrid = ({
   onMarkNotificationAsRead
 }: ChartsGridProps) => {
   return (
-    <>
-      {/* Main Charts Grid - Mobile Optimized */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-        <div className="lg:col-span-2">
+    <div className="space-y-6 lg:space-y-8">
+      {/* Main Charts Grid - Desktop Optimized */}
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-4 lg:gap-6">
+        <div className="xl:col-span-3">
           <LiveChart data={metrics} isLive={isLive} />
         </div>
-        <div className="lg:col-span-1">
+        <div className="xl:col-span-1">
           <NotificationPanel
             notifications={notifications}
             onClear={onClearNotifications}
@@ -105,59 +105,59 @@ export const ChartsGrid = ({
         </div>
       </div>
 
-      {/* Secondary Charts - Mobile Stacked */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+      {/* Secondary Charts - Desktop Enhanced */}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 lg:gap-6">
         <SalesChart data={salesData} />
         <TrafficChart data={trafficData} />
       </div>
 
-      {/* Social Media Analytics */}
-      <div>
-        <h2 className="text-lg sm:text-xl font-semibold mb-4 flex items-center gap-2">
-          <Users className="h-4 w-4 sm:h-5 sm:w-5" />
+      {/* Social Media Analytics Section */}
+      <div className="space-y-4 lg:space-y-6">
+        <h2 className="text-xl lg:text-2xl font-semibold flex items-center gap-3">
+          <Users className="h-5 w-5 lg:h-6 lg:w-6" />
           Social Media Analytics
         </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 lg:gap-6">
           <SentimentChart data={sentimentData} />
           <EngagementChart data={engagementData} />
-          <div className="lg:col-span-2">
-            <HashtagChart data={hashtagData} />
-          </div>
+        </div>
+        <div className="grid grid-cols-1">
+          <HashtagChart data={hashtagData} />
         </div>
       </div>
 
-      {/* Cryptocurrency Analytics */}
-      <div>
-        <h2 className="text-lg sm:text-xl font-semibold mb-4 flex items-center gap-2">
-          <DollarSign className="h-4 w-4 sm:h-5 sm:w-5" />
+      {/* Cryptocurrency Analytics Section */}
+      <div className="space-y-4 lg:space-y-6">
+        <h2 className="text-xl lg:text-2xl font-semibold flex items-center gap-3">
+          <DollarSign className="h-5 w-5 lg:h-6 lg:w-6" />
           Cryptocurrency Analytics
         </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 lg:gap-6">
           <CryptoChart data={cryptoData} symbol="BTC" />
           <CandlestickChart data={candlestickData} />
         </div>
       </div>
 
-      {/* Advanced Analytics */}
-      <div>
-        <h2 className="text-lg sm:text-xl font-semibold mb-4 flex items-center gap-2">
-          <Activity className="h-4 w-4 sm:h-5 sm:w-5" />
+      {/* Advanced Analytics Section */}
+      <div className="space-y-4 lg:space-y-6">
+        <h2 className="text-xl lg:text-2xl font-semibold flex items-center gap-3">
+          <Activity className="h-5 w-5 lg:h-6 lg:w-6" />
           Advanced Analytics
         </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 lg:gap-6">
           <AreaChart data={areaData} />
           <RadarChart data={radarData} />
           <SankeyChart data={sankeyData} />
         </div>
       </div>
 
-      {/* Specialized Charts - Mobile Friendly Grid */}
-      <div>
-        <h2 className="text-lg sm:text-xl font-semibold mb-4 flex items-center gap-2">
-          <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5" />
+      {/* Specialized Charts - Desktop Grid */}
+      <div className="space-y-4 lg:space-y-6">
+        <h2 className="text-xl lg:text-2xl font-semibold flex items-center gap-3">
+          <TrendingUp className="h-5 w-5 lg:h-6 lg:w-6" />
           Specialized Visualizations
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 lg:gap-6">
           <TreemapChart data={treemapData} />
           <ScatterChart data={scatterData} />
           <FunnelChart data={funnelData} />
@@ -166,6 +166,6 @@ export const ChartsGrid = ({
           <BarChart data={barData} />
         </div>
       </div>
-    </>
+    </div>
   );
 };

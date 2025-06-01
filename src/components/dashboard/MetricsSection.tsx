@@ -14,7 +14,7 @@ interface MetricsSectionProps {
 }
 
 /**
- * Performance metrics section with desktop filters and responsive grid
+ * Performance metrics section with desktop-optimized layout
  */
 export const MetricsSection = ({ 
   performanceMetrics, 
@@ -24,9 +24,9 @@ export const MetricsSection = ({
 }: MetricsSectionProps) => {
   return (
     <>
-      {/* Desktop Filters & Metrics Grid */}
-      <div className="hidden sm:grid sm:grid-cols-1 xl:grid-cols-4 gap-6">
-        <div className="xl:col-span-1">
+      {/* Desktop Layout - Filters Sidebar + Metrics Grid */}
+      <div className="hidden lg:grid lg:grid-cols-5 xl:grid-cols-6 gap-6 lg:gap-8">
+        <div className="lg:col-span-1 xl:col-span-1">
           <DashboardFilters
             filters={filters}
             onFiltersChange={onFiltersChange}
@@ -34,18 +34,20 @@ export const MetricsSection = ({
           />
         </div>
         
-        <div className="xl:col-span-3">
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold flex items-center gap-2">
-              <TrendingUp className="h-5 w-5" />
-              Performance Metrics
-              {filters.category.length > 0 && (
-                <Badge variant="secondary">
-                  Filtered by {filters.category.length} categories
-                </Badge>
-              )}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="lg:col-span-4 xl:col-span-5">
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl lg:text-2xl font-semibold flex items-center gap-3">
+                <TrendingUp className="h-5 w-5 lg:h-6 lg:w-6" />
+                Performance Metrics
+                {filters.category.length > 0 && (
+                  <Badge variant="secondary" className="ml-2">
+                    Filtered by {filters.category.length} categories
+                  </Badge>
+                )}
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 lg:gap-6">
               {performanceMetrics.map((metric) => (
                 <EnhancedMetricCard key={metric.id} metric={metric} />
               ))}
@@ -54,21 +56,21 @@ export const MetricsSection = ({
         </div>
       </div>
 
-      {/* Mobile Metrics Grid */}
-      <div className="sm:hidden space-y-4">
+      {/* Mobile/Tablet Layout */}
+      <div className="lg:hidden space-y-4">
         <h2 className="text-lg font-semibold flex items-center gap-2">
           <TrendingUp className="h-4 w-4" />
           Performance Metrics
         </h2>
-        <div className="grid grid-cols-1 gap-3">
-          {performanceMetrics.slice(0, 4).map((metric) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {performanceMetrics.slice(0, 6).map((metric) => (
             <EnhancedMetricCard key={metric.id} metric={metric} />
           ))}
         </div>
-        {performanceMetrics.length > 4 && (
+        {performanceMetrics.length > 6 && (
           <div className="text-center">
             <Button variant="outline" size="sm">
-              View All Metrics ({performanceMetrics.length - 4} more)
+              View All Metrics ({performanceMetrics.length - 6} more)
             </Button>
           </div>
         )}

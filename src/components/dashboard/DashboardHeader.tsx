@@ -17,7 +17,7 @@ interface DashboardHeaderProps {
 }
 
 /**
- * Dashboard header with title, controls, and mobile-friendly filters
+ * Dashboard header optimized for desktop experience
  */
 export const DashboardHeader = ({
   isLive,
@@ -28,44 +28,65 @@ export const DashboardHeader = ({
   onExport
 }: DashboardHeaderProps) => {
   return (
-    <div className="flex flex-col gap-4">
-      <div className="space-y-2">
-        <div className="flex items-center gap-2 sm:gap-3">
-          <h1 className="text-2xl sm:text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+    <div className="space-y-4 lg:space-y-6">
+      <div className="space-y-3 lg:space-y-4">
+        <div className="flex items-center gap-3 lg:gap-4">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
             Enterprise Analytics Hub
           </h1>
-          <Badge variant="outline" className="px-2 py-1 text-xs sm:px-3">
-            <Activity className="h-3 w-3 mr-1" />
+          <Badge variant="outline" className="px-2 py-1 text-xs lg:px-3 lg:text-sm">
+            <Activity className="h-3 w-3 lg:h-4 lg:w-4 mr-1" />
             Advanced
           </Badge>
         </div>
-        <p className="text-sm sm:text-lg text-muted-foreground">
+        
+        <p className="text-sm lg:text-lg xl:text-xl text-muted-foreground max-w-4xl">
           Real-time data visualization platform demonstrating enterprise-grade capabilities
         </p>
         
-        {/* Mobile-friendly Feature List */}
-        <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
+        {/* Desktop Feature List */}
+        <div className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm xl:text-base text-muted-foreground">
+          <span className="flex items-center gap-2">
+            <IconBarChart className="h-4 w-4 xl:h-5 xl:w-5" />
+            12+ Advanced Charts
+          </span>
+          <span className="flex items-center gap-2">
+            <LineChart className="h-4 w-4 xl:h-5 xl:w-5" />
+            Real-time Updates
+          </span>
+          <span className="flex items-center gap-2">
+            <PieChart className="h-4 w-4 xl:h-5 xl:w-5" />
+            Interactive Analytics
+          </span>
+          <span className="flex items-center gap-2">
+            <TrendingUp className="h-4 w-4 xl:h-5 xl:w-5" />
+            Performance Monitoring
+          </span>
+        </div>
+
+        {/* Mobile Feature List */}
+        <div className="grid grid-cols-2 gap-2 lg:hidden text-xs text-muted-foreground">
           <span className="flex items-center gap-1">
-            <IconBarChart className="h-3 w-3 sm:h-4 sm:w-4" />
+            <IconBarChart className="h-3 w-3" />
             12+ Charts
           </span>
           <span className="flex items-center gap-1">
-            <LineChart className="h-3 w-3 sm:h-4 sm:w-4" />
+            <LineChart className="h-3 w-3" />
             Real-time
           </span>
           <span className="flex items-center gap-1">
-            <PieChart className="h-3 w-3 sm:h-4 sm:w-4" />
+            <PieChart className="h-3 w-3" />
             Analytics
           </span>
           <span className="flex items-center gap-1">
-            <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4" />
+            <TrendingUp className="h-3 w-3" />
             Performance
           </span>
         </div>
       </div>
       
-      {/* Mobile Controls */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+      {/* Controls Section */}
+      <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 lg:gap-4">
         <div className="flex-1">
           <DashboardControls
             isLive={isLive}
@@ -75,7 +96,7 @@ export const DashboardHeader = ({
         </div>
         
         {/* Mobile Filters Drawer */}
-        <div className="sm:hidden">
+        <div className="lg:hidden">
           <Drawer>
             <DrawerTrigger asChild>
               <Button variant="outline" className="w-full">
