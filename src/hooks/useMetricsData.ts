@@ -1,23 +1,23 @@
 
 import { useState, useCallback } from 'react';
 import { MetricData, PerformanceMetric } from '@/types/dashboard';
-import { DataGeneratorService } from '@/services/dataGenerator';
+import { mockMetrics, mockPerformanceMetrics } from '@/test/mocks/mockData';
 import { NotificationService } from '@/services/notificationService';
 
 /**
- * Hook for managing core metrics data
+ * Hook for managing core metrics data using mock data
  */
 export const useMetricsData = () => {
   const [metrics, setMetrics] = useState<MetricData[]>([]);
   const [performanceMetrics, setPerformanceMetrics] = useState<PerformanceMetric[]>([]);
 
   /**
-   * Generates initial metrics data
+   * Generates initial metrics data using mock data
    */
   const generateInitialMetrics = useCallback(() => {
-    console.log('🚀 Generating core metrics data...');
-    setMetrics(DataGeneratorService.generateInitialMetrics());
-    setPerformanceMetrics(DataGeneratorService.generatePerformanceMetrics());
+    console.log('🚀 Loading mock metrics data...');
+    setMetrics(mockMetrics);
+    setPerformanceMetrics(mockPerformanceMetrics);
   }, []);
 
   /**
@@ -26,9 +26,14 @@ export const useMetricsData = () => {
   const updateMetrics = useCallback((isLive: boolean, onNotification: (notification: any) => void) => {
     if (!isLive) return;
 
-    // Update metrics
+    // Update metrics with new mock-based data
     setMetrics(prev => {
-      const newMetric = DataGeneratorService.generateNewMetric(prev.length);
+      const newMetric: MetricData = {
+        timestamp: new Date().toLocaleTimeString(),
+        value: Math.floor(Math.random() * 150) + 50,
+        label: `Live ${prev.length + 1}`,
+        category: ['revenue', 'users', 'engagement'][Math.floor(Math.random() * 3)]
+      };
       return [...prev.slice(-19), newMetric];
     });
 

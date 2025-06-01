@@ -15,10 +15,11 @@ import {
   DonutData,
   BarData
 } from '@/types/dashboard';
+import { mockSalesData, mockTrafficData } from '@/test/mocks/mockData';
 import { DataGeneratorService } from '@/services/dataGenerator';
 
 /**
- * Hook for managing chart data
+ * Hook for managing chart data using mock data where available
  */
 export const useChartsData = () => {
   const [salesData, setSalesData] = useState<SalesData[]>([]);
@@ -36,13 +37,16 @@ export const useChartsData = () => {
   const [barData, setBarData] = useState<BarData[]>([]);
 
   /**
-   * Generates initial chart data
+   * Generates initial chart data using mock data where available
    */
   const generateInitialCharts = useCallback(() => {
-    console.log('📊 Generating chart data...');
+    console.log('📊 Loading mock chart data...');
     
-    setSalesData(DataGeneratorService.generateSalesData());
-    setTrafficData(DataGeneratorService.generateTrafficData());
+    // Use mock data for sales and traffic
+    setSalesData(mockSalesData);
+    setTrafficData(mockTrafficData);
+    
+    // Use generated data for other charts
     setRadarData(DataGeneratorService.generateRadarData());
     setAreaData(DataGeneratorService.generateAreaData());
 
