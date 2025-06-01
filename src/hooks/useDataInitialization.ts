@@ -6,7 +6,7 @@ import { useSocialCryptoData } from './useSocialCryptoData';
 import { useDashboardState } from './useDashboardState';
 
 /**
- * Hook for managing data initialization
+ * Hook for managing data initialization with mock data
  */
 export const useDataInitialization = () => {
   const { setLoading, setError } = useDashboardState();
@@ -21,20 +21,24 @@ export const useDataInitialization = () => {
     setError(null);
     
     try {
-      console.log('🚀 Generating comprehensive dashboard data...');
+      console.log('🚀 Generating comprehensive dashboard data with mock data...');
       
-      await Promise.all([
-        metricsHook.generateInitialMetrics(),
-        chartsHook.generateInitialCharts(),
-        socialCryptoHook.generateInitialSocialCrypto()
-      ]);
+      // Force synchronous execution to ensure data is loaded
+      metricsHook.generateInitialMetrics();
+      chartsHook.generateInitialCharts();
+      socialCryptoHook.generateInitialSocialCrypto();
 
-      console.log('✅ Comprehensive dashboard data generated successfully');
+      console.log('✅ Mock dashboard data loaded successfully');
+      console.log('📊 Metrics data:', metricsHook);
+      console.log('📈 Charts data:', chartsHook);
     } catch (error) {
-      console.error('❌ Error generating dashboard data:', error);
+      console.error('❌ Error loading mock dashboard data:', error);
       setError('Failed to load dashboard data');
     } finally {
-      setLoading(false);
+      // Small delay to ensure state updates are processed
+      setTimeout(() => {
+        setLoading(false);
+      }, 100);
     }
   }, [metricsHook.generateInitialMetrics, chartsHook.generateInitialCharts, socialCryptoHook.generateInitialSocialCrypto, setLoading, setError]);
 

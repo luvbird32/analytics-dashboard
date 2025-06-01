@@ -8,16 +8,22 @@ import { NotificationService } from '@/services/notificationService';
  * Hook for managing core metrics data using mock data
  */
 export const useMetricsData = () => {
-  const [metrics, setMetrics] = useState<MetricData[]>([]);
-  const [performanceMetrics, setPerformanceMetrics] = useState<PerformanceMetric[]>([]);
+  const [metrics, setMetrics] = useState<MetricData[]>(mockMetrics);
+  const [performanceMetrics, setPerformanceMetrics] = useState<PerformanceMetric[]>(mockPerformanceMetrics);
 
   /**
    * Generates initial metrics data using mock data
    */
   const generateInitialMetrics = useCallback(() => {
     console.log('🚀 Loading mock metrics data...');
-    setMetrics(mockMetrics);
-    setPerformanceMetrics(mockPerformanceMetrics);
+    console.log('📊 Mock metrics:', mockMetrics);
+    console.log('⚡ Mock performance metrics:', mockPerformanceMetrics);
+    
+    // Ensure we're setting the mock data
+    setMetrics([...mockMetrics]);
+    setPerformanceMetrics([...mockPerformanceMetrics]);
+    
+    console.log('✅ Mock metrics data loaded successfully');
   }, []);
 
   /**
@@ -32,7 +38,7 @@ export const useMetricsData = () => {
         timestamp: new Date().toLocaleTimeString(),
         value: Math.floor(Math.random() * 150) + 50,
         label: `Live ${prev.length + 1}`,
-        category: ['revenue', 'users', 'engagement'][Math.floor(Math.random() * 3)]
+        category: ['revenue', 'users', 'conversion'][Math.floor(Math.random() * 3)]
       };
       return [...prev.slice(-19), newMetric];
     });

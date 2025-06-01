@@ -22,8 +22,8 @@ import { DataGeneratorService } from '@/services/dataGenerator';
  * Hook for managing chart data using mock data where available
  */
 export const useChartsData = () => {
-  const [salesData, setSalesData] = useState<SalesData[]>([]);
-  const [trafficData, setTrafficData] = useState<TrafficData[]>([]);
+  const [salesData, setSalesData] = useState<SalesData[]>(mockSalesData);
+  const [trafficData, setTrafficData] = useState<TrafficData[]>(mockTrafficData);
   const [heatmapData, setHeatmapData] = useState<HeatmapData[]>([]);
   const [radarData, setRadarData] = useState<RadarData[]>([]);
   const [areaData, setAreaData] = useState<AreaData[]>([]);
@@ -41,10 +41,12 @@ export const useChartsData = () => {
    */
   const generateInitialCharts = useCallback(() => {
     console.log('📊 Loading mock chart data...');
+    console.log('💰 Mock sales data:', mockSalesData);
+    console.log('🚦 Mock traffic data:', mockTrafficData);
     
     // Use mock data for sales and traffic
-    setSalesData(mockSalesData);
-    setTrafficData(mockTrafficData);
+    setSalesData([...mockSalesData]);
+    setTrafficData([...mockTrafficData]);
     
     // Use generated data for other charts
     setRadarData(DataGeneratorService.generateRadarData());
@@ -77,6 +79,8 @@ export const useChartsData = () => {
     setCandlestickData(DataGeneratorService.generateCandlestickData());
     setDonutData(DataGeneratorService.generateDonutData());
     setBarData(DataGeneratorService.generateBarData());
+    
+    console.log('✅ All chart data loaded successfully');
   }, []);
 
   /**
