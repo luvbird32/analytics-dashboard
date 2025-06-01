@@ -64,7 +64,7 @@ interface ChartsGridProps {
 }
 
 /**
- * Organized charts grid layout with responsive design optimized for desktop
+ * Organized charts grid layout with improved spacing and user experience
  */
 export const ChartsGrid = ({
   metrics,
@@ -90,7 +90,7 @@ export const ChartsGrid = ({
   onMarkNotificationAsRead
 }: ChartsGridProps) => {
   return (
-    <div className="space-y-8 lg:space-y-12">
+    <div className="space-y-12 lg:space-y-16">
       {/* Main Charts Section - Full Width */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         <div className="lg:col-span-2">
@@ -106,7 +106,7 @@ export const ChartsGrid = ({
       </div>
 
       {/* Sales & Traffic Charts - Full Width Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
         <div className="w-full">
           <SalesChart data={salesData} />
         </div>
@@ -116,12 +116,12 @@ export const ChartsGrid = ({
       </div>
 
       {/* Social Media Analytics Section - Full Width */}
-      <div className="space-y-6 lg:space-y-8">
+      <div className="space-y-8 lg:space-y-10">
         <h2 className="text-xl lg:text-2xl font-semibold flex items-center gap-3">
           <Users className="h-5 w-5 lg:h-6 lg:w-6" />
           Social Media Analytics
         </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           <div className="w-full">
             <SentimentChart data={sentimentData} />
           </div>
@@ -135,12 +135,12 @@ export const ChartsGrid = ({
       </div>
 
       {/* Cryptocurrency Analytics Section - Full Width */}
-      <div className="space-y-6 lg:space-y-8">
+      <div className="space-y-8 lg:space-y-10">
         <h2 className="text-xl lg:text-2xl font-semibold flex items-center gap-3">
           <DollarSign className="h-5 w-5 lg:h-6 lg:w-6" />
           Cryptocurrency Analytics
         </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           <div className="w-full">
             <CryptoChart data={cryptoData} symbol="BTC" />
           </div>
@@ -150,13 +150,15 @@ export const ChartsGrid = ({
         </div>
       </div>
 
-      {/* Advanced Analytics Section - Full Width */}
-      <div className="space-y-6 lg:space-y-8">
+      {/* Advanced Analytics Section - Improved Layout */}
+      <div className="space-y-8 lg:space-y-10">
         <h2 className="text-xl lg:text-2xl font-semibold flex items-center gap-3">
           <Activity className="h-5 w-5 lg:h-6 lg:w-6" />
           Advanced Analytics
         </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        
+        {/* Primary Charts - Full Width Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
           <div className="w-full">
             <AreaChart data={areaData} />
           </div>
@@ -169,13 +171,15 @@ export const ChartsGrid = ({
         </div>
       </div>
 
-      {/* Specialized Charts - Auto-sizing Grid */}
-      <div className="space-y-6 lg:space-y-8">
+      {/* Specialized Charts - Better Spacing */}
+      <div className="space-y-8 lg:space-y-10">
         <h2 className="text-xl lg:text-2xl font-semibold flex items-center gap-3">
           <TrendingUp className="h-5 w-5 lg:h-6 lg:w-6" />
           Specialized Visualizations
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
+        
+        {/* First Row - 3 Charts */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
           <div className="w-full">
             <TreemapChart data={treemapData} />
           </div>
@@ -185,6 +189,10 @@ export const ChartsGrid = ({
           <div className="w-full">
             <FunnelChart data={funnelData} />
           </div>
+        </div>
+        
+        {/* Second Row - 3 Charts */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
           <div className="w-full">
             <GaugeChart data={gaugeData} />
           </div>
