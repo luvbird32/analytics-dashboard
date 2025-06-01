@@ -12,6 +12,10 @@ interface RegionFilterProps {
  * Region filter component for dashboard data
  */
 export const RegionFilter = ({ filters, onFiltersChange }: RegionFilterProps) => {
+  console.log('RegionFilter - received filters:', filters);
+  console.log('RegionFilter - filters type:', typeof filters);
+  console.log('RegionFilter - filters keys:', filters ? Object.keys(filters) : 'filters is null/undefined');
+
   const regions = [
     { id: 'north-america', label: 'North America' },
     { id: 'europe', label: 'Europe' },
@@ -26,6 +30,8 @@ export const RegionFilter = ({ filters, onFiltersChange }: RegionFilterProps) =>
     region: filters?.region || [],
     userType: filters?.userType || []
   };
+
+  console.log('RegionFilter - safeFilters:', safeFilters);
 
   const currentRegions = safeFilters.region;
 

@@ -12,6 +12,10 @@ interface UserTypeFilterProps {
  * User type filter component for dashboard data
  */
 export const UserTypeFilter = ({ filters, onFiltersChange }: UserTypeFilterProps) => {
+  console.log('UserTypeFilter - received filters:', filters);
+  console.log('UserTypeFilter - filters type:', typeof filters);
+  console.log('UserTypeFilter - filters keys:', filters ? Object.keys(filters) : 'filters is null/undefined');
+
   const userTypes = [
     { id: 'new', label: 'New Users' },
     { id: 'returning', label: 'Returning Users' },
@@ -26,6 +30,8 @@ export const UserTypeFilter = ({ filters, onFiltersChange }: UserTypeFilterProps
     region: filters?.region || [],
     userType: filters?.userType || []
   };
+
+  console.log('UserTypeFilter - safeFilters:', safeFilters);
 
   const currentUserTypes = safeFilters.userType;
 

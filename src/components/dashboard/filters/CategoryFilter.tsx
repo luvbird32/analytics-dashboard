@@ -12,6 +12,10 @@ interface CategoryFilterProps {
  * Category filter component for dashboard data
  */
 export const CategoryFilter = ({ filters, onFiltersChange }: CategoryFilterProps) => {
+  console.log('CategoryFilter - received filters:', filters);
+  console.log('CategoryFilter - filters type:', typeof filters);
+  console.log('CategoryFilter - filters keys:', filters ? Object.keys(filters) : 'filters is null/undefined');
+
   const categories = [
     { id: 'revenue', label: 'Revenue' },
     { id: 'users', label: 'Users' },
@@ -26,6 +30,8 @@ export const CategoryFilter = ({ filters, onFiltersChange }: CategoryFilterProps
     region: filters?.region || [],
     userType: filters?.userType || []
   };
+
+  console.log('CategoryFilter - safeFilters:', safeFilters);
 
   const currentCategories = safeFilters.category;
 
