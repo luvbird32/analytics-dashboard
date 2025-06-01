@@ -1,4 +1,5 @@
 
+
 import { 
   MetricData, 
   PerformanceMetric, 
@@ -39,7 +40,7 @@ export const mockMetrics: MetricData[] = [
     timestamp: '10:00',
     value: 1380,
     label: 'Engagement',
-    category: 'engagement'
+    category: 'conversion'
   },
   {
     timestamp: '10:15',
@@ -102,7 +103,7 @@ export const mockPerformanceMetrics: PerformanceMetric[] = [
     unit: '%',
     change: 0.5,
     trend: 'up' as const,
-    category: 'engagement' as const,
+    category: 'conversion' as const,
     priority: 'medium' as const,
     target: 4.0
   },
@@ -113,7 +114,7 @@ export const mockPerformanceMetrics: PerformanceMetric[] = [
     unit: '%',
     change: -1.8,
     trend: 'up' as const,
-    category: 'engagement' as const,
+    category: 'conversion' as const,
     priority: 'low' as const,
     target: 35.0
   },
@@ -124,7 +125,7 @@ export const mockPerformanceMetrics: PerformanceMetric[] = [
     unit: 'min',
     change: 15.2,
     trend: 'up' as const,
-    category: 'engagement' as const,
+    category: 'conversion' as const,
     priority: 'medium' as const,
     target: 5.0
   }
