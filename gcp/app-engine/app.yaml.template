@@ -1,0 +1,37 @@
+
+runtime: nodejs18
+service: default
+
+env_variables:
+  NODE_ENV: ${ENVIRONMENT}
+  VITE_APP_VERSION: ${APP_VERSION}
+  VITE_DEPLOYMENT_TYPE: app-engine
+  VITE_ENVIRONMENT: ${ENVIRONMENT}
+
+handlers:
+# Static assets with long cache
+- url: /assets/(.*\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))$
+  static_files: dist/assets/\1
+  upload: dist/assets/(.*\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))$
+  secure: always
+  expiration: "30d"
+
+# Other static files
+- url: /(.*\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))$
+  static_files: dist/\1
+  upload: dist/(.*\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot))$
+  secure: always
+  expiration: "1d"
+
+# Fallback to index.html for SPA routing
+- url: /.*
+  static_files: dist/index.html
+  upload: dist/index.html
+  secure: always
+  expiration: "0"
+
+automatic_scaling:
+  min_instances: 0
+  max_instances: 10
+  target_cpu_utilization: 0.6
+  target_throughput_utilization: 0.6
