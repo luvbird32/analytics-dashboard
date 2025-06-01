@@ -51,7 +51,7 @@ interface ChartsGridProps {
 }
 
 /**
- * Organized charts grid layout with improved component architecture
+ * Organized charts grid layout with consistent spacing
  */
 export const ChartsGrid = ({
   metrics,

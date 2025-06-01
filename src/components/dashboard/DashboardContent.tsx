@@ -48,15 +48,15 @@ export const DashboardContent = () => {
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 text-foreground flex items-center justify-center">
-        <div className="text-center p-8">
-          <h2 className="text-2xl font-bold mb-4">Something went wrong</h2>
-          <p className="text-muted-foreground mb-4">{error}</p>
-          <div className="flex gap-4 justify-center">
-            <Button onClick={() => initializeData()}>
+      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 text-foreground flex items-center justify-center p-4">
+        <div className="text-center max-w-md mx-auto">
+          <h2 className="text-xl lg:text-2xl font-semibold mb-4">Something went wrong</h2>
+          <p className="text-muted-foreground mb-6 text-sm lg:text-base">{error}</p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button onClick={() => initializeData()} size="sm" className="w-full sm:w-auto">
               Retry
             </Button>
-            <Button asChild variant="outline">
+            <Button asChild variant="outline" size="sm" className="w-full sm:w-auto">
               <Link to="/">
                 <Home className="mr-2 h-4 w-4" />
                 Back to Home
@@ -72,7 +72,7 @@ export const DashboardContent = () => {
   if (isLoading || !dashboardData) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-        <div className="container mx-auto p-4 lg:p-6 xl:p-8 max-w-[1920px]">
+        <div className="container mx-auto px-4 py-6 lg:px-6 lg:py-8 max-w-7xl">
           <DashboardSkeleton />
         </div>
       </div>
@@ -81,11 +81,11 @@ export const DashboardContent = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 text-foreground">
-      <div className="container mx-auto p-4 lg:p-6 xl:p-8 max-w-[1920px]">
+      <div className="container mx-auto px-4 py-6 lg:px-6 lg:py-8 max-w-7xl">
         <div className="space-y-6 lg:space-y-8">
           {/* Navigation */}
           <div className="flex items-center justify-between">
-            <Button asChild variant="ghost" size="sm">
+            <Button asChild variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
               <Link to="/">
                 <Home className="mr-2 h-4 w-4" />
                 Back to Home
