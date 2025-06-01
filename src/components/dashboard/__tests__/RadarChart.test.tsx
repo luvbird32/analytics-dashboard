@@ -3,8 +3,8 @@ import { render, screen } from '@/test/utils/testUtils';
 import { RadarChart } from '../RadarChart';
 
 const mockRadarData = [
-  { metric: 'Performance', current: 80, previous: 70 },
-  { metric: 'Security', current: 90, previous: 85 }
+  { metric: 'Performance', current: 80, previous: 70, fullMark: 100 },
+  { metric: 'Security', current: 90, previous: 85, fullMark: 100 }
 ];
 
 describe('RadarChart', () => {

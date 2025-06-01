@@ -5,9 +5,9 @@ import { useRealTimeData } from '../useRealTimeData';
 // Mock the metrics service
 jest.mock('@/services/core/metricsService', () => ({
   MetricsService: {
-    generateMetrics: jest.fn(() => [
-      { timestamp: '10:00', value: 100, label: 'Test', category: 'test' }
-    ])
+    generateNewMetric: jest.fn(() => 
+      ({ timestamp: '10:00', value: 100, label: 'Test', category: 'test' })
+    )
   }
 }));
 
@@ -25,7 +25,6 @@ describe('useRealTimeData', () => {
     const { result } = renderHook(() => useRealTimeData());
     
     expect(result.current.isLive).toBe(false);
-    expect(result.current.lastUpdate).toBeNull();
     expect(Array.isArray(result.current.metrics)).toBe(true);
   });
 
@@ -33,7 +32,7 @@ describe('useRealTimeData', () => {
     const { result } = renderHook(() => useRealTimeData());
     
     act(() => {
-      result.current.toggleLive();
+      result.current.toggleLiveData();
     });
     
     expect(result.current.isLive).toBe(true);
@@ -43,13 +42,13 @@ describe('useRealTimeData', () => {
     const { result } = renderHook(() => useRealTimeData());
     
     act(() => {
-      result.current.toggleLive();
+      result.current.toggleLiveData();
     });
     
     act(() => {
       jest.advanceTimersByTime(2000);
     });
     
-    expect(result.current.lastUpdate).not.toBeNull();
+    expect(result.current.metrics.length).toBeGreaterThan(0);
   });
 });

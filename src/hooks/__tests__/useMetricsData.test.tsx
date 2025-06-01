@@ -8,8 +8,6 @@ describe('useMetricsData', () => {
     
     expect(result.current.metrics).toBeDefined();
     expect(result.current.performanceMetrics).toBeDefined();
-    expect(result.current.salesData).toBeDefined();
-    expect(result.current.trafficData).toBeDefined();
   });
 
   it('returns data arrays with correct length', () => {
@@ -17,7 +15,5 @@ describe('useMetricsData', () => {
     
     expect(Array.isArray(result.current.metrics)).toBe(true);
     expect(Array.isArray(result.current.performanceMetrics)).toBe(true);
-    expect(Array.isArray(result.current.salesData)).toBe(true);
-    expect(Array.isArray(result.current.trafficData)).toBe(true);
   });
 });

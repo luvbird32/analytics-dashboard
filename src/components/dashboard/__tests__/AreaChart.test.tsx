@@ -3,8 +3,8 @@ import { render, screen } from '@/test/utils/testUtils';
 import { AreaChart } from '../AreaChart';
 
 const mockAreaData = [
-  { name: 'Jan', desktop: 4000, mobile: 2400, tablet: 1000 },
-  { name: 'Feb', desktop: 3000, mobile: 1398, tablet: 800 }
+  { name: 'Jan', desktop: 4000, mobile: 2400, tablet: 1000, total: 7400 },
+  { name: 'Feb', desktop: 3000, mobile: 1398, tablet: 800, total: 5198 }
 ];
 
 describe('AreaChart', () => {

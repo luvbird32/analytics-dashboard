@@ -3,8 +3,8 @@ import { render, screen } from '@/test/utils/testUtils';
 import { BarChart } from '../BarChart';
 
 const mockBarData = [
-  { name: 'Sales', value: 100, target: 120 },
-  { name: 'Marketing', value: 80, target: 90 }
+  { name: 'Sales', value: 100, target: 120, category: 'Revenue' },
+  { name: 'Marketing', value: 80, target: 90, category: 'Growth' }
 ];
 
 describe('BarChart', () => {
