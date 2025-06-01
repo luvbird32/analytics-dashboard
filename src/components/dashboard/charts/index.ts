@@ -12,3 +12,9 @@ export { ScatterChart } from './ScatterChart';
 export { EngagementChart } from './EngagementChart';
 export { SentimentChart } from './SentimentChart';
 export { HashtagChart } from './HashtagChart';
+
+// ECharts components
+export { EChartsWrapper } from './EChartsWrapper';
+export { GeographicHeatMap } from './GeographicHeatMap';
+export { BrushChart } from './BrushChart';
+export { Surface3DChart } from './Surface3DChart';

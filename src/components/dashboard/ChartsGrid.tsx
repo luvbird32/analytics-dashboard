@@ -1,9 +1,11 @@
+
 import { MainChartsSection } from './sections/MainChartsSection';
 import { SalesTrafficSection } from './sections/SalesTrafficSection';
 import { SocialMediaSection } from './sections/SocialMediaSection';
 import { CryptocurrencySection } from './sections/CryptocurrencySection';
 import { AdvancedAnalyticsSection } from './sections/AdvancedAnalyticsSection';
 import { SpecializedChartsSection } from './sections/SpecializedChartsSection';
+import { EChartsSection } from './sections/EChartsSection';
 import { DetailedAnalyticsSection } from './analytics/DetailedAnalyticsSection';
 import {
   MetricData,
@@ -86,6 +88,9 @@ export const ChartsGrid = ({
         onClearNotifications={onClearNotifications}
         onMarkNotificationAsRead={onMarkNotificationAsRead}
       />
+
+      {/* ECharts Advanced Visualizations */}
+      <EChartsSection />
 
       {/* Detailed Analytics Section */}
       <DetailedAnalyticsSection />
