@@ -15,7 +15,7 @@ import {
   BarChart,
   ScatterChart
 } from './charts';
-import { createMemoizedChart, defaultChartComparison, liveChartComparison } from '@/utils/chartMemoization';
+import { createMemoizedChart, defaultChartComparison, liveChartComparison, sankeyChartComparison } from '@/utils/chartMemoization';
 
 /**
  * Memoized chart components with error boundaries
@@ -49,7 +49,7 @@ export const MemoizedFunnelChart = createMemoizedChart(FunnelChart, 'FunnelChart
 export const MemoizedGaugeChart = createMemoizedChart(GaugeChart, 'GaugeChart', defaultChartComparison);
 export const MemoizedCandlestickChart = createMemoizedChart(CandlestickChart, 'CandlestickChart', defaultChartComparison);
 export const MemoizedDonutChart = createMemoizedChart(DonutChart, 'DonutChart', defaultChartComparison);
-export const MemoizedSankeyChart = createMemoizedChart(SankeyChart, 'SankeyChart', defaultChartComparison);
+export const MemoizedSankeyChart = createMemoizedChart(SankeyChart, 'SankeyChart', sankeyChartComparison);
 export const MemoizedCryptoChart = createMemoizedChart(
   CryptoChart, 
   'CryptoChart', 

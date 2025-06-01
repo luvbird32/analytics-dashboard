@@ -71,6 +71,35 @@ export const liveChartComparison = <T extends ChartProps & { isLive?: boolean }>
 };
 
 /**
+ * Sankey chart comparison for components with SankeyData structure
+ */
+export const sankeyChartComparison = <T extends BaseProps>(
+  prevProps: T,
+  nextProps: T
+): boolean => {
+  // Compare data objects (not arrays)
+  if (JSON.stringify(prevProps.data) !== JSON.stringify(nextProps.data)) {
+    return false;
+  }
+
+  // Compare other props
+  const prevKeys = Object.keys(prevProps);
+  const nextKeys = Object.keys(nextProps);
+
+  if (prevKeys.length !== nextKeys.length) {
+    return false;
+  }
+
+  for (const key of prevKeys) {
+    if (key !== 'data' && prevProps[key] !== nextProps[key]) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+/**
  * Generic comparison function for any props
  */
 export const genericPropsComparison = <T extends BaseProps>(
