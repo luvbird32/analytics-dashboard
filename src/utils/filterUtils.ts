@@ -13,8 +13,18 @@ export class FilterUtils {
     metrics: PerformanceMetric[], 
     filters: DashboardFilters
   ): PerformanceMetric[] {
-    if (filters.category.length === 0) return metrics;
-    return metrics.filter(metric => filters.category.includes(metric.category));
+    let filteredMetrics = metrics;
+
+    // Filter by category if specified
+    if (filters.category.length > 0) {
+      filteredMetrics = filteredMetrics.filter(metric => 
+        filters.category.includes(metric.category)
+      );
+    }
+
+    // Additional filtering logic can be added here for region, userType, etc.
+    
+    return filteredMetrics;
   }
 
   /**

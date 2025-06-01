@@ -14,36 +14,68 @@ export const mockMetrics: MetricData[] = [
   {
     timestamp: '10:00',
     value: 1250,
-    type: 'revenue'
+    label: 'Revenue',
+    category: 'revenue'
   },
   {
     timestamp: '11:00', 
     value: 1350,
-    type: 'revenue'
+    label: 'Revenue',
+    category: 'revenue'
   }
 ];
 
 export const mockPerformanceMetrics: PerformanceMetric[] = [
   {
+    id: 'revenue-1',
     title: 'Total Revenue',
     value: 45678,
     unit: '$',
     change: 12.5,
-    trend: 'up' as const
+    trend: 'up' as const,
+    category: 'revenue' as const,
+    priority: 'high' as const
   },
   {
+    id: 'users-1',
     title: 'Active Users',
     value: 2847,
     unit: '',
     change: -2.3,
-    trend: 'down' as const
+    trend: 'down' as const,
+    category: 'users' as const,
+    priority: 'medium' as const
   }
 ];
 
 export const mockSalesData: SalesData[] = [
-  { month: 'Jan', revenue: 4000, orders: 240 },
-  { month: 'Feb', revenue: 3000, orders: 198 },
-  { month: 'Mar', revenue: 2000, orders: 156 }
+  { 
+    month: 'Jan', 
+    revenue: 4000, 
+    orders: 240, 
+    customers: 180, 
+    profit: 1200, 
+    expenses: 2800, 
+    target: 4500 
+  },
+  { 
+    month: 'Feb', 
+    revenue: 3000, 
+    orders: 198, 
+    customers: 165, 
+    profit: 900, 
+    expenses: 2100, 
+    target: 3500 
+  },
+  { 
+    month: 'Mar', 
+    revenue: 2000, 
+    orders: 156, 
+    customers: 142, 
+    profit: 600, 
+    expenses: 1400, 
+    target: 2500 
+  }
 ];
 
 export const mockTrafficData: TrafficData[] = [

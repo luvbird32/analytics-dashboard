@@ -6,7 +6,7 @@ describe('FilterUtils', () => {
   describe('filterPerformanceMetrics', () => {
     it('returns all metrics when no filters applied', () => {
       const filters = {
-        dateRange: '30d',
+        dateRange: '30d' as const,
         category: [],
         region: [],
         userType: []
@@ -19,7 +19,7 @@ describe('FilterUtils', () => {
 
     it('filters metrics correctly', () => {
       const filters = {
-        dateRange: '7d',
+        dateRange: '7d' as const,
         category: ['revenue'],
         region: [],
         userType: []
