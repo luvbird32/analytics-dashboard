@@ -48,7 +48,16 @@ const DashboardContent = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 text-foreground flex items-center justify-center">
-        <ErrorBoundary />
+        <div className="text-center p-8">
+          <h2 className="text-2xl font-bold mb-4">Something went wrong</h2>
+          <p className="text-muted-foreground mb-4">Please try refreshing the page.</p>
+          <button 
+            onClick={refreshData}
+            className="px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90"
+          >
+            Refresh
+          </button>
+        </div>
       </div>
     );
   }
