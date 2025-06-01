@@ -6,6 +6,7 @@ import { DashboardHeader } from '../DashboardHeader';
 import { MetricsSection } from '../MetricsSection';
 import { ChartsGrid } from '../ChartsGrid';
 import { DashboardFooter } from '../DashboardFooter';
+import { AIManagementSection } from '../sections/AIManagementSection';
 
 interface DashboardSectionsProps {
   dashboardData: any;
@@ -45,6 +46,13 @@ export const DashboardSections = ({
           onFiltersChange={setFilters}
           onExport={() => console.log('Export functionality')}
         />
+      </ErrorBoundary>
+
+      {/* AI Management Section */}
+      <ErrorBoundary>
+        <Suspense fallback={<DashboardSkeleton />}>
+          <AIManagementSection data={dashboardData.metrics || []} />
+        </Suspense>
       </ErrorBoundary>
 
       {/* Metrics Section */}
