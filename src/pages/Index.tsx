@@ -1,5 +1,7 @@
-
 import React, { Suspense } from 'react';
+import { Link } from 'react-router-dom';
+import { Home } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { DashboardProvider } from '@/contexts/DashboardContext';
 import { LoadingProvider, DashboardSkeleton } from '@/components/LoadingProvider';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -51,12 +53,20 @@ const DashboardContent = () => {
         <div className="text-center p-8">
           <h2 className="text-2xl font-bold mb-4">Something went wrong</h2>
           <p className="text-muted-foreground mb-4">Please try refreshing the page.</p>
-          <button 
-            onClick={refreshData}
-            className="px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90"
-          >
-            Refresh
-          </button>
+          <div className="flex gap-4 justify-center">
+            <button 
+              onClick={refreshData}
+              className="px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90"
+            >
+              Refresh
+            </button>
+            <Button asChild variant="outline">
+              <Link to="/">
+                <Home className="mr-2 h-4 w-4" />
+                Back to Home
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -66,6 +76,16 @@ const DashboardContent = () => {
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 text-foreground">
       <div className="container mx-auto p-4 lg:p-6 xl:p-8 max-w-[1920px]">
         <div className="space-y-6 lg:space-y-8">
+          {/* Navigation back to landing */}
+          <div className="flex items-center justify-between">
+            <Button asChild variant="ghost" size="sm">
+              <Link to="/">
+                <Home className="mr-2 h-4 w-4" />
+                Back to Home
+              </Link>
+            </Button>
+          </div>
+
           {/* Header with Controls and Filters */}
           <ErrorBoundary>
             <DashboardHeader

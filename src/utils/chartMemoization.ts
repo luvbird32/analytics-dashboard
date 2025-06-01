@@ -1,39 +1,71 @@
 
 import { memo } from 'react';
-import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 /**
- * Utility for creating memoized chart components with error boundaries
+ * Chart memoization utilities for performance optimization
  */
-export const createMemoizedChart = <T extends Record<string, any>>(
+
+// Generic type for chart component props
+interface ChartProps {
+  data: any[];
+  [key: string]: any;
+}
+
+/**
+ * Creates a memoized version of a chart component
+ * @param Component - The chart component to memoize
+ * @param propsAreEqual - Optional custom comparison function
+ * @returns Memoized chart component
+ */
+export const memoizeChart = <T extends ChartProps>(
   Component: React.ComponentType<T>,
-  displayName: string,
-  compareProps?: (prevProps: T, nextProps: T) => boolean
+  propsAreEqual?: (prevProps: T, nextProps: T) => boolean
 ) => {
-  const MemoizedComponent = memo((props: T) => (
-    <ErrorBoundary>
-      <Component {...props} />
-    </ErrorBoundary>
-  ), compareProps);
-
-  MemoizedComponent.displayName = `Memoized${displayName}`;
-  
-  return MemoizedComponent;
+  return memo(Component, propsAreEqual);
 };
 
 /**
- * Default comparison function for chart data
+ * Default props comparison for chart components
+ * Compares data arrays and other props for equality
  */
-export const defaultChartComparison = (prevProps: any, nextProps: any) => {
-  return JSON.stringify(prevProps.data) === JSON.stringify(nextProps.data);
+export const defaultChartPropsAreEqual = <T extends ChartProps>(
+  prevProps: T,
+  nextProps: T
+): boolean => {
+  // Compare data arrays
+  if (prevProps.data.length !== nextProps.data.length) {
+    return false;
+  }
+
+  // Deep comparison of data array
+  for (let i = 0; i < prevProps.data.length; i++) {
+    if (JSON.stringify(prevProps.data[i]) !== JSON.stringify(nextProps.data[i])) {
+      return false;
+    }
+  }
+
+  // Compare other props
+  const prevKeys = Object.keys(prevProps);
+  const nextKeys = Object.keys(nextProps);
+
+  if (prevKeys.length !== nextKeys.length) {
+    return false;
+  }
+
+  for (const key of prevKeys) {
+    if (key !== 'data' && prevProps[key] !== nextProps[key]) {
+      return false;
+    }
+  }
+
+  return true;
 };
 
 /**
- * Comparison function for live charts with isLive prop
+ * Creates a memoized chart with default comparison
  */
-export const liveChartComparison = (prevProps: any, nextProps: any) => {
-  return (
-    JSON.stringify(prevProps.data) === JSON.stringify(nextProps.data) &&
-    prevProps.isLive === nextProps.isLive
-  );
+export const createMemoizedChart = <T extends ChartProps>(
+  Component: React.ComponentType<T>
+) => {
+  return memoizeChart(Component, defaultChartPropsAreEqual);
 };
