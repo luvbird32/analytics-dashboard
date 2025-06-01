@@ -1,5 +1,5 @@
-
 import { MetricData, PerformanceMetric } from '@/types/dashboard';
+import { AnalyticsMetricsService } from './analyticsMetricsService';
 
 /**
  * Service for generating detailed analytics data
@@ -10,30 +10,10 @@ export class DetailedAnalyticsService {
    */
   static generateUserBehaviorAnalytics() {
     return {
-      sessionDuration: {
-        average: 8.5,
-        median: 6.2,
-        trend: 'up' as const,
-        change: 12.3
-      },
-      pageViews: {
-        total: 156789,
-        unique: 89234,
-        trend: 'up' as const,
-        change: 8.7
-      },
-      bounceRate: {
-        rate: 34.2,
-        trend: 'down' as const,
-        change: -5.1
-      },
-      conversionFunnel: [
-        { stage: 'Landing Page', users: 10000, conversion: 100 },
-        { stage: 'Product View', users: 7500, conversion: 75 },
-        { stage: 'Add to Cart', users: 3200, conversion: 32 },
-        { stage: 'Checkout', users: 2100, conversion: 21 },
-        { stage: 'Purchase', users: 1800, conversion: 18 }
-      ]
+      sessionDuration: AnalyticsMetricsService.calculateSessionMetrics(),
+      pageViews: AnalyticsMetricsService.calculatePageViewMetrics(),
+      bounceRate: AnalyticsMetricsService.calculateBounceRateMetrics(),
+      conversionFunnel: AnalyticsMetricsService.generateConversionFunnel()
     };
   }
 

@@ -1,38 +1,22 @@
 
-import { useCallback, useEffect } from 'react';
-import { useMetricsData } from './useMetricsData';
-import { useChartsData } from './useChartsData';
-import { useDashboardState } from './useDashboardState';
+import { useEffect } from 'react';
+import { useRealTimeCoordinator } from './useRealTimeCoordinator';
 
 /**
- * Hook for managing real-time data updates
+ * Hook for managing real-time data updates with coordination
  */
 export const useRealTimeUpdates = () => {
-  const { state, addNotification } = useDashboardState();
-  const { updateMetrics } = useMetricsData();
-  const { updateTrafficData } = useChartsData();
-
-  const updateRealTimeData = useCallback(() => {
-    if (!state.isLive) return;
-
-    console.log('📊 Updating real-time data...');
-
-    // Batch updates to reduce re-renders
-    requestAnimationFrame(() => {
-      updateMetrics(state.isLive, addNotification);
-      updateTrafficData(state.isLive);
-    });
-  }, [state.isLive, updateMetrics, updateTrafficData, addNotification]);
+  const { coordinateUpdates, isLive } = useRealTimeCoordinator();
 
   // Set up real-time updates with cleanup
   useEffect(() => {
-    if (!state.isLive) return;
+    if (!isLive) return;
     
-    const interval = setInterval(updateRealTimeData, 1500);
+    const interval = setInterval(coordinateUpdates, 1500);
     return () => clearInterval(interval);
-  }, [state.isLive, updateRealTimeData]);
+  }, [isLive, coordinateUpdates]);
 
   return {
-    updateRealTimeData
+    updateRealTimeData: coordinateUpdates
   };
 };

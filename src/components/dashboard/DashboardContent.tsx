@@ -1,22 +1,14 @@
 
-import React, { useEffect, Suspense, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Home } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useDashboardData } from '@/hooks/useDashboardData';
+import React, { useEffect, useState } from 'react';
 import { DashboardDataService } from '@/services/dashboardDataService';
-import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { DashboardSkeleton } from '@/components/LoadingProvider';
-import { DashboardHeader } from './DashboardHeader';
-import { MetricsSection } from './MetricsSection';
-import { ChartsGrid } from './ChartsGrid';
-import { DashboardFooter } from './DashboardFooter';
+import { DashboardLayout } from './layout/DashboardLayout';
+import { DashboardErrorState } from './layout/DashboardErrorState';
+import { DashboardSections } from './layout/DashboardSections';
+import { useDashboardOrchestration } from '@/hooks/useDashboardOrchestration';
 
 /**
- * Main dashboard content component following best practices
- * - Single responsibility: Orchestrates dashboard layout
- * - Proper error handling and loading states
- * - Clean separation of concerns
+ * Main dashboard content component - now focused and clean
  */
 export const DashboardContent = () => {
   const {
@@ -25,12 +17,13 @@ export const DashboardContent = () => {
     notifications,
     isLoading,
     error,
-    initializeData,
     toggleLiveData,
     setFilters,
     clearNotifications,
-    markNotificationAsRead
-  } = useDashboardData();
+    markNotificationAsRead,
+    handleRefresh,
+    generateInitialData
+  } = useDashboardOrchestration();
 
   const [dashboardData, setDashboardData] = useState<any>(null);
 
@@ -39,125 +32,39 @@ export const DashboardContent = () => {
     try {
       const data = DashboardDataService.generateInitialData();
       setDashboardData(data);
-      initializeData();
+      generateInitialData();
     } catch (error) {
       console.error('Failed to initialize dashboard data:', error);
     }
-  }, [initializeData]);
+  }, [generateInitialData]);
 
   // Error state
   if (error) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 text-foreground flex items-center justify-center p-4">
-        <div className="text-center max-w-md mx-auto">
-          <h2 className="text-xl lg:text-2xl font-semibold mb-4">Something went wrong</h2>
-          <p className="text-muted-foreground mb-6 text-sm lg:text-base">{error}</p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button onClick={() => initializeData()} size="sm" className="w-full sm:w-auto">
-              Retry
-            </Button>
-            <Button asChild variant="outline" size="sm" className="w-full sm:w-auto">
-              <Link to="/">
-                <Home className="mr-2 h-4 w-4" />
-                Back to Home
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </div>
-    );
+    return <DashboardErrorState error={error} onRetry={handleRefresh} />;
   }
 
   // Loading state
   if (isLoading || !dashboardData) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
-        <div className="container mx-auto px-4 py-6 lg:px-6 lg:py-8 max-w-7xl">
-          <DashboardSkeleton />
-        </div>
-      </div>
+      <DashboardLayout>
+        <DashboardSkeleton />
+      </DashboardLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 text-foreground">
-      <div className="container mx-auto px-4 py-6 lg:px-6 lg:py-8 max-w-7xl">
-        <div className="space-y-6 lg:space-y-8">
-          {/* Navigation */}
-          <div className="flex items-center justify-between">
-            <Button asChild variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-              <Link to="/">
-                <Home className="mr-2 h-4 w-4" />
-                Back to Home
-              </Link>
-            </Button>
-          </div>
-
-          {/* Dashboard Header */}
-          <ErrorBoundary>
-            <DashboardHeader
-              isLive={isLive}
-              filters={filters}
-              onToggleLive={toggleLiveData}
-              onRefresh={initializeData}
-              onFiltersChange={setFilters}
-              onExport={() => console.log('Export functionality')}
-            />
-          </ErrorBoundary>
-
-          {/* Metrics Section */}
-          <ErrorBoundary>
-            <Suspense fallback={<DashboardSkeleton />}>
-              <MetricsSection
-                performanceMetrics={dashboardData.performanceMetrics || []}
-                filters={filters}
-                onFiltersChange={setFilters}
-                onExport={() => console.log('Export metrics')}
-              />
-            </Suspense>
-          </ErrorBoundary>
-
-          {/* Charts Grid */}
-          <ErrorBoundary>
-            <Suspense fallback={<DashboardSkeleton />}>
-              <ChartsGrid
-                metrics={dashboardData.metrics || []}
-                salesData={dashboardData.salesData || []}
-                trafficData={dashboardData.trafficData || []}
-                areaData={dashboardData.areaData || []}
-                radarData={dashboardData.radarData || []}
-                notifications={notifications}
-                treemapData={dashboardData.treemapData || []}
-                scatterData={dashboardData.scatterData || []}
-                funnelData={dashboardData.funnelData || []}
-                gaugeData={dashboardData.gaugeData || []}
-                sankeyData={dashboardData.sankeyData || { nodes: [], links: [] }}
-                candlestickData={dashboardData.candlestickData || []}
-                donutData={dashboardData.donutData || []}
-                barData={dashboardData.barData || []}
-                sentimentData={dashboardData.sentimentData || []}
-                engagementData={dashboardData.engagementData || []}
-                cryptoData={dashboardData.cryptoData || []}
-                hashtagData={dashboardData.hashtagData || []}
-                isLive={isLive}
-                onClearNotifications={clearNotifications}
-                onMarkNotificationAsRead={markNotificationAsRead}
-              />
-            </Suspense>
-          </ErrorBoundary>
-
-          {/* Dashboard Footer */}
-          <ErrorBoundary>
-            <DashboardFooter
-              metrics={dashboardData.metrics || []}
-              performanceMetrics={dashboardData.performanceMetrics || []}
-              notifications={notifications}
-              filters={filters}
-              isLive={isLive}
-            />
-          </ErrorBoundary>
-        </div>
-      </div>
-    </div>
+    <DashboardLayout>
+      <DashboardSections
+        dashboardData={dashboardData}
+        isLive={isLive}
+        filters={filters}
+        notifications={notifications}
+        toggleLiveData={toggleLiveData}
+        initializeData={handleRefresh}
+        setFilters={setFilters}
+        clearNotifications={clearNotifications}
+        markNotificationAsRead={markNotificationAsRead}
+      />
+    </DashboardLayout>
   );
 };

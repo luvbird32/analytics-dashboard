@@ -6,6 +6,11 @@ export { DashboardFooter } from './DashboardFooter';
 export { MetricsSection } from './MetricsSection';
 export { ChartsGrid } from './ChartsGrid';
 
+// Layout components
+export { DashboardLayout } from './layout/DashboardLayout';
+export { DashboardErrorState } from './layout/DashboardErrorState';
+export { DashboardSections } from './layout/DashboardSections';
+
 // Chart components
 export { LiveChart } from './LiveChart';
 export { SalesChart } from './SalesChart';
