@@ -83,7 +83,29 @@ export const useChartsGridData = (props: UseChartsGridDataProps) => {
       donutData: props.donutData,
       barData: props.barData
     }
-  }), [props]);
+  }), [
+    props.metrics,
+    props.notifications,
+    props.isLive,
+    props.onClearNotifications,
+    props.onMarkNotificationAsRead,
+    props.salesData,
+    props.trafficData,
+    props.sentimentData,
+    props.engagementData,
+    props.hashtagData,
+    props.cryptoData,
+    props.candlestickData,
+    props.areaData,
+    props.radarData,
+    props.sankeyData,
+    props.treemapData,
+    props.scatterData,
+    props.funnelData,
+    props.gaugeData,
+    props.donutData,
+    props.barData
+  ]);
 
   return sectionsData;
 };
