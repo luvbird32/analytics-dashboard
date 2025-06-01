@@ -107,6 +107,20 @@ export const ChartsGrid = ({
         </div>
       </div>
 
+      {/* Financial & Trading Charts */}
+      <div>
+        <h2 className="text-lg sm:text-xl font-semibold mb-4 flex items-center gap-2">
+          <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5" />
+          Financial Analysis
+        </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+          <CandlestickChart data={candlestickData} />
+          <div className="lg:col-span-1">
+            <SankeyChart data={sankeyData} />
+          </div>
+        </div>
+      </div>
+
       {/* Specialized Charts - Mobile Friendly Grid */}
       <div>
         <h2 className="text-lg sm:text-xl font-semibold mb-4 flex items-center gap-2">
@@ -120,12 +134,6 @@ export const ChartsGrid = ({
           <GaugeChart data={gaugeData} />
           <DonutChart data={donutData} />
           <BarChart data={barData} />
-          <div className="sm:col-span-2 xl:col-span-1">
-            <SankeyChart data={sankeyData} />
-          </div>
-          <div className="sm:col-span-2 xl:col-span-1">
-            <CandlestickChart data={candlestickData} />
-          </div>
         </div>
       </div>
     </>
