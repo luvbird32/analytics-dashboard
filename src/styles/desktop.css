@@ -1,0 +1,59 @@
+
+@layer utilities {
+  /* Desktop optimizations */
+  .desktop-container {
+    @apply max-w-[1920px] mx-auto;
+  }
+  
+  /* Better desktop hover states */
+  .desktop-hover {
+    @apply transition-all duration-200 ease-in-out;
+  }
+  
+  .desktop-hover:hover {
+    @apply transform scale-[1.02] shadow-lg;
+  }
+  
+  /* Desktop-specific spacing */
+  @media (min-width: 1024px) {
+    .desktop-spacing {
+      @apply space-y-8;
+    }
+    
+    .desktop-grid-spacing {
+      @apply gap-8;
+    }
+  }
+  
+  @media (min-width: 1536px) {
+    .desktop-spacing {
+      @apply space-y-10;
+    }
+    
+    .desktop-grid-spacing {
+      @apply gap-10;
+    }
+  }
+}
+
+/* Desktop-specific improvements */
+@media (min-width: 1024px) {
+  /* Enhanced card styling for desktop */
+  .card-desktop {
+    @apply p-6 hover:shadow-lg transition-shadow duration-200;
+  }
+  
+  /* Better typography for larger screens */
+  .text-desktop-heading {
+    @apply text-2xl lg:text-3xl xl:text-4xl;
+  }
+  
+  .text-desktop-body {
+    @apply text-base lg:text-lg;
+  }
+  
+  /* Improved button styling for desktop */
+  .button-desktop {
+    @apply py-3 px-6 text-base hover:scale-105 transition-transform duration-200;
+  }
+}
