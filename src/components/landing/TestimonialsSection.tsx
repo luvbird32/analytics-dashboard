@@ -35,39 +35,39 @@ export const TestimonialsSection = () => {
   ];
 
   return (
-    <section id="testimonials" className="py-24 bg-gradient-to-br from-blue-50 to-red-50">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+    <section id="testimonials" className="py-12 sm:py-16 md:py-24 bg-gradient-to-br from-blue-50 to-red-50 px-4">
+      <div className="container mx-auto">
+        <div className="text-center mb-8 sm:mb-12 md:mb-16">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-3 sm:mb-4">
             What Our Customers Say
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
             Trusted by thousands of businesses worldwide for their analytics needs
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="bg-white/80 backdrop-blur hover:shadow-lg transition-shadow duration-300">
-              <CardContent className="p-6">
-                <Quote className="h-8 w-8 text-primary mb-4" />
-                <p className="text-gray-700 mb-6 leading-relaxed">
+            <Card key={index} className="bg-white/90 backdrop-blur hover:shadow-lg transition-shadow duration-300 card-mobile">
+              <CardContent className="p-4 sm:p-6">
+                <Quote className="h-6 w-6 sm:h-8 sm:w-8 text-primary mb-3 sm:mb-4" />
+                <p className="text-gray-700 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
                   "{testimonial.content}"
                 </p>
-                <div className="flex items-center gap-1 mb-4">
+                <div className="flex items-center gap-1 mb-3 sm:mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <Star key={i} className="h-3 w-3 sm:h-4 sm:w-4 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
                 <div className="flex items-center gap-3">
                   <img 
                     src={testimonial.avatar} 
                     alt={testimonial.name}
-                    className="w-12 h-12 rounded-full"
+                    className="w-10 h-10 sm:w-12 sm:h-12 rounded-full"
                   />
                   <div>
-                    <div className="font-semibold text-gray-900">{testimonial.name}</div>
-                    <div className="text-sm text-gray-600">{testimonial.role} at {testimonial.company}</div>
+                    <div className="font-semibold text-gray-900 text-sm sm:text-base">{testimonial.name}</div>
+                    <div className="text-xs sm:text-sm text-gray-600">{testimonial.role} at {testimonial.company}</div>
                   </div>
                 </div>
               </CardContent>
