@@ -2,23 +2,24 @@
 import React from 'react';
 import ReactECharts from 'echarts-for-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { EChartsOption, EChartsEvent } from '@/types/echarts';
 
 interface EChartsWrapperProps {
-  option: any;
+  option: EChartsOption;
   title: string;
   height?: number;
-  onEvents?: Record<string, (params: any) => void>;
+  onEvents?: Record<string, (params: EChartsEvent) => void>;
 }
 
 /**
  * Reusable ECharts wrapper component with consistent styling
  */
-export const EChartsWrapper = ({ 
+export const EChartsWrapper: React.FC<EChartsWrapperProps> = ({ 
   option, 
   title, 
   height = 400,
   onEvents 
-}: EChartsWrapperProps) => {
+}) => {
   return (
     <Card className="animate-fade-in h-full">
       <CardHeader>

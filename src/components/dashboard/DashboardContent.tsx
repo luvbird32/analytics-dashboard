@@ -10,7 +10,7 @@ import { useDashboardOrchestration } from '@/hooks/useDashboardOrchestration';
 /**
  * Main dashboard content component - now focused and clean
  */
-export const DashboardContent = () => {
+export const DashboardContent: React.FC = () => {
   const {
     isLive,
     filters,

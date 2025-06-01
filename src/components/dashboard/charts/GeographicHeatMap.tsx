@@ -1,12 +1,7 @@
 
 import React from 'react';
 import { EChartsWrapper } from './EChartsWrapper';
-
-interface GeographicData {
-  name: string;
-  value: number;
-  coordinates: [number, number];
-}
+import { GeographicData, EChartsOption } from '@/types/echarts';
 
 interface GeographicHeatMapProps {
   data: GeographicData[];
@@ -15,8 +10,8 @@ interface GeographicHeatMapProps {
 /**
  * Geographic heat map using ECharts with zoom and pan capabilities
  */
-export const GeographicHeatMap = ({ data }: GeographicHeatMapProps) => {
-  const option = {
+export const GeographicHeatMap: React.FC<GeographicHeatMapProps> = ({ data }) => {
+  const option: EChartsOption = {
     title: {
       text: 'Global User Distribution',
       left: 'center',
@@ -30,7 +25,7 @@ export const GeographicHeatMap = ({ data }: GeographicHeatMapProps) => {
     },
     geo: {
       map: 'world',
-      roam: true, // Enable zoom and pan
+      roam: true,
       zoom: 1.2,
       center: [0, 20],
       itemStyle: {

@@ -1,12 +1,7 @@
 
 import React from 'react';
 import { EChartsWrapper } from './EChartsWrapper';
-
-interface Surface3DData {
-  x: number;
-  y: number;
-  z: number;
-}
+import { Surface3DData, EChartsOption } from '@/types/echarts';
 
 interface Surface3DChartProps {
   data: Surface3DData[];
@@ -15,11 +10,10 @@ interface Surface3DChartProps {
 /**
  * 3D surface chart for advanced data visualization
  */
-export const Surface3DChart = ({ data }: Surface3DChartProps) => {
-  // Convert data to ECharts 3D format
+export const Surface3DChart: React.FC<Surface3DChartProps> = ({ data }) => {
   const surfaceData = data.map(item => [item.x, item.y, item.z]);
 
-  const option = {
+  const option: EChartsOption = {
     title: {
       text: '3D Performance Surface',
       left: 'center'
