@@ -43,7 +43,11 @@ export const CTASection = () => {
               Start Free Trial
               <ArrowRight className="ml-3 h-5 w-5 sm:h-6 sm:w-6" />
             </Button>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 border-2 border-white text-white hover:bg-white hover:text-primary tap-target touch-manipulation transition-all duration-300 transform hover:scale-105 min-h-[64px]">
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="w-full sm:w-auto text-lg sm:text-xl px-8 sm:px-12 py-4 sm:py-6 tap-target touch-manipulation transition-all duration-300 transform hover:scale-105 min-h-[64px] border-2 border-white bg-transparent text-white hover:bg-white hover:text-primary"
+            >
               Schedule Demo
             </Button>
           </div>
