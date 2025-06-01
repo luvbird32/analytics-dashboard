@@ -4,16 +4,72 @@
  */
 export class DataGeneratorService {
   /**
+   * Generates initial metrics data for testing
+   */
+  static generateInitialMetrics() {
+    const data = [];
+    for (let i = 0; i < 20; i++) {
+      data.push({
+        timestamp: `${String(i).padStart(2, '0')}:00`,
+        value: Math.floor(Math.random() * 1000) + 100,
+        label: `Metric ${i + 1}`,
+        category: ['revenue', 'users', 'conversion'][Math.floor(Math.random() * 3)]
+      });
+    }
+    return data;
+  }
+
+  /**
+   * Generates a single new metric for real-time updates
+   */
+  static generateNewMetric(index: number) {
+    return {
+      timestamp: new Date().toLocaleTimeString(),
+      value: Math.floor(Math.random() * 1000) + 100,
+      label: `Live ${index}`,
+      category: ['revenue', 'users', 'conversion'][Math.floor(Math.random() * 3)]
+    };
+  }
+
+  /**
+   * Generates sales data for charts
+   */
+  static generateSalesData() {
+    return [
+      { month: 'Jan', revenue: 4000, orders: 240, customers: 180, profit: 1200, expenses: 2800, target: 4500 },
+      { month: 'Feb', revenue: 3000, orders: 198, customers: 165, profit: 900, expenses: 2100, target: 3500 },
+      { month: 'Mar', revenue: 2000, orders: 156, customers: 142, profit: 600, expenses: 1400, target: 2500 },
+      { month: 'Apr', revenue: 2780, orders: 208, customers: 167, profit: 834, expenses: 1946, target: 3200 },
+      { month: 'May', revenue: 1890, orders: 134, customers: 121, profit: 567, expenses: 1323, target: 2100 },
+      { month: 'Jun', revenue: 2390, orders: 167, customers: 143, profit: 717, expenses: 1673, target: 2800 }
+    ];
+  }
+
+  /**
+   * Generates traffic data for charts
+   */
+  static generateTrafficData() {
+    return [
+      { name: 'Organic Search', value: 4000, color: '#8884d8', sessions: 12500, growth: 15.2 },
+      { name: 'Direct', value: 3000, color: '#82ca9d', sessions: 8900, growth: 8.7 },
+      { name: 'Social Media', value: 2000, color: '#ffc658', sessions: 5600, growth: 22.1 },
+      { name: 'Paid Ads', value: 2780, color: '#ff7300', sessions: 7800, growth: -3.4 },
+      { name: 'Email', value: 1890, color: '#00ff88', sessions: 4200, growth: 12.8 },
+      { name: 'Referral', value: 2390, color: '#ff0088', sessions: 3100, growth: 6.9 }
+    ];
+  }
+
+  /**
    * Generates radar chart data for performance metrics
    */
   static generateRadarData() {
     return [
-      { metric: 'Sales', current: 85, previous: 75 },
-      { metric: 'Marketing', current: 92, previous: 88 },
-      { metric: 'Support', current: 78, previous: 82 },
-      { metric: 'Development', current: 88, previous: 85 },
-      { metric: 'Quality', current: 95, previous: 90 },
-      { metric: 'Operations', current: 82, previous: 79 }
+      { metric: 'Sales', current: 85, previous: 75, fullMark: 100 },
+      { metric: 'Marketing', current: 92, previous: 88, fullMark: 100 },
+      { metric: 'Support', current: 78, previous: 82, fullMark: 100 },
+      { metric: 'Development', current: 88, previous: 85, fullMark: 100 },
+      { metric: 'Quality', current: 95, previous: 90, fullMark: 100 },
+      { metric: 'Operations', current: 82, previous: 79, fullMark: 100 }
     ];
   }
 
@@ -22,12 +78,12 @@ export class DataGeneratorService {
    */
   static generateAreaData() {
     return [
-      { name: 'Jan', desktop: 4000, mobile: 2400, tablet: 1200 },
-      { name: 'Feb', desktop: 3000, mobile: 1398, tablet: 1100 },
-      { name: 'Mar', desktop: 2000, mobile: 9800, tablet: 1300 },
-      { name: 'Apr', desktop: 2780, mobile: 3908, tablet: 1400 },
-      { name: 'May', desktop: 1890, mobile: 4800, tablet: 1500 },
-      { name: 'Jun', desktop: 2390, mobile: 3800, tablet: 1600 }
+      { name: 'Jan', desktop: 4000, mobile: 2400, tablet: 1200, total: 7600 },
+      { name: 'Feb', desktop: 3000, mobile: 1398, tablet: 1100, total: 5498 },
+      { name: 'Mar', desktop: 2000, mobile: 9800, tablet: 1300, total: 13100 },
+      { name: 'Apr', desktop: 2780, mobile: 3908, tablet: 1400, total: 8088 },
+      { name: 'May', desktop: 1890, mobile: 4800, tablet: 1500, total: 8190 },
+      { name: 'Jun', desktop: 2390, mobile: 3800, tablet: 1600, total: 7790 }
     ];
   }
 
@@ -36,12 +92,12 @@ export class DataGeneratorService {
    */
   static generateTreemapData() {
     return [
-      { name: 'Product A', value: 400, category: 'Electronics' },
-      { name: 'Product B', value: 300, category: 'Electronics' },
-      { name: 'Service X', value: 300, category: 'Services' },
-      { name: 'Service Y', value: 200, category: 'Services' },
-      { name: 'Book 1', value: 150, category: 'Books' },
-      { name: 'Book 2', value: 100, category: 'Books' }
+      { name: 'Product A', value: 400, category: 'Electronics', color: '#8884d8' },
+      { name: 'Product B', value: 300, category: 'Electronics', color: '#82ca9d' },
+      { name: 'Service X', value: 300, category: 'Services', color: '#ffc658' },
+      { name: 'Service Y', value: 200, category: 'Services', color: '#ff7300' },
+      { name: 'Book 1', value: 150, category: 'Books', color: '#00ff88' },
+      { name: 'Book 2', value: 100, category: 'Books', color: '#ff0088' }
     ];
   }
 
@@ -69,11 +125,11 @@ export class DataGeneratorService {
    */
   static generateFunnelData() {
     return [
-      { name: 'Website Visits', value: 10000 },
-      { name: 'Product Views', value: 8500 },
-      { name: 'Add to Cart', value: 3200 },
-      { name: 'Checkout Started', value: 2100 },
-      { name: 'Purchase Completed', value: 1800 }
+      { name: 'Website Visits', value: 10000, conversion: 100 },
+      { name: 'Product Views', value: 8500, conversion: 85 },
+      { name: 'Add to Cart', value: 3200, conversion: 32 },
+      { name: 'Checkout Started', value: 2100, conversion: 21 },
+      { name: 'Purchase Completed', value: 1800, conversion: 18 }
     ];
   }
 
@@ -175,12 +231,19 @@ export class DataGeneratorService {
    * Generates donut chart data for category distribution
    */
   static generateDonutData() {
-    return [
+    const data = [
       { name: 'Desktop', value: 45, color: '#8884d8' },
       { name: 'Mobile', value: 35, color: '#82ca9d' },
       { name: 'Tablet', value: 15, color: '#ffc658' },
       { name: 'Other', value: 5, color: '#ff7300' }
     ];
+
+    // Calculate percentages
+    const total = data.reduce((sum, item) => sum + item.value, 0);
+    return data.map(item => ({
+      ...item,
+      percentage: Number(((item.value / total) * 100).toFixed(1))
+    }));
   }
 
   /**
@@ -188,12 +251,12 @@ export class DataGeneratorService {
    */
   static generateBarData() {
     return [
-      { name: 'Q1 Sales', value: 8500, target: 9000 },
-      { name: 'Q2 Sales', value: 9200, target: 9500 },
-      { name: 'Q3 Sales', value: 8800, target: 8500 },
-      { name: 'Q4 Sales', value: 9600, target: 10000 },
-      { name: 'Marketing', value: 7200, target: 7500 },
-      { name: 'Support', value: 8900, target: 8000 }
+      { name: 'Q1 Sales', value: 8500, target: 9000, category: 'sales' },
+      { name: 'Q2 Sales', value: 9200, target: 9500, category: 'sales' },
+      { name: 'Q3 Sales', value: 8800, target: 8500, category: 'sales' },
+      { name: 'Q4 Sales', value: 9600, target: 10000, category: 'sales' },
+      { name: 'Marketing', value: 7200, target: 7500, category: 'marketing' },
+      { name: 'Support', value: 8900, target: 8000, category: 'support' }
     ];
   }
 }

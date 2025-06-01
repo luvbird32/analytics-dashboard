@@ -17,11 +17,11 @@ export const useSocialCryptoData = () => {
   ]);
 
   const [engagementData, setEngagementData] = useState<EngagementData[]>([
-    { platform: 'Twitter', likes: 15420, shares: 3240, comments: 1820, engagement_rate: 4.8 },
-    { platform: 'Facebook', likes: 24680, shares: 5670, comments: 3450, engagement_rate: 6.2 },
-    { platform: 'Instagram', likes: 38920, shares: 8940, comments: 5670, engagement_rate: 8.5 },
-    { platform: 'LinkedIn', likes: 12350, shares: 2890, comments: 1560, engagement_rate: 3.7 },
-    { platform: 'TikTok', likes: 45670, shares: 12340, comments: 8920, engagement_rate: 12.3 }
+    { platform: 'Twitter', likes: 15420, shares: 3240, comments: 1820, reach: 45000, engagement_rate: 4.8 },
+    { platform: 'Facebook', likes: 24680, shares: 5670, comments: 3450, reach: 78000, engagement_rate: 6.2 },
+    { platform: 'Instagram', likes: 38920, shares: 8940, comments: 5670, reach: 125000, engagement_rate: 8.5 },
+    { platform: 'LinkedIn', likes: 12350, shares: 2890, comments: 1560, reach: 32000, engagement_rate: 3.7 },
+    { platform: 'TikTok', likes: 45670, shares: 12340, comments: 8920, reach: 180000, engagement_rate: 12.3 }
   ]);
 
   const [cryptoData, setCryptoData] = useState<CryptoData[]>(() => {
@@ -31,12 +31,15 @@ export const useSocialCryptoData = () => {
     for (let i = 0; i < 24; i++) {
       const change = (Math.random() - 0.5) * 2000;
       price += change;
+      const volume = Math.floor(Math.random() * 1000000);
+      const marketCap = price * 19000000; // Approximate market cap calculation
       
       data.push({
         timestamp: `${String(i).padStart(2, '0')}:00`,
         price: Number(price.toFixed(2)),
-        volume: Math.floor(Math.random() * 1000000),
-        change: Number(change.toFixed(2))
+        volume: volume,
+        marketCap: marketCap,
+        change24h: Number(change.toFixed(2))
       });
     }
     
