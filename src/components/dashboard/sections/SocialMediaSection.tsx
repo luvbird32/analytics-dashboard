@@ -12,7 +12,7 @@ interface SocialMediaSectionProps {
 }
 
 /**
- * Social media analytics section
+ * Social media analytics section with separate rows for better visual experience
  */
 export const SocialMediaSection = ({
   sentimentData,
@@ -25,14 +25,18 @@ export const SocialMediaSection = ({
         <Users className="h-5 w-5 lg:h-6 lg:w-6" />
         Social Media Analytics
       </h2>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-        <div className="w-full">
-          <SentimentChart data={sentimentData} />
-        </div>
-        <div className="w-full">
-          <EngagementChart data={engagementData} />
-        </div>
+      
+      {/* Sentiment Chart - Full Width Row */}
+      <div className="w-full">
+        <SentimentChart data={sentimentData} />
       </div>
+      
+      {/* Engagement Chart - Full Width Row */}
+      <div className="w-full">
+        <EngagementChart data={engagementData} />
+      </div>
+      
+      {/* Hashtag Chart - Full Width Row */}
       <div className="w-full">
         <HashtagChart data={hashtagData} />
       </div>
