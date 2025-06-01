@@ -65,7 +65,7 @@ export const usePerformanceMonitor = (componentName: string) => {
 /**
  * Higher-order component for performance monitoring
  */
-export const withPerformanceMonitor = <P extends object>(
+export const withPerformanceMonitor = <P extends Record<string, any>>(
   Component: React.ComponentType<P>,
   componentName?: string
 ) => {
