@@ -9,7 +9,7 @@ interface CategoryFilterProps {
 }
 
 /**
- * Category filter component for dashboard metrics
+ * Category filter component for dashboard data
  */
 export const CategoryFilter = ({ filters, onFiltersChange }: CategoryFilterProps) => {
   const categories = [
@@ -19,20 +19,30 @@ export const CategoryFilter = ({ filters, onFiltersChange }: CategoryFilterProps
     { id: 'conversion', label: 'Conversion' }
   ];
 
+  // Ensure filters and filters.category exist with proper defaults
+  const safeFilters = filters || {
+    dateRange: '30d' as const,
+    category: [],
+    region: [],
+    userType: []
+  };
+
+  const currentCategories = safeFilters.category || [];
+
   const handleCategoryToggle = (categoryId: string) => {
-    const newCategories = FilterUtils.toggleFilterValue(filters.category, categoryId);
-    onFiltersChange({ ...filters, category: newCategories });
+    const newCategories = FilterUtils.toggleFilterValue(currentCategories, categoryId);
+    onFiltersChange({ ...safeFilters, category: newCategories });
   };
 
   return (
     <div className="space-y-2">
       <label className="text-sm font-medium">Categories</label>
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-2 gap-2">
         {categories.map(category => (
           <div key={category.id} className="flex items-center space-x-2">
             <Checkbox
               id={category.id}
-              checked={filters.category.includes(category.id)}
+              checked={currentCategories.includes(category.id)}
               onCheckedChange={() => handleCategoryToggle(category.id)}
             />
             <label

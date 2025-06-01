@@ -19,9 +19,19 @@ export const RegionFilter = ({ filters, onFiltersChange }: RegionFilterProps) =>
     { id: 'latin-america', label: 'Latin America' }
   ];
 
+  // Ensure filters and filters.region exist with proper defaults
+  const safeFilters = filters || {
+    dateRange: '30d' as const,
+    category: [],
+    region: [],
+    userType: []
+  };
+
+  const currentRegions = safeFilters.region || [];
+
   const handleRegionToggle = (regionId: string) => {
-    const newRegions = FilterUtils.toggleFilterValue(filters.region, regionId);
-    onFiltersChange({ ...filters, region: newRegions });
+    const newRegions = FilterUtils.toggleFilterValue(currentRegions, regionId);
+    onFiltersChange({ ...safeFilters, region: newRegions });
   };
 
   return (
@@ -32,7 +42,7 @@ export const RegionFilter = ({ filters, onFiltersChange }: RegionFilterProps) =>
           <div key={region.id} className="flex items-center space-x-2">
             <Checkbox
               id={region.id}
-              checked={filters.region.includes(region.id)}
+              checked={currentRegions.includes(region.id)}
               onCheckedChange={() => handleRegionToggle(region.id)}
             />
             <label

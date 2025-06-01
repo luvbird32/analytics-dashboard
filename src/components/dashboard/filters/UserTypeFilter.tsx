@@ -9,29 +9,40 @@ interface UserTypeFilterProps {
 }
 
 /**
- * User type filter component for dashboard analytics
+ * User type filter component for dashboard data
  */
 export const UserTypeFilter = ({ filters, onFiltersChange }: UserTypeFilterProps) => {
   const userTypes = [
-    { id: 'premium', label: 'Premium' },
-    { id: 'standard', label: 'Standard' },
-    { id: 'trial', label: 'Trial' }
+    { id: 'new', label: 'New Users' },
+    { id: 'returning', label: 'Returning Users' },
+    { id: 'premium', label: 'Premium Users' },
+    { id: 'enterprise', label: 'Enterprise Users' }
   ];
 
+  // Ensure filters and filters.userType exist with proper defaults
+  const safeFilters = filters || {
+    dateRange: '30d' as const,
+    category: [],
+    region: [],
+    userType: []
+  };
+
+  const currentUserTypes = safeFilters.userType || [];
+
   const handleUserTypeToggle = (userTypeId: string) => {
-    const newUserTypes = FilterUtils.toggleFilterValue(filters.userType, userTypeId);
-    onFiltersChange({ ...filters, userType: newUserTypes });
+    const newUserTypes = FilterUtils.toggleFilterValue(currentUserTypes, userTypeId);
+    onFiltersChange({ ...safeFilters, userType: newUserTypes });
   };
 
   return (
     <div className="space-y-2">
       <label className="text-sm font-medium">User Types</label>
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-2 gap-2">
         {userTypes.map(userType => (
           <div key={userType.id} className="flex items-center space-x-2">
             <Checkbox
               id={userType.id}
-              checked={filters.userType.includes(userType.id)}
+              checked={currentUserTypes.includes(userType.id)}
               onCheckedChange={() => handleUserTypeToggle(userType.id)}
             />
             <label
