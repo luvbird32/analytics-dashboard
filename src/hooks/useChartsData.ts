@@ -16,10 +16,12 @@ import {
   BarData
 } from '@/types/dashboard';
 import { mockSalesData, mockTrafficData } from '@/test/mocks/mockData';
-import { DataGeneratorService } from '@/services/dataGenerator';
+import { BasicChartsService } from '@/services/charts/basicChartsService';
+import { AdvancedChartsService } from '@/services/charts/advancedChartsService';
+import { FinancialChartsService } from '@/services/charts/financialChartsService';
 
 /**
- * Hook for managing chart data using mock data where available
+ * Hook for managing chart data using specialized services
  */
 export const useChartsData = () => {
   const [salesData, setSalesData] = useState<SalesData[]>(mockSalesData);
@@ -36,23 +38,7 @@ export const useChartsData = () => {
   const [donutData, setDonutData] = useState<DonutData[]>([]);
   const [barData, setBarData] = useState<BarData[]>([]);
 
-  /**
-   * Generates initial chart data using mock data where available
-   */
-  const generateInitialCharts = useCallback(() => {
-    console.log('📊 Loading mock chart data...');
-    console.log('💰 Mock sales data:', mockSalesData);
-    console.log('🚦 Mock traffic data:', mockTrafficData);
-    
-    // Use mock data for sales and traffic
-    setSalesData([...mockSalesData]);
-    setTrafficData([...mockTrafficData]);
-    
-    // Use generated data for other charts
-    setRadarData(DataGeneratorService.generateRadarData());
-    setAreaData(DataGeneratorService.generateAreaData());
-
-    // Generate heatmap data
+  const generateHeatmapData = useCallback(() => {
     const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     const heatmapPoints: HeatmapData[] = [];
     days.forEach(day => {
@@ -68,24 +54,36 @@ export const useChartsData = () => {
         });
       }
     });
-    setHeatmapData(heatmapPoints);
-
-    // Generate advanced chart data
-    setTreemapData(DataGeneratorService.generateTreemapData());
-    setScatterData(DataGeneratorService.generateScatterData());
-    setFunnelData(DataGeneratorService.generateFunnelData());
-    setGaugeData(DataGeneratorService.generateGaugeData());
-    setSankeyData(DataGeneratorService.generateSankeyData());
-    setCandlestickData(DataGeneratorService.generateCandlestickData());
-    setDonutData(DataGeneratorService.generateDonutData());
-    setBarData(DataGeneratorService.generateBarData());
-    
-    console.log('✅ All chart data loaded successfully');
+    return heatmapPoints;
   }, []);
 
-  /**
-   * Updates traffic data occasionally
-   */
+  const generateInitialCharts = useCallback(() => {
+    console.log('📊 Loading chart data with specialized services...');
+    
+    // Use mock data for sales and traffic
+    setSalesData([...mockSalesData]);
+    setTrafficData([...mockTrafficData]);
+    
+    // Use specialized services for other charts
+    setRadarData(BasicChartsService.generateRadarData());
+    setAreaData(BasicChartsService.generateAreaData());
+    setHeatmapData(generateHeatmapData());
+
+    // Advanced charts
+    setTreemapData(AdvancedChartsService.generateTreemapData());
+    setScatterData(AdvancedChartsService.generateScatterData());
+    setFunnelData(AdvancedChartsService.generateFunnelData());
+    setGaugeData(AdvancedChartsService.generateGaugeData());
+
+    // Financial charts
+    setSankeyData(FinancialChartsService.generateSankeyData());
+    setCandlestickData(FinancialChartsService.generateCandlestickData());
+    setDonutData(FinancialChartsService.generateDonutData());
+    setBarData(FinancialChartsService.generateBarData());
+    
+    console.log('✅ All chart data loaded successfully');
+  }, [generateHeatmapData]);
+
   const updateTrafficData = useCallback((isLive: boolean) => {
     if (!isLive || Math.random() <= 0.8) return;
 
