@@ -26,7 +26,7 @@ export const LandingNavbar = () => {
   ];
 
   const handleNavClick = (href: string) => {
-    const element = document.querySelector(href);
+    const element = document.querySelector(href) as HTMLElement;
     if (element) {
       const headerOffset = 80;
       const elementPosition = element.offsetTop;
