@@ -3,40 +3,27 @@ import { render } from '@/test/utils/testUtils';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { SalesChart } from '@/components/dashboard/SalesChart';
+import { mockPerformanceMetrics, mockSalesData } from '@/test/mocks/mockData';
 
 expect.extend(toHaveNoViolations);
 
 describe('Component Accessibility Tests', () => {
   it('MetricCard should be accessible', async () => {
     const { container } = render(
-      <MetricCard 
-        title="Revenue" 
-        value="$12,345" 
-        change="+12%" 
-        trend="up" 
-      />
+      <MetricCard metric={mockPerformanceMetrics[0]} />
     );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
   it('SalesChart should be accessible', async () => {
-    const mockData = [
-      { month: 'Jan', sales: 4000, target: 3800 },
-      { month: 'Feb', sales: 3000, target: 3200 }
-    ];
-
-    const { container } = render(<SalesChart data={mockData} />);
+    const { container } = render(<SalesChart data={mockSalesData} />);
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });
 
   it('charts have proper ARIA descriptions', () => {
-    const mockData = [
-      { month: 'Jan', sales: 4000, target: 3800 }
-    ];
-
-    render(<SalesChart data={mockData} />);
+    render(<SalesChart data={mockSalesData} />);
     
     // Charts should have descriptive titles
     const chartTitle = document.querySelector('[role="img"]') || 
@@ -52,14 +39,7 @@ describe('Component Accessibility Tests', () => {
   });
 
   it('color contrast meets WCAG standards', () => {
-    render(
-      <MetricCard 
-        title="Revenue" 
-        value="$12,345" 
-        change="+12%" 
-        trend="up" 
-      />
-    );
+    render(<MetricCard metric={mockPerformanceMetrics[0]} />);
 
     // This is a basic check - in practice you'd use tools like
     // axe-core to automatically detect contrast issues
