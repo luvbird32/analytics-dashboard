@@ -13,7 +13,7 @@ describe('NotificationService', () => {
       expect(notification.type).toBe('success');
       expect(notification.title).toBe('Revenue Increased');
       expect(notification.message).toBe('Revenue rose by 5.2$');
-      expect(notification.read).toBe(false);
+      expect(notification.isRead).toBe(false);
     });
 
     it('creates warning notification for negative change', () => {
@@ -65,19 +65,19 @@ describe('NotificationService', () => {
       const notifications = [mockNotifications[0]];
       const result = NotificationService.markAsRead(notifications, '1');
       
-      expect(result[0].read).toBe(true);
+      expect(result[0].isRead).toBe(true);
     });
 
     it('does not affect other notifications', () => {
       const notifications = [
         { ...mockNotifications[0], id: '1' },
-        { ...mockNotifications[0], id: '2', read: false }
+        { ...mockNotifications[0], id: '2', isRead: false }
       ];
       
       const result = NotificationService.markAsRead(notifications, '1');
       
-      expect(result[0].read).toBe(true);
-      expect(result[1].read).toBe(false);
+      expect(result[0].isRead).toBe(true);
+      expect(result[1].isRead).toBe(false);
     });
   });
 });

@@ -1,3 +1,4 @@
+
 import { NotificationData, PerformanceMetric } from '@/types/dashboard';
 
 /**
@@ -30,7 +31,7 @@ export class NotificationService {
       title: `${type.charAt(0).toUpperCase() + type.slice(1)} Alert`,
       message,
       timestamp: new Date(),
-      read: false
+      isRead: false
     };
   }
 
@@ -49,7 +50,7 @@ export class NotificationService {
       title: `${metric.title} ${direction === 'increased' ? 'Increased' : 'Decreased'}`,
       message: `${metric.title} ${verb} by ${Math.abs(change).toFixed(1)}${metric.unit || ''}`,
       timestamp: new Date(),
-      read: false
+      isRead: false
     };
   }
 
@@ -63,7 +64,7 @@ export class NotificationService {
       title: 'Export Completed',
       message: `Dashboard data exported as ${format.toUpperCase()} successfully`,
       timestamp: new Date(),
-      read: false
+      isRead: false
     };
   }
 
@@ -79,7 +80,7 @@ export class NotificationService {
    */
   static markAsRead(notifications: NotificationData[], id: string): NotificationData[] {
     return notifications.map(notification =>
-      notification.id === id ? { ...notification, read: true } : notification
+      notification.id === id ? { ...notification, isRead: true } : notification
     );
   }
 
