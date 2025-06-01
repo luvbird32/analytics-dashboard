@@ -1,68 +1,66 @@
 
 import React from 'react';
-import { BarChart3, TrendingUp, Users, DollarSign, Activity, Zap, Globe } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { BarChart3, Zap, Shield, Users, Globe, TrendingUp } from 'lucide-react';
 
 /**
- * Features showcase section
+ * Features section showcasing key capabilities
  */
 export const FeaturesSection = () => {
   const features = [
     {
       icon: BarChart3,
-      title: "12+ Chart Types",
-      description: "Line, Bar, Area, Pie, Donut, Scatter, Radar, Treemap, Funnel, Gauge, Sankey, Candlestick charts"
+      title: "Real-time Analytics",
+      description: "Monitor your data in real-time with live updates and instant insights"
     },
     {
       icon: Zap,
-      title: "Real-time Updates",
-      description: "Live data streaming with WebSocket support for instant insights and notifications"
+      title: "Lightning Fast",
+      description: "Optimized performance ensures your dashboards load in milliseconds"
     },
     {
-      icon: Activity,
-      title: "Advanced Analytics",
-      description: "Complex data visualization with sentiment analysis, engagement metrics, and performance tracking"
+      icon: Shield,
+      title: "Enterprise Security",
+      description: "Bank-grade security with end-to-end encryption and compliance"
     },
     {
       icon: Users,
-      title: "Social Media Insights",
-      description: "Comprehensive social media analytics with hashtag tracking and engagement monitoring"
-    },
-    {
-      icon: DollarSign,
-      title: "Financial Data",
-      description: "Cryptocurrency analytics with candlestick charts and market trend analysis"
+      title: "Team Collaboration",
+      description: "Share insights and collaborate with your team in real-time"
     },
     {
       icon: Globe,
-      title: "Responsive Design",
-      description: "Perfect experience across desktop, tablet, and mobile devices with adaptive layouts"
+      title: "Global Scale",
+      description: "Built to handle massive datasets from around the world"
+    },
+    {
+      icon: TrendingUp,
+      title: "Predictive Insights",
+      description: "AI-powered predictions to help you stay ahead of trends"
     }
   ];
 
   return (
-    <section className="py-24 bg-muted/30">
+    <section id="features" className="py-24 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
-            Powerful Features
+            Powerful Features for Modern Analytics
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Everything you need for comprehensive data analysis and visualization
+            Everything you need to transform raw data into actionable business intelligence
           </p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow duration-300 border-0 bg-background/60 backdrop-blur">
+            <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
               <CardHeader>
                 <feature.icon className="h-12 w-12 text-primary mb-4" />
-                <CardTitle className="text-xl">{feature.title}</CardTitle>
+                <CardTitle>{feature.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-base leading-relaxed">
-                  {feature.description}
-                </CardDescription>
+                <p className="text-muted-foreground">{feature.description}</p>
               </CardContent>
             </Card>
           ))}
