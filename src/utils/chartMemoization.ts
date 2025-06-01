@@ -5,14 +5,18 @@ import { memo } from 'react';
  * Chart memoization utilities for performance optimization
  */
 
-// Generic type for chart component props
-interface ChartProps {
-  data: any[];
+// Generic type for any component props
+interface BaseProps {
   [key: string]: any;
 }
 
+// Generic type for chart component props with data array
+interface ChartProps extends BaseProps {
+  data: any[];
+}
+
 /**
- * Default props comparison for chart components
+ * Default props comparison for chart components with data arrays
  * Compares data arrays and other props for equality
  */
 export const defaultChartComparison = <T extends ChartProps>(
@@ -67,18 +71,28 @@ export const liveChartComparison = <T extends ChartProps & { isLive?: boolean }>
 };
 
 /**
- * Creates a memoized version of a chart component
- * @param Component - The chart component to memoize
+ * Generic comparison function for any props
+ */
+export const genericPropsComparison = <T extends BaseProps>(
+  prevProps: T,
+  nextProps: T
+): boolean => {
+  return JSON.stringify(prevProps) === JSON.stringify(nextProps);
+};
+
+/**
+ * Creates a memoized version of any component
+ * @param Component - The component to memoize
  * @param componentName - Name for debugging (optional)
  * @param propsAreEqual - Optional custom comparison function
- * @returns Memoized chart component
+ * @returns Memoized component
  */
-export const createMemoizedChart = <T extends ChartProps>(
+export const createMemoizedChart = <T extends BaseProps>(
   Component: React.ComponentType<T>,
   componentName?: string,
   propsAreEqual?: (prevProps: T, nextProps: T) => boolean
 ) => {
-  const MemoizedComponent = memo(Component, propsAreEqual || defaultChartComparison);
+  const MemoizedComponent = memo(Component, propsAreEqual || genericPropsComparison);
   
   // Set display name for debugging
   if (componentName) {
@@ -91,7 +105,7 @@ export const createMemoizedChart = <T extends ChartProps>(
 /**
  * Creates a memoized chart with default comparison
  */
-export const memoizeChart = <T extends ChartProps>(
+export const memoizeChart = <T extends BaseProps>(
   Component: React.ComponentType<T>,
   propsAreEqual?: (prevProps: T, nextProps: T) => boolean
 ) => {
