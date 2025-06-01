@@ -11,9 +11,9 @@ describe('NotificationService', () => {
       const notification = NotificationService.createMetricChangeNotification(metric, change);
       
       expect(notification.type).toBe('success');
-      expect(notification.title).toBe('Total Revenue Increased');
-      expect(notification.message).toBe('Total Revenue rose by 5.2$');
-      expect(notification.isRead).toBe(false);
+      expect(notification.title).toBe('Revenue Increased');
+      expect(notification.message).toBe('Revenue rose by 5.2$');
+      expect(notification.read).toBe(false);
     });
 
     it('creates warning notification for negative change', () => {
@@ -23,8 +23,8 @@ describe('NotificationService', () => {
       const notification = NotificationService.createMetricChangeNotification(metric, change);
       
       expect(notification.type).toBe('warning');
-      expect(notification.title).toBe('Total Revenue Decreased');
-      expect(notification.message).toBe('Total Revenue fell by 3.1$');
+      expect(notification.title).toBe('Revenue Decreased');
+      expect(notification.message).toBe('Revenue fell by 3.1$');
     });
   });
 
@@ -33,8 +33,7 @@ describe('NotificationService', () => {
       const notification = NotificationService.createExportNotification('pdf');
       
       expect(notification.type).toBe('success');
-      expect(notification.title).toBe('Export Completed');
-      expect(notification.message).toBe('Dashboard data exported successfully as PDF');
+      expect(notification.message).toBe('Dashboard data exported as PDF successfully');
     });
   });
 
@@ -54,7 +53,7 @@ describe('NotificationService', () => {
       }));
       
       const newNotification = { ...mockNotifications[0], id: 'new-notif' };
-      const result = NotificationService.addNotification(existingNotifications, newNotification, 10);
+      const result = NotificationService.addNotification(existingNotifications, newNotification);
       
       expect(result).toHaveLength(10);
       expect(result[0].id).toBe('new-notif');
@@ -66,19 +65,19 @@ describe('NotificationService', () => {
       const notifications = [mockNotifications[0]];
       const result = NotificationService.markAsRead(notifications, '1');
       
-      expect(result[0].isRead).toBe(true);
+      expect(result[0].read).toBe(true);
     });
 
     it('does not affect other notifications', () => {
       const notifications = [
         { ...mockNotifications[0], id: '1' },
-        { ...mockNotifications[0], id: '2', isRead: false }
+        { ...mockNotifications[0], id: '2', read: false }
       ];
       
       const result = NotificationService.markAsRead(notifications, '1');
       
-      expect(result[0].isRead).toBe(true);
-      expect(result[1].isRead).toBe(false);
+      expect(result[0].read).toBe(true);
+      expect(result[1].read).toBe(false);
     });
   });
 });

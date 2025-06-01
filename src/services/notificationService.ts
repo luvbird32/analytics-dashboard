@@ -1,4 +1,3 @@
-
 import { NotificationData, PerformanceMetric } from '@/types/dashboard';
 
 /**
@@ -28,10 +27,10 @@ export class NotificationService {
     return {
       id: `notification-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       type,
+      title: `${type.charAt(0).toUpperCase() + type.slice(1)} Alert`,
       message,
-      timestamp: new Date().toISOString(),
-      read: false,
-      priority: Math.random() > 0.7 ? 'high' : 'normal'
+      timestamp: new Date(),
+      read: false
     };
   }
 
@@ -42,14 +41,15 @@ export class NotificationService {
     const isPositive = change > 0;
     const type = isPositive ? 'success' : 'warning';
     const direction = isPositive ? 'increased' : 'decreased';
+    const verb = isPositive ? 'rose' : 'fell';
     
     return {
       id: `metric-${metric.id}-${Date.now()}`,
       type,
-      message: `${metric.name} ${direction} by ${Math.abs(change).toFixed(1)}${metric.unit || ''}`,
-      timestamp: new Date().toISOString(),
-      read: false,
-      priority: Math.abs(change) > 5 ? 'high' : 'normal'
+      title: `${metric.title} ${direction === 'increased' ? 'Increased' : 'Decreased'}`,
+      message: `${metric.title} ${verb} by ${Math.abs(change).toFixed(1)}${metric.unit || ''}`,
+      timestamp: new Date(),
+      read: false
     };
   }
 
@@ -60,10 +60,10 @@ export class NotificationService {
     return {
       id: `export-${Date.now()}`,
       type: 'success',
+      title: 'Export Completed',
       message: `Dashboard data exported as ${format.toUpperCase()} successfully`,
-      timestamp: new Date().toISOString(),
-      read: false,
-      priority: 'normal'
+      timestamp: new Date(),
+      read: false
     };
   }
 

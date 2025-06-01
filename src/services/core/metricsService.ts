@@ -1,4 +1,3 @@
-
 import { MetricData, PerformanceMetric, AreaData, RadarData } from '@/types/dashboard';
 
 /**
@@ -26,35 +25,32 @@ export class MetricsService {
     return [
       {
         id: '1',
-        name: 'Revenue',
+        title: 'Revenue',
         value: 45678,
         change: 12.5,
         trend: 'up',
-        category: 'financial',
-        period: 'month',
-        target: 50000,
+        category: 'revenue',
+        priority: 'high',
         unit: '$'
       },
       {
         id: '2',
-        name: 'Active Users',
+        title: 'Active Users',
         value: 12543,
         change: -2.1,
         trend: 'down',
-        category: 'engagement',
-        period: 'week',
-        target: 15000,
+        category: 'users',
+        priority: 'medium',
         unit: 'users'
       },
       {
         id: '3',
-        name: 'Conversion Rate',
+        title: 'Conversion Rate',
         value: 3.45,
         change: 0.8,
         trend: 'up',
         category: 'conversion',
-        period: 'day',
-        target: 4.0,
+        priority: 'high',
         unit: '%'
       }
     ];

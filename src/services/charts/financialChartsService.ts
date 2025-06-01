@@ -11,11 +11,11 @@ export class FinancialChartsService {
   static generateSankeyData(): SankeyData {
     return {
       nodes: [
-        { id: 'Traffic', name: 'Website Traffic', value: 10000 },
-        { id: 'Visitors', name: 'Unique Visitors', value: 7500 },
-        { id: 'Leads', name: 'Qualified Leads', value: 2500 },
-        { id: 'Customers', name: 'New Customers', value: 750 },
-        { id: 'Revenue', name: 'Revenue Generated', value: 500000 }
+        { id: 'Traffic', name: 'Website Traffic' },
+        { id: 'Visitors', name: 'Unique Visitors' },
+        { id: 'Leads', name: 'Qualified Leads' },
+        { id: 'Customers', name: 'New Customers' },
+        { id: 'Revenue', name: 'Revenue Generated' }
       ],
       links: [
         { source: 'Traffic', target: 'Visitors', value: 7500 },
@@ -60,13 +60,18 @@ export class FinancialChartsService {
    * Generates donut chart data for portfolio distribution
    */
   static generateDonutData(): DonutData[] {
-    return [
+    const data = [
       { name: 'Stocks', value: 45, color: '#8884d8' },
       { name: 'Bonds', value: 25, color: '#82ca9d' },
       { name: 'Real Estate', value: 15, color: '#ffc658' },
       { name: 'Commodities', value: 10, color: '#ff7300' },
       { name: 'Cash', value: 5, color: '#00ff88' }
     ];
+
+    return data.map(item => ({
+      ...item,
+      percentage: (item.value / 100) * 100
+    }));
   }
 
   /**
@@ -74,10 +79,10 @@ export class FinancialChartsService {
    */
   static generateBarData(): BarData[] {
     return [
-      { category: 'Q1', revenue: 45000, expenses: 32000, profit: 13000 },
-      { category: 'Q2', revenue: 52000, expenses: 38000, profit: 14000 },
-      { category: 'Q3', revenue: 48000, expenses: 35000, profit: 13000 },
-      { category: 'Q4', revenue: 61000, expenses: 42000, profit: 19000 }
+      { name: 'Q1', value: 45000, category: 'revenue' },
+      { name: 'Q2', value: 52000, category: 'revenue' },
+      { name: 'Q3', value: 48000, category: 'revenue' },
+      { name: 'Q4', value: 61000, category: 'revenue' }
     ];
   }
 }
