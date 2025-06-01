@@ -11,40 +11,26 @@ import { useDashboardOrchestration } from '@/hooks/useDashboardOrchestration';
  * Main dashboard content component - now focused and clean
  */
 export const DashboardContent: React.FC = () => {
-  const {
-    isLive,
-    filters,
-    notifications,
-    isLoading,
-    error,
-    toggleLiveData,
-    setFilters,
-    clearNotifications,
-    markNotificationAsRead,
-    handleRefresh,
-    generateInitialData
-  } = useDashboardOrchestration();
+  const dashboardData = useDashboardOrchestration();
+  const [staticData, setStaticData] = useState<any>(null);
 
-  const [dashboardData, setDashboardData] = useState<any>(null);
-
-  // Initialize data on mount
+  // Initialize static data on mount
   useEffect(() => {
     try {
       const data = DashboardDataService.generateInitialData();
-      setDashboardData(data);
-      generateInitialData();
+      setStaticData(data);
     } catch (error) {
       console.error('Failed to initialize dashboard data:', error);
     }
-  }, [generateInitialData]);
+  }, []);
 
   // Error state
-  if (error) {
-    return <DashboardErrorState error={error} onRetry={handleRefresh} />;
+  if (dashboardData.error) {
+    return <DashboardErrorState error={dashboardData.error} onRetry={dashboardData.handleRefresh} />;
   }
 
   // Loading state
-  if (isLoading || !dashboardData) {
+  if (dashboardData.isLoading || !staticData) {
     return (
       <DashboardLayout>
         <DashboardSkeleton />
@@ -52,18 +38,24 @@ export const DashboardContent: React.FC = () => {
     );
   }
 
+  // Combine static and dynamic data
+  const combinedData = {
+    ...staticData,
+    ...dashboardData
+  };
+
   return (
     <DashboardLayout>
       <DashboardSections
-        dashboardData={dashboardData}
-        isLive={isLive}
-        filters={filters}
-        notifications={notifications}
-        toggleLiveData={toggleLiveData}
-        initializeData={handleRefresh}
-        setFilters={setFilters}
-        clearNotifications={clearNotifications}
-        markNotificationAsRead={markNotificationAsRead}
+        dashboardData={combinedData}
+        isLive={dashboardData.isLive}
+        filters={dashboardData.filters}
+        notifications={dashboardData.notifications}
+        toggleLiveData={dashboardData.toggleLiveData}
+        initializeData={dashboardData.handleRefresh}
+        setFilters={dashboardData.setFilters}
+        clearNotifications={dashboardData.clearNotifications}
+        markNotificationAsRead={dashboardData.markNotificationAsRead}
       />
     </DashboardLayout>
   );

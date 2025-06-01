@@ -1,27 +1,25 @@
 
-import { useCallback } from 'react';
-import { useDashboardData } from './useDashboardData';
+import { useCallback, useEffect } from 'react';
+import { useOptimizedRealTimeData } from './useOptimizedRealTimeData';
 import { useRealTimeUpdates } from './useRealTimeUpdates';
-import { useDataInitialization } from './useDataInitialization';
 
 /**
  * Main orchestration hook for dashboard functionality
  * Combines data management, real-time updates, and initialization
  */
 export const useDashboardOrchestration = () => {
-  const dashboardData = useDashboardData();
-  const dataInitialization = useDataInitialization();
+  const dashboardData = useOptimizedRealTimeData();
   
-  // Setup real-time updates
+  // Setup real-time updates - moved here to avoid circular dependency
   useRealTimeUpdates();
 
   const handleRefresh = useCallback(() => {
-    dataInitialization.generateInitialData();
-  }, [dataInitialization]);
+    dashboardData.refreshData();
+  }, [dashboardData]);
 
   return {
     ...dashboardData,
     handleRefresh,
-    generateInitialData: dataInitialization.generateInitialData
+    generateInitialData: dashboardData.refreshData
   };
 };
