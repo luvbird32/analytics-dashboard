@@ -10,6 +10,8 @@ import { DashboardContent } from '@/components/dashboard/DashboardContent';
  * Clean architecture with proper provider hierarchy
  */
 const Index = () => {
+  console.log('📊 Index page rendering - Dashboard route accessed');
+  
   return (
     <ErrorBoundary>
       <DashboardProvider>
