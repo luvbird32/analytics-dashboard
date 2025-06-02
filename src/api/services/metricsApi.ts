@@ -6,7 +6,7 @@
 
 import { apiClient } from '../client';
 import { API_ENDPOINTS } from '../endpoints';
-import { MetricData, PerformanceMetricData } from '@/types/dashboard';
+import { MetricData, PerformanceMetric } from '@/types/dashboard';
 
 export class MetricsApi {
   /**
@@ -20,7 +20,7 @@ export class MetricsApi {
    * Get performance metrics
    */
   static async getPerformanceMetrics() {
-    return apiClient.get<PerformanceMetricData[]>(API_ENDPOINTS.METRICS.GET_PERFORMANCE_METRICS);
+    return apiClient.get<PerformanceMetric[]>(API_ENDPOINTS.METRICS.GET_PERFORMANCE_METRICS);
   }
 
   /**
