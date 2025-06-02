@@ -54,7 +54,7 @@ export const DashboardContent = () => {
         notifications={dashboardData.notifications}
         toggleLiveData={dashboardData.toggleLiveData}
         initializeData={dashboardData.handleRefresh}
-        setFilters={dashboardData.setSanitizedFilters}
+        setSanitizedFilters={dashboardData.setSanitizedFilters}
         clearNotifications={dashboardData.clearNotifications}
         markNotificationAsRead={dashboardData.markNotificationAsRead}
       />

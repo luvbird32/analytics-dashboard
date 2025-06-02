@@ -15,7 +15,7 @@ interface DashboardSectionsProps {
   notifications: any[];
   toggleLiveData: () => void;
   initializeData: () => void;
-  setFilters: (filters: any) => void;
+  setSanitizedFilters: (filters: any) => void;
   clearNotifications: () => void;
   markNotificationAsRead: (id: string) => void;
 }
@@ -30,7 +30,7 @@ export const DashboardSections = ({
   notifications,
   toggleLiveData,
   initializeData,
-  setFilters,
+  setSanitizedFilters,
   clearNotifications,
   markNotificationAsRead
 }: DashboardSectionsProps) => {
@@ -47,7 +47,7 @@ export const DashboardSections = ({
         filters={filters}
         toggleLiveData={toggleLiveData}
         initializeData={initializeData}
-        setFilters={setFilters}
+        setFilters={setSanitizedFilters}
       />
 
       <ErrorBoundary>
@@ -59,7 +59,7 @@ export const DashboardSections = ({
       <DashboardMetricsSection
         performanceMetrics={dashboardData?.performanceMetrics || []}
         filters={filters}
-        setFilters={setFilters}
+        setFilters={setSanitizedFilters}
       />
 
       <DashboardChartsSection

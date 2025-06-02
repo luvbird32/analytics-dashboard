@@ -7,6 +7,7 @@ import { useSocialCryptoData } from './useSocialCryptoData';
 import { useRealTimeUpdates } from './useRealTimeUpdates';
 import { useDashboardDataManager } from './useDashboardDataManager';
 import { useDashboardActions } from './useDashboardActions';
+import { useDataInitialization } from './useDataInitialization';
 
 /**
  * Simplified orchestration hook for dashboard functionality
@@ -18,12 +19,10 @@ export const useDashboardOrchestration = () => {
     toggleLiveData,
     setFilters,
     clearNotifications,
-    markNotificationAsRead,
-    setLoading,
-    setError
+    markNotificationAsRead
   } = useDashboardState();
 
-  const { metrics, performanceMetrics, generateInitialMetrics } = useMetricsData();
+  const { metrics, performanceMetrics } = useMetricsData();
   const {
     salesData,
     trafficData,
@@ -36,34 +35,13 @@ export const useDashboardOrchestration = () => {
     sankeyData,
     candlestickData,
     donutData,
-    barData,
-    generateInitialCharts
+    barData
   } = useChartsData();
   
-  const { sentimentData, engagementData, cryptoData, hashtagData, generateInitialSocialCrypto } = useSocialCryptoData();
+  const { sentimentData, engagementData, cryptoData, hashtagData } = useSocialCryptoData();
+  const { generateInitialData } = useDataInitialization();
   
   useRealTimeUpdates();
-
-  const generateInitialData = useCallback(async () => {
-    console.log('🚀 Starting data initialization...');
-    setLoading(true);
-    setError(null);
-    
-    try {
-      generateInitialMetrics();
-      generateInitialCharts();
-      generateInitialSocialCrypto();
-      console.log('✅ All data loaded successfully');
-    } catch (error) {
-      console.error('❌ Error loading dashboard data:', error);
-      setError('Failed to load dashboard data');
-    } finally {
-      setTimeout(() => {
-        setLoading(false);
-        console.log('🎯 Data initialization complete');
-      }, 100);
-    }
-  }, [generateInitialMetrics, generateInitialCharts, generateInitialSocialCrypto, setLoading, setError]);
 
   useEffect(() => {
     console.log('🚀 Dashboard orchestration initializing...');
