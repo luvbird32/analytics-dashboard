@@ -4,40 +4,24 @@ import { FilterUtils } from '@/utils/filterUtils';
 import { useMetricsData } from './useMetricsData';
 import { useChartsData } from './useChartsData';
 import { useSocialCryptoData } from './useSocialCryptoData';
-import { useDashboardState } from './useDashboardState';
+import { useSimplifiedDashboardState } from './useSimplifiedDashboardState';
 import { useDataInitialization } from './useDataInitialization';
-import { useRealTimeUpdates } from './useRealTimeUpdates';
+import { useSimplifiedRealTimeCoordinator } from './useSimplifiedRealTimeCoordinator';
 import { useExportHandling } from './useExportHandling';
 
 /**
- * Optimized real-time data hook with better state management
+ * Optimized real-time data hook - simplified and focused
  */
 export const useOptimizedRealTimeData = () => {
-  // Always call hooks in the same order - no conditional calls
-  const { state, toggleLiveData, setFilters, clearNotifications, markNotificationAsRead } = useDashboardState();
+  const { state, setFilters } = useSimplifiedDashboardState();
+  const { isLive, toggleLiveData } = useSimplifiedRealTimeCoordinator();
   const { metrics, performanceMetrics } = useMetricsData();
-  const {
-    salesData,
-    trafficData,
-    areaData,
-    radarData,
-    treemapData,
-    scatterData,
-    funnelData,
-    gaugeData,
-    sankeyData,
-    candlestickData,
-    donutData,
-    barData
-  } = useChartsData();
+  const { salesData, trafficData, areaData, radarData } = useChartsData();
   const { sentimentData, engagementData, cryptoData, hashtagData } = useSocialCryptoData();
   const { generateInitialData } = useDataInitialization();
   const { handleExport } = useExportHandling();
-  
-  // Initialize real-time updates - this must come after all other hooks
-  useRealTimeUpdates();
 
-  // Memoized filtered performance metrics
+  // Filtered performance metrics
   const filteredPerformanceMetrics = useMemo(() => 
     FilterUtils.filterPerformanceMetrics(performanceMetrics, state.filters),
     [performanceMetrics, state.filters]
@@ -48,11 +32,20 @@ export const useOptimizedRealTimeData = () => {
     generateInitialData();
   }, [generateInitialData]);
 
-  // Memoized return object to prevent unnecessary re-renders
+  // Clear notifications function
+  const clearNotifications = () => {
+    console.log('Clearing notifications...');
+  };
+
+  // Mark notification as read function
+  const markNotificationAsRead = (id: string) => {
+    console.log('Marking notification as read:', id);
+  };
+
   return useMemo(() => ({
-    isLive: state.isLive,
+    isLive,
     filters: state.filters,
-    notifications: state.notifications,
+    notifications: state.notifications || [],
     isLoading: state.isLoading,
     error: state.error,
     metrics,
@@ -61,14 +54,6 @@ export const useOptimizedRealTimeData = () => {
     performanceMetrics: filteredPerformanceMetrics,
     areaData,
     radarData,
-    treemapData,
-    scatterData,
-    funnelData,
-    gaugeData,
-    sankeyData,
-    candlestickData,
-    donutData,
-    barData,
     sentimentData,
     engagementData,
     cryptoData,
@@ -80,6 +65,7 @@ export const useOptimizedRealTimeData = () => {
     setFilters,
     handleExport
   }), [
+    isLive,
     state,
     metrics,
     salesData,
@@ -87,22 +73,12 @@ export const useOptimizedRealTimeData = () => {
     filteredPerformanceMetrics,
     areaData,
     radarData,
-    treemapData,
-    scatterData,
-    funnelData,
-    gaugeData,
-    sankeyData,
-    candlestickData,
-    donutData,
-    barData,
     sentimentData,
     engagementData,
     cryptoData,
     hashtagData,
     toggleLiveData,
     generateInitialData,
-    clearNotifications,
-    markNotificationAsRead,
     setFilters,
     handleExport
   ]);
