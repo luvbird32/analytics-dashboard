@@ -80,13 +80,12 @@ export { DetailedAnalyticsService } from '@/services/analytics/detailedAnalytics
 // Utilities
 export { FilterUtils } from '@/utils/filterUtils';
 export { chartMemoization } from '@/utils/chartMemoization';
-export { errorUtils } from '@/utils/errorUtils';
+export { errorUtils, ErrorUtils } from '@/utils/errorUtils';
 export { securityUtils } from '@/utils/securityUtils';
 export { xssProtection } from '@/utils/xssProtection';
 
 // Types
 export type {
-  DashboardFilters as FilterConfig,
   MetricData,
   PerformanceMetric,
   SalesData,
