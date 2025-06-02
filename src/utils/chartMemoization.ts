@@ -145,3 +145,14 @@ export const memoizeChart = <T extends BaseProps>(
  * Default props comparison for chart components (legacy)
  */
 export const defaultChartPropsAreEqual = defaultChartComparison;
+
+// Collection of chart memoization utilities
+export const chartMemoization = {
+  defaultChartComparison,
+  liveChartComparison,
+  sankeyChartComparison,
+  genericPropsComparison,
+  createMemoizedChart,
+  memoizeChart,
+  defaultChartPropsAreEqual
+};

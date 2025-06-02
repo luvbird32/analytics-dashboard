@@ -77,3 +77,12 @@ export const CSP_POLICIES = {
   OBJECTS: "object-src 'none'",
   BASE: "base-uri 'self'"
 };
+
+// Collection of XSS protection utilities
+export const xssProtection = {
+  escapeHtml,
+  createSafeInnerHTML,
+  sanitizeUrl,
+  isSafeAttribute,
+  CSP_POLICIES
+};

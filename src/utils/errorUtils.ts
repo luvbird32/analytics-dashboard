@@ -34,4 +34,14 @@ export class ErrorUtils {
     }
     return error;
   }
+
+  /**
+   * Handles chart-specific errors
+   */
+  static handleChartError(error: unknown, chartName: string): void {
+    this.logError(`Chart: ${chartName}`, error);
+  }
 }
+
+// Named export for convenience
+export const errorUtils = ErrorUtils;

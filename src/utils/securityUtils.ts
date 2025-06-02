@@ -109,3 +109,13 @@ export class RateLimiter {
     return true;
   }
 }
+
+// Collection of security utilities
+export const securityUtils = {
+  sanitizeInput,
+  validateEmail,
+  sanitizeStorageData,
+  handleSecureError,
+  validateUrl,
+  RateLimiter
+};

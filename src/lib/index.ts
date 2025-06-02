@@ -86,9 +86,9 @@ export { xssProtection } from '@/utils/xssProtection';
 
 // Types
 export type {
-  DashboardFilters,
+  DashboardFilters as FilterConfig,
   MetricData,
-  PerformanceMetricData,
+  PerformanceMetric,
   SalesData,
   TrafficData,
   AreaData,

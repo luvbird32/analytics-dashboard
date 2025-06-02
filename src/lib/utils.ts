@@ -13,11 +13,11 @@ export { FilterUtils } from '@/utils/filterUtils';
 export { chartMemoization } from '@/utils/chartMemoization';
 
 // Error Handling
-export { errorUtils } from '@/utils/errorUtils';
+export { errorUtils, ErrorUtils } from '@/utils/errorUtils';
 
 // Security Utilities
 export { securityUtils } from '@/utils/securityUtils';
 export { xssProtection } from '@/utils/xssProtection';
 
-// Re-export common utility
-export { cn } from '@/lib/utils';
+// Common utility from shadcn
+export { cn } from 'clsx';
