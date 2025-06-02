@@ -34,6 +34,12 @@ export const DashboardSections = ({
   clearNotifications,
   markNotificationAsRead
 }: DashboardSectionsProps) => {
+  console.log('🔧 DashboardSections rendering with data:', {
+    metricsCount: dashboardData?.metrics?.length || 0,
+    performanceMetricsCount: dashboardData?.performanceMetrics?.length || 0,
+    hasData: !!dashboardData
+  });
+
   return (
     <>
       {/* Dashboard Header */}
@@ -51,7 +57,7 @@ export const DashboardSections = ({
       {/* AI Management Section */}
       <ErrorBoundary>
         <Suspense fallback={<DashboardSkeleton />}>
-          <AIManagementSection data={dashboardData.metrics || []} />
+          <AIManagementSection data={dashboardData?.metrics || []} />
         </Suspense>
       </ErrorBoundary>
 
@@ -59,7 +65,7 @@ export const DashboardSections = ({
       <ErrorBoundary>
         <Suspense fallback={<DashboardSkeleton />}>
           <MetricsSection
-            performanceMetrics={dashboardData.performanceMetrics || []}
+            performanceMetrics={dashboardData?.performanceMetrics || []}
             filters={filters}
             onFiltersChange={setFilters}
             onExport={() => console.log('Export metrics')}
@@ -71,24 +77,24 @@ export const DashboardSections = ({
       <ErrorBoundary>
         <Suspense fallback={<DashboardSkeleton />}>
           <ChartsGrid
-            metrics={dashboardData.metrics || []}
-            salesData={dashboardData.salesData || []}
-            trafficData={dashboardData.trafficData || []}
-            areaData={dashboardData.areaData || []}
-            radarData={dashboardData.radarData || []}
-            notifications={notifications}
-            treemapData={dashboardData.treemapData || []}
-            scatterData={dashboardData.scatterData || []}
-            funnelData={dashboardData.funnelData || []}
-            gaugeData={dashboardData.gaugeData || []}
-            sankeyData={dashboardData.sankeyData || { nodes: [], links: [] }}
-            candlestickData={dashboardData.candlestickData || []}
-            donutData={dashboardData.donutData || []}
-            barData={dashboardData.barData || []}
-            sentimentData={dashboardData.sentimentData || []}
-            engagementData={dashboardData.engagementData || []}
-            cryptoData={dashboardData.cryptoData || []}
-            hashtagData={dashboardData.hashtagData || []}
+            metrics={dashboardData?.metrics || []}
+            salesData={dashboardData?.salesData || []}
+            trafficData={dashboardData?.trafficData || []}
+            areaData={dashboardData?.areaData || []}
+            radarData={dashboardData?.radarData || []}
+            notifications={notifications || []}
+            treemapData={dashboardData?.treemapData || []}
+            scatterData={dashboardData?.scatterData || []}
+            funnelData={dashboardData?.funnelData || []}
+            gaugeData={dashboardData?.gaugeData || []}
+            sankeyData={dashboardData?.sankeyData || { nodes: [], links: [] }}
+            candlestickData={dashboardData?.candlestickData || []}
+            donutData={dashboardData?.donutData || []}
+            barData={dashboardData?.barData || []}
+            sentimentData={dashboardData?.sentimentData || []}
+            engagementData={dashboardData?.engagementData || []}
+            cryptoData={dashboardData?.cryptoData || []}
+            hashtagData={dashboardData?.hashtagData || []}
             isLive={isLive}
             onClearNotifications={clearNotifications}
             onMarkNotificationAsRead={markNotificationAsRead}
@@ -99,9 +105,9 @@ export const DashboardSections = ({
       {/* Dashboard Footer */}
       <ErrorBoundary>
         <DashboardFooter
-          metrics={dashboardData.metrics || []}
-          performanceMetrics={dashboardData.performanceMetrics || []}
-          notifications={notifications}
+          metrics={dashboardData?.metrics || []}
+          performanceMetrics={dashboardData?.performanceMetrics || []}
+          notifications={notifications || []}
           filters={filters}
           isLive={isLive}
         />

@@ -29,13 +29,43 @@ export const DashboardContent = () => {
 
   // Initialize data on mount
   useEffect(() => {
-    try {
-      const data = DashboardDataService.generateInitialData();
-      setDashboardData(data);
-      generateInitialData();
-    } catch (error) {
-      console.error('Failed to initialize dashboard data:', error);
-    }
+    const initializeData = async () => {
+      try {
+        console.log('🚀 Initializing dashboard data...');
+        const data = DashboardDataService.generateInitialData();
+        console.log('📊 Generated data:', data);
+        
+        // Ensure all required arrays exist with fallbacks
+        const completeData = {
+          metrics: data.metrics || [],
+          performanceMetrics: data.performanceMetrics || [],
+          salesData: data.salesData || [],
+          trafficData: data.trafficData || [],
+          areaData: data.areaData || [],
+          radarData: data.radarData || [],
+          treemapData: data.treemapData || [],
+          scatterData: data.scatterData || [],
+          funnelData: data.funnelData || [],
+          gaugeData: data.gaugeData || [],
+          sankeyData: data.sankeyData || { nodes: [], links: [] },
+          candlestickData: data.candlestickData || [],
+          donutData: data.donutData || [],
+          barData: data.barData || [],
+          sentimentData: data.sentimentData || [],
+          engagementData: data.engagementData || [],
+          cryptoData: data.cryptoData || [],
+          hashtagData: data.hashtagData || []
+        };
+        
+        setDashboardData(completeData);
+        generateInitialData();
+        console.log('✅ Dashboard data initialized successfully');
+      } catch (error) {
+        console.error('❌ Failed to initialize dashboard data:', error);
+      }
+    };
+
+    initializeData();
   }, [generateInitialData]);
 
   // Error state

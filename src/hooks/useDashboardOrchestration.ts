@@ -16,6 +16,7 @@ export const useDashboardOrchestration = () => {
   useRealTimeUpdates();
 
   const handleRefresh = useCallback(() => {
+    console.log('🔄 Refreshing dashboard data...');
     dataInitialization.generateInitialData();
   }, [dataInitialization]);
 

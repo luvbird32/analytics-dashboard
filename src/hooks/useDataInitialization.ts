@@ -12,25 +12,26 @@ export const useDataInitialization = () => {
   const { setLoading, setError } = useDashboardState();
   
   // Get the generation functions from the data hooks
-  const metricsHook = useMetricsData();
-  const chartsHook = useChartsData();
-  const socialCryptoHook = useSocialCryptoData();
+  const { generateInitialMetrics } = useMetricsData();
+  const { generateInitialCharts } = useChartsData();
+  const { generateInitialSocialCrypto } = useSocialCryptoData();
 
   const generateInitialData = useCallback(async () => {
+    console.log('🚀 Starting data initialization...');
     setLoading(true);
     setError(null);
     
     try {
-      console.log('🚀 Generating comprehensive dashboard data with mock data...');
+      console.log('📊 Generating metrics data...');
+      generateInitialMetrics();
       
-      // Force synchronous execution to ensure data is loaded
-      metricsHook.generateInitialMetrics();
-      chartsHook.generateInitialCharts();
-      socialCryptoHook.generateInitialSocialCrypto();
+      console.log('📈 Generating charts data...');
+      generateInitialCharts();
+      
+      console.log('📱 Generating social/crypto data...');
+      generateInitialSocialCrypto();
 
-      console.log('✅ Mock dashboard data loaded successfully');
-      console.log('📊 Metrics data:', metricsHook);
-      console.log('📈 Charts data:', chartsHook);
+      console.log('✅ All mock data loaded successfully');
     } catch (error) {
       console.error('❌ Error loading mock dashboard data:', error);
       setError('Failed to load dashboard data');
@@ -38,9 +39,10 @@ export const useDataInitialization = () => {
       // Small delay to ensure state updates are processed
       setTimeout(() => {
         setLoading(false);
+        console.log('🎯 Data initialization complete');
       }, 100);
     }
-  }, [metricsHook.generateInitialMetrics, chartsHook.generateInitialCharts, socialCryptoHook.generateInitialSocialCrypto, setLoading, setError]);
+  }, [generateInitialMetrics, generateInitialCharts, generateInitialSocialCrypto, setLoading, setError]);
 
   return {
     generateInitialData
