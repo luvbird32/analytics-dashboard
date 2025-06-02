@@ -10,8 +10,8 @@ export const useDashboardDataManager = (rawData: any) => {
     if (!rawData) return {};
 
     return {
-      metrics: SanitizationService.sanitizeMetrics(rawData.metrics || []),
-      performanceMetrics: SanitizationService.sanitizePerformanceMetrics(rawData.performanceMetrics || []),
+      metrics: SanitizationService.sanitizeChartData(rawData.metrics || []),
+      performanceMetrics: SanitizationService.sanitizeChartData(rawData.performanceMetrics || []),
       salesData: SanitizationService.sanitizeChartData(rawData.salesData || []),
       trafficData: SanitizationService.sanitizeChartData(rawData.trafficData || []),
       areaData: SanitizationService.sanitizeChartData(rawData.areaData || []),
