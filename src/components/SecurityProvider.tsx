@@ -2,11 +2,18 @@
 import React, { createContext, useContext, useEffect, ReactNode } from 'react';
 import { RateLimiter } from '@/utils/securityUtils';
 import { useSecureStorage } from '@/hooks/useSecureStorage';
+import { CSPService } from '@/services/security/cspService';
+import { ConfigService } from '@/services/security/configService';
+import { SecurityMonitor } from '@/services/security/securityMonitor';
+import { SecureAuthService } from '@/services/security/secureAuthService';
 
 interface SecurityContextType {
   rateLimiter: RateLimiter;
   checkStorageQuota: () => Promise<{ usage: number; quota: number }>;
   enableCSP: () => void;
+  isAuthenticated: boolean;
+  requireAuth: () => boolean;
+  logout: (reason?: string) => void;
 }
 
 const SecurityContext = createContext<SecurityContextType | undefined>(undefined);
@@ -16,66 +23,119 @@ interface SecurityProviderProps {
 }
 
 /**
- * Security provider component that implements security measures
+ * Enhanced security provider with comprehensive security measures
  */
 export const SecurityProvider = ({ children }: SecurityProviderProps) => {
   const { clearExpiredItems } = useSecureStorage();
   const rateLimiter = new RateLimiter();
 
   const checkStorageQuota = async (): Promise<{ usage: number; quota: number }> => {
-    if ('storage' in navigator && 'estimate' in navigator.storage) {
-      const estimate = await navigator.storage.estimate();
-      const usage = estimate.usage || 0;
-      const quota = estimate.quota || 0;
-      
-      // Warn if storage usage is high
-      if (usage / quota > 0.8) {
-        console.warn('Storage quota nearly exceeded. Consider clearing old data.');
+    try {
+      if ('storage' in navigator && 'estimate' in navigator.storage) {
+        const estimate = await navigator.storage.estimate();
+        const usage = estimate.usage || 0;
+        const quota = estimate.quota || 0;
+        
+        // Log storage monitoring
+        SecurityMonitor.logSecurityEvent('STORAGE_QUOTA_CHECK', {
+          usage,
+          quota,
+          usagePercentage: quota > 0 ? (usage / quota) * 100 : 0
+        });
+        
+        // Warn if storage usage is high
+        const warningThreshold = ConfigService.get('storageQuotaWarning', 0.8);
+        if (usage / quota > warningThreshold) {
+          console.warn('Storage quota nearly exceeded. Consider clearing old data.');
+          SecurityMonitor.logSecurityEvent('STORAGE_QUOTA_WARNING', {
+            usage,
+            quota,
+            threshold: warningThreshold
+          });
+        }
+        
+        return { usage, quota };
       }
-      
-      return { usage, quota };
+      return { usage: 0, quota: 0 };
+    } catch (error) {
+      SecurityMonitor.logSecurityEvent('STORAGE_QUOTA_CHECK_FAILED', { error });
+      return { usage: 0, quota: 0 };
     }
-    return { usage: 0, quota: 0 };
   };
 
   const enableCSP = () => {
-    // Add CSP meta tag if not present
-    if (!document.querySelector('meta[http-equiv="Content-Security-Policy"]')) {
-      const meta = document.createElement('meta');
-      meta.setAttribute('http-equiv', 'Content-Security-Policy');
-      meta.setAttribute('content', 
-        "default-src 'self'; " +
-        "script-src 'self' 'unsafe-inline' https://cdn.gpteng.co; " +
-        "style-src 'self' 'unsafe-inline'; " +
-        "img-src 'self' data: https:; " +
-        "connect-src 'self' https:; " +
-        "font-src 'self'; " +
-        "object-src 'none'; " +
-        "base-uri 'self';"
-      );
-      document.head.appendChild(meta);
+    try {
+      CSPService.applyCSP();
+      SecurityMonitor.logSecurityEvent('CSP_APPLIED', {
+        timestamp: Date.now()
+      });
+    } catch (error) {
+      SecurityMonitor.logSecurityEvent('CSP_APPLICATION_FAILED', { error });
     }
   };
 
+  const requireAuth = (): boolean => {
+    return SecureAuthService.requireAuth();
+  };
+
+  const logout = (reason?: string): void => {
+    SecureAuthService.logout(reason);
+  };
+
   useEffect(() => {
-    // Initialize security measures
-    enableCSP();
-    clearExpiredItems();
-    checkStorageQuota();
-    
-    // Set up periodic cleanup
-    const cleanup = setInterval(() => {
+    try {
+      // Initialize security services
+      ConfigService.initialize();
+      SecureAuthService.initialize();
+      
+      // Apply security measures
+      enableCSP();
+      
+      // Setup security monitoring
+      SecurityMonitor.logSecurityEvent('SECURITY_PROVIDER_INITIALIZED', {
+        timestamp: Date.now(),
+        userAgent: navigator.userAgent
+      });
+      
+      // Clear expired items
       clearExpiredItems();
       checkStorageQuota();
-    }, 60 * 60 * 1000); // Every hour
-    
-    return () => clearInterval(cleanup);
+      
+      // Set up periodic security tasks
+      const securityInterval = setInterval(() => {
+        clearExpiredItems();
+        checkStorageQuota();
+        SecurityMonitor.clearOldEvents();
+      }, 60 * 60 * 1000); // Every hour
+
+      // Monitor for potential security threats
+      const threatMonitoringInterval = setInterval(() => {
+        // Check for suspicious DOM manipulation
+        const scripts = document.querySelectorAll('script:not([nonce])');
+        if (scripts.length > 0) {
+          SecurityMonitor.logSecurityEvent('SUSPICIOUS_SCRIPT_DETECTED', {
+            count: scripts.length
+          });
+        }
+      }, 5 * 60 * 1000); // Every 5 minutes
+      
+      return () => {
+        clearInterval(securityInterval);
+        clearInterval(threatMonitoringInterval);
+      };
+    } catch (error) {
+      SecurityMonitor.logSecurityEvent('SECURITY_PROVIDER_INITIALIZATION_FAILED', { error });
+      console.error('Security Provider initialization failed:', error);
+    }
   }, [clearExpiredItems]);
 
   const value: SecurityContextType = {
     rateLimiter,
     checkStorageQuota,
-    enableCSP
+    enableCSP,
+    isAuthenticated: SecureAuthService.isUserAuthenticated(),
+    requireAuth,
+    logout
   };
 
   return (

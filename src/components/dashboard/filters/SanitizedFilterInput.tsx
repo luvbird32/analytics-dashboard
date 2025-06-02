@@ -2,6 +2,8 @@
 import React from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertTriangle } from 'lucide-react';
 import { useSanitizedInput } from '@/hooks/useSanitizedInput';
 import { z } from 'zod';
 
@@ -15,7 +17,7 @@ interface SanitizedFilterInputProps {
 }
 
 /**
- * Sanitized input component for filter forms
+ * Enhanced sanitized input component with security warnings
  */
 export const SanitizedFilterInput = ({
   label,
@@ -29,7 +31,9 @@ export const SanitizedFilterInput = ({
     value: sanitizedValue,
     updateValue,
     isValid,
-    errors
+    errors,
+    securityWarnings,
+    hasSecurityWarnings
   } = useSanitizedInput(
     value,
     schema || z.string().max(maxLength).optional()
@@ -50,8 +54,20 @@ export const SanitizedFilterInput = ({
         onChange={handleChange}
         placeholder={placeholder}
         maxLength={maxLength}
-        className={!isValid ? 'border-red-500' : ''}
+        className={!isValid || hasSecurityWarnings ? 'border-red-500' : ''}
       />
+      
+      {/* Security warnings */}
+      {hasSecurityWarnings && (
+        <Alert variant="destructive" className="mt-2">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription>
+            Security Warning: {securityWarnings.join(', ')}
+          </AlertDescription>
+        </Alert>
+      )}
+      
+      {/* Validation errors */}
       {errors.length > 0 && (
         <div className="text-sm text-red-600">
           {errors.map((error, index) => (
