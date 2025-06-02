@@ -5,23 +5,24 @@ import { useMetricsData } from './useMetricsData';
 import { useChartsData } from './useChartsData';
 import { useSocialCryptoData } from './useSocialCryptoData';
 import { useRealTimeUpdates } from './useRealTimeUpdates';
-import { useDataInitialization } from './useDataInitialization';
 
 /**
  * Main orchestration hook for dashboard functionality
  * Combines data management, real-time updates, and initialization
  */
 export const useDashboardOrchestration = () => {
-  // Use dashboard state instead of useDashboardData to avoid circular dependencies
+  // Always call all hooks in the same order - critical for React
   const {
     state,
     toggleLiveData,
     setFilters,
     clearNotifications,
-    markNotificationAsRead
+    markNotificationAsRead,
+    setLoading,
+    setError
   } = useDashboardState();
 
-  const { metrics, performanceMetrics } = useMetricsData();
+  const { metrics, performanceMetrics, generateInitialMetrics } = useMetricsData();
   const {
     salesData,
     trafficData,
@@ -34,42 +35,65 @@ export const useDashboardOrchestration = () => {
     sankeyData,
     candlestickData,
     donutData,
-    barData
+    barData,
+    generateInitialCharts
   } = useChartsData();
-  const { sentimentData, engagementData, cryptoData, hashtagData } = useSocialCryptoData();
-  const { generateInitialData } = useDataInitialization();
+  
+  const { sentimentData, engagementData, cryptoData, hashtagData, generateInitialSocialCrypto } = useSocialCryptoData();
   
   // Setup real-time updates with proper cleanup
   useRealTimeUpdates();
 
+  // Combined data initialization function
+  const generateInitialData = useCallback(async () => {
+    console.log('🚀 Starting data initialization...');
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // Initialize all data sequentially
+      console.log('📊 Generating metrics data...');
+      generateInitialMetrics();
+      
+      console.log('📈 Generating charts data...');
+      generateInitialCharts();
+      
+      console.log('📱 Generating social/crypto data...');
+      generateInitialSocialCrypto();
+
+      console.log('✅ All data loaded successfully');
+    } catch (error) {
+      console.error('❌ Error loading dashboard data:', error);
+      setError('Failed to load dashboard data');
+    } finally {
+      // Ensure loading state is always reset
+      setTimeout(() => {
+        setLoading(false);
+        console.log('🎯 Data initialization complete');
+      }, 100);
+    }
+  }, [generateInitialMetrics, generateInitialCharts, generateInitialSocialCrypto, setLoading, setError]);
+
   // Initialize data on mount with error handling
   useEffect(() => {
     console.log('🚀 Dashboard orchestration initializing...');
-    try {
-      generateInitialData();
-    } catch (error) {
-      console.error('❌ Failed to initialize dashboard data:', error);
-    }
+    generateInitialData();
   }, [generateInitialData]);
 
   const handleRefresh = useCallback(() => {
     console.log('🔄 Refreshing dashboard data...');
-    try {
-      generateInitialData();
-    } catch (error) {
-      console.error('❌ Failed to refresh dashboard data:', error);
-    }
+    generateInitialData();
   }, [generateInitialData]);
 
   return {
-    // State properties - using state object directly
+    // State properties
     isLive: state.isLive,
     filters: state.filters,
     notifications: state.notifications,
     isLoading: state.isLoading,
     error: state.error,
     
-    // Data properties from specialized hooks
+    // Data properties
     metrics,
     performanceMetrics,
     salesData,

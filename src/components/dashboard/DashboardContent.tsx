@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { DashboardSkeleton } from '@/components/LoadingProvider';
 import { DashboardLayout } from './layout/DashboardLayout';
 import { DashboardErrorState } from './layout/DashboardErrorState';
@@ -11,12 +11,6 @@ import { useDashboardOrchestration } from '@/hooks/useDashboardOrchestration';
  */
 export const DashboardContent = () => {
   const dashboardData = useDashboardOrchestration();
-
-  // Initialize data on mount
-  useEffect(() => {
-    console.log('🚀 Initializing dashboard on mount...');
-    dashboardData.generateInitialData();
-  }, [dashboardData.generateInitialData]);
 
   // Error state
   if (dashboardData.error) {
