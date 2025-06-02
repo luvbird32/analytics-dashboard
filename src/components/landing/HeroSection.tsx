@@ -1,47 +1,70 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight, BarChart3, TrendingUp } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 /**
- * Hero section with main call-to-action
+ * Hero section component for the landing page
+ * Features animated text, call-to-action buttons, and dashboard navigation
  */
 export const HeroSection = () => {
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-red-50 px-4 sm:px-6 lg:px-8 pt-16 sm:pt-18 md:pt-20 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-secondary/10 to-primary/10 rounded-full blur-3xl"></div>
-      </div>
-      
-      <div className="container mx-auto text-center relative z-10">
-        <div className="max-w-5xl mx-auto">
-          <div className="mb-6 sm:mb-8">
-            <span className="inline-flex items-center rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary border border-primary/20">
-              🚀 New Analytics Engine Available
-            </span>
-          </div>
-          
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight mb-6 sm:mb-8 md:mb-10 leading-[1.1] sm:leading-tight bg-gradient-to-r from-gray-900 via-primary to-secondary bg-clip-text text-transparent">
-            Transform Your Data Into
-            <span className="block mt-2 sm:mt-0 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"> Actionable Insights</span>
+    <section id="hero" className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto text-center">
+        {/* Hero Content */}
+        <div className="animate-fade-in-up">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+            Enterprise Analytics
+            <span className="block text-primary">Dashboard</span>
           </h1>
           
-          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 mb-8 sm:mb-10 md:mb-12 max-w-4xl mx-auto leading-relaxed px-2 sm:px-4">
-            Experience the power of real-time analytics with our comprehensive dashboard solution. 
-            Make data-driven decisions that drive your business forward.
+          <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+            Transform your data into actionable insights with our powerful, 
+            real-time analytics platform designed for modern enterprises.
           </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-2 sm:px-4">
-            <Button size="lg" className="w-full sm:w-auto text-lg md:text-xl px-8 md:px-12 py-4 md:py-6 tap-target touch-manipulation min-h-[56px] md:min-h-[64px] bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-              Get Started Free
-              <ArrowRight className="ml-3 h-5 w-5 sm:h-6 sm:w-6" />
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+            <Button asChild size="lg" className="w-full sm:w-auto text-lg px-8 py-4">
+              <Link to="/dashboard">
+                <BarChart3 className="mr-2 h-5 w-5" />
+                View Dashboard
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
             </Button>
-            <Button variant="outline" size="lg" className="w-full sm:w-auto text-lg md:text-xl px-8 md:px-12 py-4 md:py-6 tap-target touch-manipulation min-h-[56px] md:min-h-[64px] border-2 border-gray-300 hover:border-primary hover:bg-primary/5 transition-all duration-300">
-              <Play className="mr-3 h-5 w-5 sm:h-6 sm:w-6" />
-              Watch Demo
+            
+            <Button variant="outline" size="lg" className="w-full sm:w-auto text-lg px-8 py-4">
+              <TrendingUp className="mr-2 h-5 w-5" />
+              Learn More
             </Button>
+          </div>
+        </div>
+
+        {/* Features Preview */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 animate-fade-in-up animation-delay-300">
+          <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-lg">
+            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 mx-auto">
+              <BarChart3 className="h-6 w-6 text-primary" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Real-time Analytics</h3>
+            <p className="text-gray-600">Live data updates and interactive visualizations</p>
+          </div>
+
+          <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-lg">
+            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 mx-auto">
+              <TrendingUp className="h-6 w-6 text-primary" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Advanced Charts</h3>
+            <p className="text-gray-600">Multiple chart types for comprehensive data analysis</p>
+          </div>
+
+          <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-lg">
+            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 mx-auto">
+              <ArrowRight className="h-6 w-6 text-primary" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Easy Integration</h3>
+            <p className="text-gray-600">Seamless setup with your existing data sources</p>
           </div>
         </div>
       </div>
