@@ -19,5 +19,10 @@ export { errorUtils, ErrorUtils } from '@/utils/errorUtils';
 export { securityUtils } from '@/utils/securityUtils';
 export { xssProtection } from '@/utils/xssProtection';
 
-// Common utility from shadcn
-export { cn } from 'clsx';
+// Common utility function for combining classes
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
