@@ -6,6 +6,7 @@ import { useDashboardState } from './useDashboardState';
 
 /**
  * Coordinates real-time data updates across different data sources
+ * Fixed to prevent memory leaks and improve error handling
  */
 export const useRealTimeCoordinator = () => {
   const { state, addNotification } = useDashboardState();
@@ -17,11 +18,19 @@ export const useRealTimeCoordinator = () => {
 
     console.log('🔄 Coordinating real-time updates...');
 
-    // Batch updates for performance
-    requestAnimationFrame(() => {
-      updateMetrics(state.isLive, addNotification);
-      updateTrafficData(state.isLive);
-    });
+    try {
+      // Batch updates for performance with error handling
+      requestAnimationFrame(() => {
+        try {
+          updateMetrics(state.isLive, addNotification);
+          updateTrafficData(state.isLive);
+        } catch (error) {
+          console.error('❌ Error during real-time update:', error);
+        }
+      });
+    } catch (error) {
+      console.error('❌ Error scheduling real-time updates:', error);
+    }
   }, [state.isLive, updateMetrics, updateTrafficData, addNotification]);
 
   return {

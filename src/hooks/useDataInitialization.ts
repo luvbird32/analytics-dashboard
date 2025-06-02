@@ -6,7 +6,7 @@ import { useSocialCryptoData } from './useSocialCryptoData';
 import { useDashboardState } from './useDashboardState';
 
 /**
- * Hook for managing data initialization with mock data
+ * Hook for managing data initialization with proper error handling
  */
 export const useDataInitialization = () => {
   const { setLoading, setError } = useDashboardState();
@@ -22,21 +22,23 @@ export const useDataInitialization = () => {
     setError(null);
     
     try {
+      // Sequential initialization to avoid race conditions
       console.log('📊 Generating metrics data...');
-      generateInitialMetrics();
+      await Promise.resolve(generateInitialMetrics());
       
       console.log('📈 Generating charts data...');
-      generateInitialCharts();
+      await Promise.resolve(generateInitialCharts());
       
       console.log('📱 Generating social/crypto data...');
-      generateInitialSocialCrypto();
+      await Promise.resolve(generateInitialSocialCrypto());
 
-      console.log('✅ All mock data loaded successfully');
+      console.log('✅ All data loaded successfully');
     } catch (error) {
-      console.error('❌ Error loading mock dashboard data:', error);
+      console.error('❌ Error loading dashboard data:', error);
       setError('Failed to load dashboard data');
+      throw error; // Re-throw to allow caller to handle
     } finally {
-      // Small delay to ensure state updates are processed
+      // Ensure loading state is always reset
       setTimeout(() => {
         setLoading(false);
         console.log('🎯 Data initialization complete');

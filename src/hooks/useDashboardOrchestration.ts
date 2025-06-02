@@ -1,6 +1,6 @@
 
-import { useCallback } from 'react';
-import { useDashboardData } from './useDashboardData';
+import { useCallback, useEffect } from 'react';
+import { useDashboardState } from './useDashboardState';
 import { useMetricsData } from './useMetricsData';
 import { useChartsData } from './useChartsData';
 import { useSocialCryptoData } from './useSocialCryptoData';
@@ -12,7 +12,15 @@ import { useDataInitialization } from './useDataInitialization';
  * Combines data management, real-time updates, and initialization
  */
 export const useDashboardOrchestration = () => {
-  const dashboardState = useDashboardData();
+  // Use dashboard state instead of useDashboardData to avoid circular dependencies
+  const {
+    state,
+    toggleLiveData,
+    setFilters,
+    clearNotifications,
+    markNotificationAsRead
+  } = useDashboardState();
+
   const { metrics, performanceMetrics } = useMetricsData();
   const {
     salesData,
@@ -29,23 +37,37 @@ export const useDashboardOrchestration = () => {
     barData
   } = useChartsData();
   const { sentimentData, engagementData, cryptoData, hashtagData } = useSocialCryptoData();
-  const dataInitialization = useDataInitialization();
+  const { generateInitialData } = useDataInitialization();
   
-  // Setup real-time updates
+  // Setup real-time updates with proper cleanup
   useRealTimeUpdates();
+
+  // Initialize data on mount with error handling
+  useEffect(() => {
+    console.log('🚀 Dashboard orchestration initializing...');
+    try {
+      generateInitialData();
+    } catch (error) {
+      console.error('❌ Failed to initialize dashboard data:', error);
+    }
+  }, [generateInitialData]);
 
   const handleRefresh = useCallback(() => {
     console.log('🔄 Refreshing dashboard data...');
-    dataInitialization.generateInitialData();
-  }, [dataInitialization]);
+    try {
+      generateInitialData();
+    } catch (error) {
+      console.error('❌ Failed to refresh dashboard data:', error);
+    }
+  }, [generateInitialData]);
 
   return {
-    // State properties
-    isLive: dashboardState.isLive,
-    filters: dashboardState.filters,
-    notifications: dashboardState.notifications,
-    isLoading: dashboardState.isLoading,
-    error: dashboardState.error,
+    // State properties - using state object directly
+    isLive: state.isLive,
+    filters: state.filters,
+    notifications: state.notifications,
+    isLoading: state.isLoading,
+    error: state.error,
     
     // Data properties from specialized hooks
     metrics,
@@ -68,11 +90,11 @@ export const useDashboardOrchestration = () => {
     hashtagData,
     
     // Action functions
-    toggleLiveData: dashboardState.toggleLiveData,
-    setFilters: dashboardState.setFilters,
-    clearNotifications: dashboardState.clearNotifications,
-    markNotificationAsRead: dashboardState.markNotificationAsRead,
+    toggleLiveData,
+    setFilters,
+    clearNotifications,
+    markNotificationAsRead,
     handleRefresh,
-    generateInitialData: dataInitialization.generateInitialData
+    generateInitialData
   };
 };
