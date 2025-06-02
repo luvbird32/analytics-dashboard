@@ -27,6 +27,34 @@ export const DashboardFilters = ({ filters, onFiltersChange, onExport }: Dashboa
     onFiltersChange(FilterUtils.clearAllFilters());
   };
 
+  const handleDateRangeChange = (range: string) => {
+    onFiltersChange({
+      ...filters,
+      dateRange: range as FilterType['dateRange']
+    });
+  };
+
+  const handleCategoryChange = (categories: string[]) => {
+    onFiltersChange({
+      ...filters,
+      category: categories
+    });
+  };
+
+  const handleRegionChange = (regions: string[]) => {
+    onFiltersChange({
+      ...filters,
+      region: regions
+    });
+  };
+
+  const handleUserTypeChange = (userTypes: string[]) => {
+    onFiltersChange({
+      ...filters,
+      userType: userTypes
+    });
+  };
+
   return (
     <Card className="animate-fade-in">
       <CardHeader>
@@ -41,10 +69,22 @@ export const DashboardFilters = ({ filters, onFiltersChange, onExport }: Dashboa
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        <DateRangeFilter filters={filters} onFiltersChange={onFiltersChange} />
-        <CategoryFilter filters={filters} onFiltersChange={onFiltersChange} />
-        <RegionFilter filters={filters} onFiltersChange={onFiltersChange} />
-        <UserTypeFilter filters={filters} onFiltersChange={onFiltersChange} />
+        <DateRangeFilter 
+          selectedRange={filters.dateRange} 
+          onRangeChange={handleDateRangeChange} 
+        />
+        <CategoryFilter 
+          selectedCategories={filters.category} 
+          onCategoryChange={handleCategoryChange} 
+        />
+        <RegionFilter 
+          selectedRegions={filters.region} 
+          onRegionChange={handleRegionChange} 
+        />
+        <UserTypeFilter 
+          selectedUserTypes={filters.userType} 
+          onUserTypeChange={handleUserTypeChange} 
+        />
         <ExportOptions onExport={onExport} />
 
         {activeFilterCount > 0 && (
