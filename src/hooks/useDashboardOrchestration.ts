@@ -1,6 +1,9 @@
 
 import { useCallback } from 'react';
 import { useDashboardData } from './useDashboardData';
+import { useMetricsData } from './useMetricsData';
+import { useChartsData } from './useChartsData';
+import { useSocialCryptoData } from './useSocialCryptoData';
 import { useRealTimeUpdates } from './useRealTimeUpdates';
 import { useDataInitialization } from './useDataInitialization';
 
@@ -9,7 +12,10 @@ import { useDataInitialization } from './useDataInitialization';
  * Combines data management, real-time updates, and initialization
  */
 export const useDashboardOrchestration = () => {
-  const dashboardData = useDashboardData();
+  const dashboardState = useDashboardData();
+  const metricsData = useMetricsData();
+  const chartsData = useChartsData();
+  const socialCryptoData = useSocialCryptoData();
   const dataInitialization = useDataInitialization();
   
   // Setup real-time updates
@@ -22,37 +28,37 @@ export const useDashboardOrchestration = () => {
 
   return {
     // State properties
-    isLive: dashboardData.isLive,
-    filters: dashboardData.filters,
-    notifications: dashboardData.notifications,
-    isLoading: dashboardData.isLoading,
-    error: dashboardData.error,
+    isLive: dashboardState.isLive,
+    filters: dashboardState.filters,
+    notifications: dashboardState.notifications,
+    isLoading: dashboardState.isLoading,
+    error: dashboardState.error,
     
-    // Data properties
-    metrics: dashboardData.metrics,
-    performanceMetrics: dashboardData.performanceMetrics,
-    salesData: dashboardData.salesData,
-    trafficData: dashboardData.trafficData,
-    areaData: dashboardData.areaData,
-    radarData: dashboardData.radarData,
-    treemapData: dashboardData.treemapData,
-    scatterData: dashboardData.scatterData,
-    funnelData: dashboardData.funnelData,
-    gaugeData: dashboardData.gaugeData,
-    sankeyData: dashboardData.sankeyData,
-    candlestickData: dashboardData.candlestickData,
-    donutData: dashboardData.donutData,
-    barData: dashboardData.barData,
-    sentimentData: dashboardData.sentimentData,
-    engagementData: dashboardData.engagementData,
-    cryptoData: dashboardData.cryptoData,
-    hashtagData: dashboardData.hashtagData,
+    // Data properties from specialized hooks
+    metrics: metricsData.metrics,
+    performanceMetrics: metricsData.performanceMetrics,
+    salesData: chartsData.salesData,
+    trafficData: chartsData.trafficData,
+    areaData: chartsData.areaData,
+    radarData: chartsData.radarData,
+    treemapData: chartsData.treemapData,
+    scatterData: chartsData.scatterData,
+    funnelData: chartsData.funnelData,
+    gaugeData: chartsData.gaugeData,
+    sankeyData: chartsData.sankeyData,
+    candlestickData: chartsData.candlestickData,
+    donutData: chartsData.donutData,
+    barData: chartsData.barData,
+    sentimentData: socialCryptoData.sentimentData,
+    engagementData: socialCryptoData.engagementData,
+    cryptoData: socialCryptoData.cryptoData,
+    hashtagData: socialCryptoData.hashtagData,
     
     // Action functions
-    toggleLiveData: dashboardData.toggleLiveData,
-    setFilters: dashboardData.setFilters,
-    clearNotifications: dashboardData.clearNotifications,
-    markNotificationAsRead: dashboardData.markNotificationAsRead,
+    toggleLiveData: dashboardState.toggleLiveData,
+    setFilters: dashboardState.setFilters,
+    clearNotifications: dashboardState.clearNotifications,
+    markNotificationAsRead: dashboardState.markNotificationAsRead,
     handleRefresh,
     generateInitialData: dataInitialization.generateInitialData
   };
