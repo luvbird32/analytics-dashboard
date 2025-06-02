@@ -1,5 +1,5 @@
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { 
   SalesData, 
   TrafficData, 
@@ -24,8 +24,8 @@ import { FinancialChartsService } from '@/services/charts/financialChartsService
  * Hook for managing chart data using specialized services
  */
 export const useChartsData = () => {
-  const [salesData, setSalesData] = useState<SalesData[]>([]);
-  const [trafficData, setTrafficData] = useState<TrafficData[]>([]);
+  const [salesData, setSalesData] = useState<SalesData[]>(mockSalesData);
+  const [trafficData, setTrafficData] = useState<TrafficData[]>(mockTrafficData);
   const [heatmapData, setHeatmapData] = useState<HeatmapData[]>([]);
   const [radarData, setRadarData] = useState<RadarData[]>([]);
   const [areaData, setAreaData] = useState<AreaData[]>([]);
@@ -38,7 +38,7 @@ export const useChartsData = () => {
   const [donutData, setDonutData] = useState<DonutData[]>([]);
   const [barData, setBarData] = useState<BarData[]>([]);
 
-  console.log('🔍 useChartsData - Current State:', {
+  console.log('🔍 useChartsData - Current State Check:', {
     salesDataLength: salesData.length,
     trafficDataLength: trafficData.length,
     areaDataLength: areaData.length,
@@ -74,59 +74,63 @@ export const useChartsData = () => {
   }, []);
 
   const generateInitialCharts = useCallback(() => {
-    console.log('📊 Loading chart data with specialized services...');
+    console.log('📊 Starting chart data generation...');
     
-    // Use mock data for sales and traffic
-    console.log('📊 Setting sales data:', mockSalesData);
-    console.log('📊 Setting traffic data:', mockTrafficData);
-    setSalesData([...mockSalesData]);
-    setTrafficData([...mockTrafficData]);
-    
-    // Use specialized services for other charts
-    const radarChartData = BasicChartsService.generateRadarData();
-    const areaChartData = BasicChartsService.generateAreaData();
-    
-    console.log('📊 Generated radar data:', radarChartData);
-    console.log('📊 Generated area data:', areaChartData);
-    
-    setRadarData(radarChartData);
-    setAreaData(areaChartData);
-    setHeatmapData(generateHeatmapData());
+    try {
+      // Generate all chart data immediately
+      const radarChartData = BasicChartsService.generateRadarData();
+      const areaChartData = BasicChartsService.generateAreaData();
+      const heatmapChartData = generateHeatmapData();
+      
+      const treemapChartData = AdvancedChartsService.generateTreemapData();
+      const scatterChartData = AdvancedChartsService.generateScatterData();
+      const funnelChartData = AdvancedChartsService.generateFunnelData();
+      const gaugeChartData = AdvancedChartsService.generateGaugeData();
+      
+      const sankeyChartData = FinancialChartsService.generateSankeyData();
+      const candlestickChartData = FinancialChartsService.generateCandlestickData();
+      const donutChartData = FinancialChartsService.generateDonutData();
+      const barChartData = FinancialChartsService.generateBarData();
 
-    // Advanced charts
-    const treemapChartData = AdvancedChartsService.generateTreemapData();
-    const scatterChartData = AdvancedChartsService.generateScatterData();
-    const funnelChartData = AdvancedChartsService.generateFunnelData();
-    const gaugeChartData = AdvancedChartsService.generateGaugeData();
-    
-    console.log('📊 Generated treemap data:', treemapChartData);
-    console.log('📊 Generated scatter data:', scatterChartData);
-    console.log('📊 Generated funnel data:', funnelChartData);
-    console.log('📊 Generated gauge data:', gaugeChartData);
-    
-    setTreemapData(treemapChartData);
-    setScatterData(scatterChartData);
-    setFunnelData(funnelChartData);
-    setGaugeData(gaugeChartData);
+      console.log('📊 Generated all chart data:', {
+        radar: radarChartData.length,
+        area: areaChartData.length,
+        heatmap: heatmapChartData.length,
+        treemap: treemapChartData.length,
+        scatter: scatterChartData.length,
+        funnel: funnelChartData.length,
+        gauge: gaugeChartData.length,
+        sankeyNodes: sankeyChartData.nodes.length,
+        sankeyLinks: sankeyChartData.links.length,
+        candlestick: candlestickChartData.length,
+        donut: donutChartData.length,
+        bar: barChartData.length
+      });
 
-    // Financial charts
-    const sankeyChartData = FinancialChartsService.generateSankeyData();
-    const candlestickChartData = FinancialChartsService.generateCandlestickData();
-    const donutChartData = FinancialChartsService.generateDonutData();
-    const barChartData = FinancialChartsService.generateBarData();
-    
-    console.log('📊 Generated sankey data:', sankeyChartData);
-    console.log('📊 Generated candlestick data:', candlestickChartData);
-    console.log('📊 Generated donut data:', donutChartData);
-    console.log('📊 Generated bar data:', barChartData);
-    
-    setSankeyData(sankeyChartData);
-    setCandlestickData(candlestickChartData);
-    setDonutData(donutChartData);
-    setBarData(barChartData);
-    
-    console.log('✅ All chart data loaded successfully');
+      // Set all data at once
+      setRadarData(radarChartData);
+      setAreaData(areaChartData);
+      setHeatmapData(heatmapChartData);
+      setTreemapData(treemapChartData);
+      setScatterData(scatterChartData);
+      setFunnelData(funnelChartData);
+      setGaugeData(gaugeChartData);
+      setSankeyData(sankeyChartData);
+      setCandlestickData(candlestickChartData);
+      setDonutData(donutChartData);
+      setBarData(barChartData);
+
+      console.log('✅ All chart data set successfully');
+    } catch (error) {
+      console.error('❌ Error generating chart data:', error);
+    }
   }, [generateHeatmapData]);
+
+  // Generate data immediately on mount
+  useEffect(() => {
+    console.log('🚀 useChartsData mounting - generating initial data...');
+    generateInitialCharts();
+  }, [generateInitialCharts]);
 
   const updateTrafficData = useCallback((isLive: boolean) => {
     if (!isLive || Math.random() <= 0.8) return;
