@@ -29,7 +29,7 @@ export const useSocialCryptoData = () => {
       likes: Math.floor(Math.random() * 5000) + 1000,
       shares: Math.floor(Math.random() * 2000) + 500,
       comments: Math.floor(Math.random() * 1000) + 200,
-      reach: Math.floor(Math.random() * 50000) + 10000, // Added missing reach property
+      reach: Math.floor(Math.random() * 50000) + 10000,
       engagement_rate: Math.random() * 10 + 2
     }));
   }, []);
@@ -42,8 +42,8 @@ export const useSocialCryptoData = () => {
       timestamp,
       price: Math.random() * 20000 + 30000,
       volume: Math.random() * 1000000 + 500000,
-      marketCap: Math.random() * 500000000000 + 500000000000, // Added missing marketCap property
-      change24h: (Math.random() - 0.5) * 10 // Added missing change24h property
+      marketCap: Math.random() * 500000000000 + 500000000000,
+      change24h: (Math.random() - 0.5) * 10
     }));
   }, []);
 
@@ -57,7 +57,7 @@ export const useSocialCryptoData = () => {
     }));
   }, []);
 
-  const generateInitialSocialCrypto = useCallback(async () => {
+  const generateInitialSocialCrypto = useCallback(() => {
     console.log('🚀 Generating social crypto data...');
     
     try {
