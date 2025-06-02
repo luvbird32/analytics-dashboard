@@ -12,14 +12,25 @@ export const useDataInitialization = () => {
   const { generateInitialCharts } = useChartsData();
   const { generateInitialSocialCrypto } = useSocialCryptoData();
 
-  const generateInitialData = useCallback(() => {
+  const generateInitialData = useCallback(async () => {
     console.log('🚀 Initializing comprehensive dashboard data...');
     
     try {
-      // Initialize all data sources
-      generateInitialMetrics();
-      generateInitialCharts();
-      generateInitialSocialCrypto();
+      // Initialize data sources sequentially to avoid React hook conflicts
+      await new Promise(resolve => {
+        generateInitialMetrics();
+        setTimeout(resolve, 10);
+      });
+      
+      await new Promise(resolve => {
+        generateInitialCharts();
+        setTimeout(resolve, 10);
+      });
+      
+      await new Promise(resolve => {
+        generateInitialSocialCrypto();
+        setTimeout(resolve, 10);
+      });
       
       console.log('✅ Dashboard data initialized successfully');
       return true;
