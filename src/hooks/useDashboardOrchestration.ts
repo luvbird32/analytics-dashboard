@@ -21,7 +21,38 @@ export const useDashboardOrchestration = () => {
   }, [dataInitialization]);
 
   return {
-    ...dashboardData,
+    // State properties
+    isLive: dashboardData.isLive,
+    filters: dashboardData.filters,
+    notifications: dashboardData.notifications,
+    isLoading: dashboardData.isLoading,
+    error: dashboardData.error,
+    
+    // Data properties
+    metrics: dashboardData.metrics,
+    performanceMetrics: dashboardData.performanceMetrics,
+    salesData: dashboardData.salesData,
+    trafficData: dashboardData.trafficData,
+    areaData: dashboardData.areaData,
+    radarData: dashboardData.radarData,
+    treemapData: dashboardData.treemapData,
+    scatterData: dashboardData.scatterData,
+    funnelData: dashboardData.funnelData,
+    gaugeData: dashboardData.gaugeData,
+    sankeyData: dashboardData.sankeyData,
+    candlestickData: dashboardData.candlestickData,
+    donutData: dashboardData.donutData,
+    barData: dashboardData.barData,
+    sentimentData: dashboardData.sentimentData,
+    engagementData: dashboardData.engagementData,
+    cryptoData: dashboardData.cryptoData,
+    hashtagData: dashboardData.hashtagData,
+    
+    // Action functions
+    toggleLiveData: dashboardData.toggleLiveData,
+    setFilters: dashboardData.setFilters,
+    clearNotifications: dashboardData.clearNotifications,
+    markNotificationAsRead: dashboardData.markNotificationAsRead,
     handleRefresh,
     generateInitialData: dataInitialization.generateInitialData
   };
