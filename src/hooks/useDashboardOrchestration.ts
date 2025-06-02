@@ -16,7 +16,20 @@ export const useDashboardOrchestration = () => {
   const { isLive, toggleLiveData } = useSimplifiedRealTimeCoordinator();
   
   const { metrics, performanceMetrics } = useMetricsData();
-  const { salesData, trafficData, areaData, radarData } = useChartsData();
+  const { 
+    salesData, 
+    trafficData, 
+    areaData, 
+    radarData,
+    treemapData,
+    scatterData,
+    funnelData,
+    gaugeData,
+    sankeyData,
+    candlestickData,
+    donutData,
+    barData
+  } = useChartsData();
   const { sentimentData, engagementData, cryptoData, hashtagData } = useSocialCryptoData();
   const { generateInitialData } = useDataInitialization();
 
@@ -31,7 +44,16 @@ export const useDashboardOrchestration = () => {
     cryptoDataLength: cryptoData?.length || 0,
     hashtagDataLength: hashtagData?.length || 0,
     areaDataLength: areaData?.length || 0,
-    radarDataLength: radarData?.length || 0
+    radarDataLength: radarData?.length || 0,
+    treemapDataLength: treemapData?.length || 0,
+    scatterDataLength: scatterData?.length || 0,
+    funnelDataLength: funnelData?.length || 0,
+    gaugeDataLength: gaugeData?.length || 0,
+    sankeyNodesLength: sankeyData?.nodes?.length || 0,
+    sankeyLinksLength: sankeyData?.links?.length || 0,
+    candlestickDataLength: candlestickData?.length || 0,
+    donutDataLength: donutData?.length || 0,
+    barDataLength: barData?.length || 0
   });
 
   // Collect raw data including all chart types
@@ -46,15 +68,14 @@ export const useDashboardOrchestration = () => {
     engagementData,
     cryptoData,
     hashtagData,
-    // Add missing chart data with empty defaults
-    treemapData: [],
-    scatterData: [],
-    funnelData: [],
-    gaugeData: [],
-    sankeyData: { nodes: [], links: [] },
-    candlestickData: [],
-    donutData: [],
-    barData: []
+    treemapData,
+    scatterData,
+    funnelData,
+    gaugeData,
+    sankeyData,
+    candlestickData,
+    donutData,
+    barData
   };
 
   console.log('🔍 Dashboard Orchestration - Raw Data Object:', rawData);

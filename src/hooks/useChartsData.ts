@@ -24,8 +24,8 @@ import { FinancialChartsService } from '@/services/charts/financialChartsService
  * Hook for managing chart data using specialized services
  */
 export const useChartsData = () => {
-  const [salesData, setSalesData] = useState<SalesData[]>(mockSalesData);
-  const [trafficData, setTrafficData] = useState<TrafficData[]>(mockTrafficData);
+  const [salesData, setSalesData] = useState<SalesData[]>([]);
+  const [trafficData, setTrafficData] = useState<TrafficData[]>([]);
   const [heatmapData, setHeatmapData] = useState<HeatmapData[]>([]);
   const [radarData, setRadarData] = useState<RadarData[]>([]);
   const [areaData, setAreaData] = useState<AreaData[]>([]);
@@ -43,8 +43,15 @@ export const useChartsData = () => {
     trafficDataLength: trafficData.length,
     areaDataLength: areaData.length,
     radarDataLength: radarData.length,
-    salesData: salesData,
-    trafficData: trafficData
+    treemapDataLength: treemapData.length,
+    scatterDataLength: scatterData.length,
+    funnelDataLength: funnelData.length,
+    gaugeDataLength: gaugeData.length,
+    candlestickDataLength: candlestickData.length,
+    donutDataLength: donutData.length,
+    barDataLength: barData.length,
+    sankeyNodes: sankeyData.nodes.length,
+    sankeyLinks: sankeyData.links.length
   });
 
   const generateHeatmapData = useCallback(() => {
@@ -87,16 +94,36 @@ export const useChartsData = () => {
     setHeatmapData(generateHeatmapData());
 
     // Advanced charts
-    setTreemapData(AdvancedChartsService.generateTreemapData());
-    setScatterData(AdvancedChartsService.generateScatterData());
-    setFunnelData(AdvancedChartsService.generateFunnelData());
-    setGaugeData(AdvancedChartsService.generateGaugeData());
+    const treemapChartData = AdvancedChartsService.generateTreemapData();
+    const scatterChartData = AdvancedChartsService.generateScatterData();
+    const funnelChartData = AdvancedChartsService.generateFunnelData();
+    const gaugeChartData = AdvancedChartsService.generateGaugeData();
+    
+    console.log('📊 Generated treemap data:', treemapChartData);
+    console.log('📊 Generated scatter data:', scatterChartData);
+    console.log('📊 Generated funnel data:', funnelChartData);
+    console.log('📊 Generated gauge data:', gaugeChartData);
+    
+    setTreemapData(treemapChartData);
+    setScatterData(scatterChartData);
+    setFunnelData(funnelChartData);
+    setGaugeData(gaugeChartData);
 
     // Financial charts
-    setSankeyData(FinancialChartsService.generateSankeyData());
-    setCandlestickData(FinancialChartsService.generateCandlestickData());
-    setDonutData(FinancialChartsService.generateDonutData());
-    setBarData(FinancialChartsService.generateBarData());
+    const sankeyChartData = FinancialChartsService.generateSankeyData();
+    const candlestickChartData = FinancialChartsService.generateCandlestickData();
+    const donutChartData = FinancialChartsService.generateDonutData();
+    const barChartData = FinancialChartsService.generateBarData();
+    
+    console.log('📊 Generated sankey data:', sankeyChartData);
+    console.log('📊 Generated candlestick data:', candlestickChartData);
+    console.log('📊 Generated donut data:', donutChartData);
+    console.log('📊 Generated bar data:', barChartData);
+    
+    setSankeyData(sankeyChartData);
+    setCandlestickData(candlestickChartData);
+    setDonutData(donutChartData);
+    setBarData(barChartData);
     
     console.log('✅ All chart data loaded successfully');
   }, [generateHeatmapData]);

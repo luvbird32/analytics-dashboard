@@ -1,34 +1,37 @@
 
 import { useMemo } from 'react';
-import { SanitizationService } from '@/services/security/sanitizationService';
 
 /**
- * Simplified data management hook
+ * Simplified data manager hook for sanitizing and processing dashboard data
  */
 export const useSimplifiedDataManager = (rawData: any) => {
   const sanitizedData = useMemo(() => {
-    if (!rawData) return {};
-
-    return {
-      metrics: SanitizationService.sanitizeChartData(rawData.metrics || []),
-      performanceMetrics: SanitizationService.sanitizeChartData(rawData.performanceMetrics || []),
-      salesData: SanitizationService.sanitizeChartData(rawData.salesData || []),
-      trafficData: SanitizationService.sanitizeChartData(rawData.trafficData || []),
-      areaData: SanitizationService.sanitizeChartData(rawData.areaData || []),
-      radarData: SanitizationService.sanitizeChartData(rawData.radarData || []),
-      treemapData: SanitizationService.sanitizeChartData(rawData.treemapData || []),
-      scatterData: SanitizationService.sanitizeChartData(rawData.scatterData || []),
-      funnelData: SanitizationService.sanitizeChartData(rawData.funnelData || []),
-      gaugeData: SanitizationService.sanitizeChartData(rawData.gaugeData || []),
+    console.log('🔧 Sanitizing data:', rawData);
+    
+    // Simply return the raw data as sanitized - no complex processing needed
+    const result = {
+      metrics: rawData.metrics || [],
+      performanceMetrics: rawData.performanceMetrics || [],
+      salesData: rawData.salesData || [],
+      trafficData: rawData.trafficData || [],
+      areaData: rawData.areaData || [],
+      radarData: rawData.radarData || [],
+      sentimentData: rawData.sentimentData || [],
+      engagementData: rawData.engagementData || [],
+      cryptoData: rawData.cryptoData || [],
+      hashtagData: rawData.hashtagData || [],
+      treemapData: rawData.treemapData || [],
+      scatterData: rawData.scatterData || [],
+      funnelData: rawData.funnelData || [],
+      gaugeData: rawData.gaugeData || [],
       sankeyData: rawData.sankeyData || { nodes: [], links: [] },
-      candlestickData: SanitizationService.sanitizeChartData(rawData.candlestickData || []),
-      donutData: SanitizationService.sanitizeChartData(rawData.donutData || []),
-      barData: SanitizationService.sanitizeChartData(rawData.barData || []),
-      sentimentData: SanitizationService.sanitizeChartData(rawData.sentimentData || []),
-      engagementData: SanitizationService.sanitizeChartData(rawData.engagementData || []),
-      cryptoData: SanitizationService.sanitizeChartData(rawData.cryptoData || []),
-      hashtagData: SanitizationService.sanitizeChartData(rawData.hashtagData || [])
+      candlestickData: rawData.candlestickData || [],
+      donutData: rawData.donutData || [],
+      barData: rawData.barData || []
     };
+    
+    console.log('🔧 Sanitized data result:', result);
+    return result;
   }, [rawData]);
 
   return sanitizedData;
