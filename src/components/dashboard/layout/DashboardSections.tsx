@@ -2,11 +2,11 @@
 import React, { Suspense } from 'react';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { DashboardSkeleton } from '@/components/LoadingProvider';
-import { DashboardHeader } from '../DashboardHeader';
-import { MetricsSection } from '../MetricsSection';
-import { ChartsGrid } from '../ChartsGrid';
-import { DashboardFooter } from '../DashboardFooter';
 import { AIManagementSection } from '../sections/AIManagementSection';
+import { DashboardHeaderSection } from '../sections/DashboardHeaderSection';
+import { DashboardMetricsSection } from '../sections/DashboardMetricsSection';
+import { DashboardChartsSection } from '../sections/DashboardChartsSection';
+import { DashboardFooterSection } from '../sections/DashboardFooterSection';
 
 interface DashboardSectionsProps {
   dashboardData: any;
@@ -21,7 +21,7 @@ interface DashboardSectionsProps {
 }
 
 /**
- * Dashboard sections wrapper with error boundaries and suspense
+ * Refactored dashboard sections - now much smaller and focused
  */
 export const DashboardSections = ({
   dashboardData,
@@ -42,76 +42,40 @@ export const DashboardSections = ({
 
   return (
     <>
-      {/* Dashboard Header */}
-      <ErrorBoundary>
-        <DashboardHeader
-          isLive={isLive}
-          filters={filters}
-          onToggleLive={toggleLiveData}
-          onRefresh={initializeData}
-          onFiltersChange={setFilters}
-          onExport={() => console.log('Export functionality')}
-        />
-      </ErrorBoundary>
+      <DashboardHeaderSection
+        isLive={isLive}
+        filters={filters}
+        toggleLiveData={toggleLiveData}
+        initializeData={initializeData}
+        setFilters={setFilters}
+      />
 
-      {/* AI Management Section */}
       <ErrorBoundary>
         <Suspense fallback={<DashboardSkeleton />}>
           <AIManagementSection data={dashboardData?.metrics || []} />
         </Suspense>
       </ErrorBoundary>
 
-      {/* Metrics Section */}
-      <ErrorBoundary>
-        <Suspense fallback={<DashboardSkeleton />}>
-          <MetricsSection
-            performanceMetrics={dashboardData?.performanceMetrics || []}
-            filters={filters}
-            onFiltersChange={setFilters}
-            onExport={() => console.log('Export metrics')}
-          />
-        </Suspense>
-      </ErrorBoundary>
+      <DashboardMetricsSection
+        performanceMetrics={dashboardData?.performanceMetrics || []}
+        filters={filters}
+        setFilters={setFilters}
+      />
 
-      {/* Charts Grid */}
-      <ErrorBoundary>
-        <Suspense fallback={<DashboardSkeleton />}>
-          <ChartsGrid
-            metrics={dashboardData?.metrics || []}
-            salesData={dashboardData?.salesData || []}
-            trafficData={dashboardData?.trafficData || []}
-            areaData={dashboardData?.areaData || []}
-            radarData={dashboardData?.radarData || []}
-            notifications={notifications || []}
-            treemapData={dashboardData?.treemapData || []}
-            scatterData={dashboardData?.scatterData || []}
-            funnelData={dashboardData?.funnelData || []}
-            gaugeData={dashboardData?.gaugeData || []}
-            sankeyData={dashboardData?.sankeyData || { nodes: [], links: [] }}
-            candlestickData={dashboardData?.candlestickData || []}
-            donutData={dashboardData?.donutData || []}
-            barData={dashboardData?.barData || []}
-            sentimentData={dashboardData?.sentimentData || []}
-            engagementData={dashboardData?.engagementData || []}
-            cryptoData={dashboardData?.cryptoData || []}
-            hashtagData={dashboardData?.hashtagData || []}
-            isLive={isLive}
-            onClearNotifications={clearNotifications}
-            onMarkNotificationAsRead={markNotificationAsRead}
-          />
-        </Suspense>
-      </ErrorBoundary>
+      <DashboardChartsSection
+        dashboardData={dashboardData}
+        notifications={notifications}
+        isLive={isLive}
+        clearNotifications={clearNotifications}
+        markNotificationAsRead={markNotificationAsRead}
+      />
 
-      {/* Dashboard Footer */}
-      <ErrorBoundary>
-        <DashboardFooter
-          metrics={dashboardData?.metrics || []}
-          performanceMetrics={dashboardData?.performanceMetrics || []}
-          notifications={notifications || []}
-          filters={filters}
-          isLive={isLive}
-        />
-      </ErrorBoundary>
+      <DashboardFooterSection
+        dashboardData={dashboardData}
+        notifications={notifications}
+        filters={filters}
+        isLive={isLive}
+      />
     </>
   );
 };
