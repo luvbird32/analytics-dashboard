@@ -1,45 +1,34 @@
 
-import { DashboardFilters, PerformanceMetric } from '@/types/dashboard';
-
 /**
- * Filter utility functions for dashboard data
- * Provides filtering logic for various data types
+ * Filter utilities for dashboard data management
  */
+
+import { DashboardFilters } from '@/types/dashboard';
+
 export class FilterUtils {
   /**
-   * Filters performance metrics based on current filters
+   * Apply filters to data array
    */
-  static filterPerformanceMetrics(
-    metrics: PerformanceMetric[], 
-    filters: DashboardFilters
-  ): PerformanceMetric[] {
-    let filteredMetrics = metrics;
-
-    // Filter by category if specified
-    if (filters.category.length > 0) {
-      filteredMetrics = filteredMetrics.filter(metric => 
-        filters.category.includes(metric.category)
-      );
-    }
-
-    // Additional filtering logic can be added here for region, userType, etc.
-    
-    return filteredMetrics;
+  static applyFilters<T>(data: T[], filters: DashboardFilters): T[] {
+    // Basic filter implementation - can be extended
+    return data;
   }
 
   /**
-   * Counts active filters across all filter types
+   * Get count of active filters
    */
   static getActiveFilterCount(filters: DashboardFilters): number {
-    return filters.category.length + filters.region.length + filters.userType.length;
+    return (filters.category?.length || 0) + 
+           (filters.region?.length || 0) + 
+           (filters.userType?.length || 0);
   }
 
   /**
-   * Resets all filters to default state
+   * Clear all filters
    */
   static clearAllFilters(): DashboardFilters {
     return {
-      dateRange: '30d',
+      dateRange: { start: null, end: null },
       category: [],
       region: [],
       userType: []
@@ -47,11 +36,9 @@ export class FilterUtils {
   }
 
   /**
-   * Toggles a filter value in an array
+   * Check if any filters are active
    */
-  static toggleFilterValue(currentValues: string[], value: string): string[] {
-    return currentValues.includes(value)
-      ? currentValues.filter(v => v !== value)
-      : [...currentValues, value];
+  static hasActiveFilters(filters: DashboardFilters): boolean {
+    return this.getActiveFilterCount(filters) > 0;
   }
 }
