@@ -1,26 +1,54 @@
 
 import { useCallback, useEffect } from 'react';
-import { useSimplifiedDashboardState } from './useSimplifiedDashboardState';
+import { useDashboardState } from './useDashboardState';
 import { useMetricsData } from './useMetricsData';
 import { useChartsData } from './useChartsData';
 import { useSocialCryptoData } from './useSocialCryptoData';
-import { useSimplifiedRealTimeCoordinator } from './useSimplifiedRealTimeCoordinator';
-import { useSimplifiedDataManager } from './useSimplifiedDataManager';
+import { useRealTimeUpdates } from './useRealTimeUpdates';
+import { useDashboardDataManager } from './useDashboardDataManager';
+import { useDashboardActions } from './useDashboardActions';
 import { useDataInitialization } from './useDataInitialization';
 
 /**
- * Main dashboard orchestration hook - now much cleaner
+ * Simplified orchestration hook for dashboard functionality
+ * Now focused only on coordination, with data management extracted
  */
 export const useDashboardOrchestration = () => {
-  const { state, setFilters } = useSimplifiedDashboardState();
-  const { isLive, toggleLiveData } = useSimplifiedRealTimeCoordinator();
-  
+  const {
+    state,
+    toggleLiveData,
+    setFilters,
+    clearNotifications,
+    markNotificationAsRead
+  } = useDashboardState();
+
   const { metrics, performanceMetrics } = useMetricsData();
-  const { salesData, trafficData, areaData, radarData } = useChartsData();
+  const {
+    salesData,
+    trafficData,
+    areaData,
+    radarData,
+    treemapData,
+    scatterData,
+    funnelData,
+    gaugeData,
+    sankeyData,
+    candlestickData,
+    donutData,
+    barData
+  } = useChartsData();
+  
   const { sentimentData, engagementData, cryptoData, hashtagData } = useSocialCryptoData();
   const { generateInitialData } = useDataInitialization();
+  
+  useRealTimeUpdates();
 
-  // Collect raw data
+  useEffect(() => {
+    console.log('🚀 Dashboard orchestration initializing...');
+    generateInitialData();
+  }, [generateInitialData]);
+
+  // Collect raw data for sanitization
   const rawData = {
     metrics,
     performanceMetrics,
@@ -28,51 +56,41 @@ export const useDashboardOrchestration = () => {
     trafficData,
     areaData,
     radarData,
+    treemapData,
+    scatterData,
+    funnelData,
+    gaugeData,
+    sankeyData,
+    candlestickData,
+    donutData,
+    barData,
     sentimentData,
     engagementData,
     cryptoData,
     hashtagData
   };
 
-  const sanitizedData = useSimplifiedDataManager(rawData);
-
-  // Initialize data on mount
-  useEffect(() => {
-    generateInitialData();
-  }, [generateInitialData]);
-
-  const handleRefresh = useCallback(() => {
-    generateInitialData();
-  }, [generateInitialData]);
-
-  const clearNotifications = useCallback(() => {
-    console.log('Clearing notifications...');
-  }, []);
-
-  const markNotificationAsRead = useCallback((id: string) => {
-    console.log('Marking notification as read:', id);
-  }, []);
-
-  const setSanitizedFilters = useCallback((filters: any) => {
-    setFilters(filters);
-  }, [setFilters]);
+  const sanitizedData = useDashboardDataManager(rawData);
+  const actions = useDashboardActions(
+    toggleLiveData,
+    setFilters,
+    clearNotifications,
+    markNotificationAsRead,
+    generateInitialData
+  );
 
   return {
-    // State
-    isLive,
+    // State properties
+    isLive: state.isLive,
     filters: state.filters,
-    notifications: state.notifications || [],
+    notifications: state.notifications,
     isLoading: state.isLoading,
     error: state.error,
     
-    // Data
+    // Sanitized data
     ...sanitizedData,
     
     // Actions
-    toggleLiveData,
-    handleRefresh,
-    clearNotifications,
-    markNotificationAsRead,
-    setSanitizedFilters
+    ...actions
   };
 };
