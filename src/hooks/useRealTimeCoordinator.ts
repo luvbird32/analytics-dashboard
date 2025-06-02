@@ -1,36 +1,31 @@
 
 import { useCallback } from 'react';
+import { useDashboardState } from './useDashboardState';
 import { useMetricsData } from './useMetricsData';
 import { useChartsData } from './useChartsData';
-import { useDashboardState } from './useDashboardState';
+import { useNotifications } from './useNotifications';
 
 /**
- * Coordinates real-time data updates across different data sources
- * Fixed to prevent memory leaks and improve error handling
+ * Coordinated real-time updates across all data sources
  */
 export const useRealTimeCoordinator = () => {
-  const { state, addNotification } = useDashboardState();
+  const { state } = useDashboardState();
   const { updateMetrics } = useMetricsData();
   const { updateTrafficData } = useChartsData();
+  const { addNotification } = useNotifications();
 
   const coordinateUpdates = useCallback(() => {
     if (!state.isLive) return;
 
-    console.log('🔄 Coordinating real-time updates...');
+    console.log('📊 Coordinating real-time updates...');
+    
+    // Update metrics with notifications
+    updateMetrics(state.isLive, addNotification);
+    
+    // Update traffic data
+    updateTrafficData(state.isLive);
 
-    try {
-      // Batch updates for performance with error handling
-      requestAnimationFrame(() => {
-        try {
-          updateMetrics(state.isLive, addNotification);
-          updateTrafficData(state.isLive);
-        } catch (error) {
-          console.error('❌ Error during real-time update:', error);
-        }
-      });
-    } catch (error) {
-      console.error('❌ Error scheduling real-time updates:', error);
-    }
+    console.log('✅ Real-time updates coordinated');
   }, [state.isLive, updateMetrics, updateTrafficData, addNotification]);
 
   return {
