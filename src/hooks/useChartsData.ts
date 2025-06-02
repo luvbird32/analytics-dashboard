@@ -38,6 +38,15 @@ export const useChartsData = () => {
   const [donutData, setDonutData] = useState<DonutData[]>([]);
   const [barData, setBarData] = useState<BarData[]>([]);
 
+  console.log('🔍 useChartsData - Current State:', {
+    salesDataLength: salesData.length,
+    trafficDataLength: trafficData.length,
+    areaDataLength: areaData.length,
+    radarDataLength: radarData.length,
+    salesData: salesData,
+    trafficData: trafficData
+  });
+
   const generateHeatmapData = useCallback(() => {
     const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     const heatmapPoints: HeatmapData[] = [];
@@ -61,12 +70,20 @@ export const useChartsData = () => {
     console.log('📊 Loading chart data with specialized services...');
     
     // Use mock data for sales and traffic
+    console.log('📊 Setting sales data:', mockSalesData);
+    console.log('📊 Setting traffic data:', mockTrafficData);
     setSalesData([...mockSalesData]);
     setTrafficData([...mockTrafficData]);
     
     // Use specialized services for other charts
-    setRadarData(BasicChartsService.generateRadarData());
-    setAreaData(BasicChartsService.generateAreaData());
+    const radarChartData = BasicChartsService.generateRadarData();
+    const areaChartData = BasicChartsService.generateAreaData();
+    
+    console.log('📊 Generated radar data:', radarChartData);
+    console.log('📊 Generated area data:', areaChartData);
+    
+    setRadarData(radarChartData);
+    setAreaData(areaChartData);
     setHeatmapData(generateHeatmapData());
 
     // Advanced charts

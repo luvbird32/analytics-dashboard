@@ -1,30 +1,33 @@
 
 import { useCallback } from 'react';
-import { DashboardDataService } from '@/services/dashboardDataService';
-import { useDashboardState } from './useDashboardState';
+import { useMetricsData } from './useMetricsData';
+import { useChartsData } from './useChartsData';
+import { useSocialCryptoData } from './useSocialCryptoData';
 
 /**
  * Hook for initializing dashboard data
  */
 export const useDataInitialization = () => {
-  const { setLoading, setError } = useDashboardState();
+  const { generateInitialMetrics } = useMetricsData();
+  const { generateInitialCharts } = useChartsData();
+  const { generateInitialSocialCrypto } = useSocialCryptoData();
 
   const generateInitialData = useCallback(() => {
-    console.log('🚀 Initializing dashboard data...');
-    setLoading(true);
+    console.log('🚀 Initializing comprehensive dashboard data...');
     
     try {
-      const initialData = DashboardDataService.generateInitialData();
-      setLoading(false);
+      // Initialize all data sources
+      generateInitialMetrics();
+      generateInitialCharts();
+      generateInitialSocialCrypto();
+      
       console.log('✅ Dashboard data initialized successfully');
-      return initialData;
+      return true;
     } catch (error) {
       console.error('❌ Failed to initialize dashboard data:', error);
-      setError('Failed to load dashboard data');
-      setLoading(false);
-      return null;
+      return false;
     }
-  }, [setLoading, setError]);
+  }, [generateInitialMetrics, generateInitialCharts, generateInitialSocialCrypto]);
 
   return {
     generateInitialData

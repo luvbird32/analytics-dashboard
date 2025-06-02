@@ -20,6 +20,20 @@ export const useDashboardOrchestration = () => {
   const { sentimentData, engagementData, cryptoData, hashtagData } = useSocialCryptoData();
   const { generateInitialData } = useDataInitialization();
 
+  // Debug logging to trace data flow
+  console.log('🔍 Dashboard Orchestration - Raw Data Check:', {
+    metricsLength: metrics?.length || 0,
+    performanceMetricsLength: performanceMetrics?.length || 0,
+    salesDataLength: salesData?.length || 0,
+    trafficDataLength: trafficData?.length || 0,
+    sentimentDataLength: sentimentData?.length || 0,
+    engagementDataLength: engagementData?.length || 0,
+    cryptoDataLength: cryptoData?.length || 0,
+    hashtagDataLength: hashtagData?.length || 0,
+    areaDataLength: areaData?.length || 0,
+    radarDataLength: radarData?.length || 0
+  });
+
   // Collect raw data including all chart types
   const rawData = {
     metrics,
@@ -43,14 +57,20 @@ export const useDashboardOrchestration = () => {
     barData: []
   };
 
+  console.log('🔍 Dashboard Orchestration - Raw Data Object:', rawData);
+
   const sanitizedData = useSimplifiedDataManager(rawData);
+
+  console.log('🔍 Dashboard Orchestration - Sanitized Data:', sanitizedData);
 
   // Initialize data on mount
   useEffect(() => {
+    console.log('🚀 Initializing dashboard data...');
     generateInitialData();
   }, [generateInitialData]);
 
   const handleRefresh = useCallback(() => {
+    console.log('🔄 Refreshing dashboard data...');
     generateInitialData();
   }, [generateInitialData]);
 
@@ -66,7 +86,7 @@ export const useDashboardOrchestration = () => {
     setFilters(filters);
   }, [setFilters]);
 
-  return {
+  const finalData = {
     // State
     isLive,
     filters: state.filters,
@@ -84,4 +104,8 @@ export const useDashboardOrchestration = () => {
     markNotificationAsRead,
     setSanitizedFilters
   };
+
+  console.log('🔍 Dashboard Orchestration - Final Data:', finalData);
+
+  return finalData;
 };

@@ -11,6 +11,13 @@ export const useMetricsData = () => {
   const [metrics, setMetrics] = useState<MetricData[]>(mockMetrics);
   const [performanceMetrics, setPerformanceMetrics] = useState<PerformanceMetric[]>(mockPerformanceMetrics);
 
+  console.log('🔍 useMetricsData - Current State:', {
+    metricsLength: metrics.length,
+    performanceMetricsLength: performanceMetrics.length,
+    metricsData: metrics,
+    performanceMetricsData: performanceMetrics
+  });
+
   /**
    * Generates initial metrics data using mock data
    */
