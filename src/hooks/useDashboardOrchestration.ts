@@ -13,9 +13,22 @@ import { useDataInitialization } from './useDataInitialization';
  */
 export const useDashboardOrchestration = () => {
   const dashboardState = useDashboardData();
-  const metricsData = useMetricsData();
-  const chartsData = useChartsData();
-  const socialCryptoData = useSocialCryptoData();
+  const { metrics, performanceMetrics } = useMetricsData();
+  const {
+    salesData,
+    trafficData,
+    areaData,
+    radarData,
+    treemapData,
+    scatterData,
+    funnelData,
+    gaugeData,
+    sankeyData,
+    candlestickData,
+    donutData,
+    barData
+  } = useChartsData();
+  const { sentimentData, engagementData, cryptoData, hashtagData } = useSocialCryptoData();
   const dataInitialization = useDataInitialization();
   
   // Setup real-time updates
@@ -35,24 +48,24 @@ export const useDashboardOrchestration = () => {
     error: dashboardState.error,
     
     // Data properties from specialized hooks
-    metrics: metricsData.metrics,
-    performanceMetrics: metricsData.performanceMetrics,
-    salesData: chartsData.salesData,
-    trafficData: chartsData.trafficData,
-    areaData: chartsData.areaData,
-    radarData: chartsData.radarData,
-    treemapData: chartsData.treemapData,
-    scatterData: chartsData.scatterData,
-    funnelData: chartsData.funnelData,
-    gaugeData: chartsData.gaugeData,
-    sankeyData: chartsData.sankeyData,
-    candlestickData: chartsData.candlestickData,
-    donutData: chartsData.donutData,
-    barData: chartsData.barData,
-    sentimentData: socialCryptoData.sentimentData,
-    engagementData: socialCryptoData.engagementData,
-    cryptoData: socialCryptoData.cryptoData,
-    hashtagData: socialCryptoData.hashtagData,
+    metrics,
+    performanceMetrics,
+    salesData,
+    trafficData,
+    areaData,
+    radarData,
+    treemapData,
+    scatterData,
+    funnelData,
+    gaugeData,
+    sankeyData,
+    candlestickData,
+    donutData,
+    barData,
+    sentimentData,
+    engagementData,
+    cryptoData,
+    hashtagData,
     
     // Action functions
     toggleLiveData: dashboardState.toggleLiveData,
