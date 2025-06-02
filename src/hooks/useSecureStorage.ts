@@ -1,5 +1,5 @@
 
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import localforage from 'localforage';
 import { sanitizeStorageData, handleSecureError } from '@/utils/securityUtils';
 

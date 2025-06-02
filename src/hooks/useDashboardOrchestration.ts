@@ -20,7 +20,7 @@ export const useDashboardOrchestration = () => {
   const { sentimentData, engagementData, cryptoData, hashtagData } = useSocialCryptoData();
   const { generateInitialData } = useDataInitialization();
 
-  // Collect raw data including all chart types
+  // Collect raw data
   const rawData = {
     metrics,
     performanceMetrics,
@@ -31,16 +31,7 @@ export const useDashboardOrchestration = () => {
     sentimentData,
     engagementData,
     cryptoData,
-    hashtagData,
-    // Add missing chart data with empty defaults
-    treemapData: [],
-    scatterData: [],
-    funnelData: [],
-    gaugeData: [],
-    sankeyData: { nodes: [], links: [] },
-    candlestickData: [],
-    donutData: [],
-    barData: []
+    hashtagData
   };
 
   const sanitizedData = useSimplifiedDataManager(rawData);
@@ -74,7 +65,7 @@ export const useDashboardOrchestration = () => {
     isLoading: state.isLoading,
     error: state.error,
     
-    // Data - include all chart data
+    // Data
     ...sanitizedData,
     
     // Actions
