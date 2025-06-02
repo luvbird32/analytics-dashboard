@@ -14,7 +14,6 @@ export { NotificationService } from '@/services/notificationService';
 export { BasicChartsService } from '@/services/charts/basicChartsService';
 export { AdvancedChartsService } from '@/services/charts/advancedChartsService';
 export { FinancialChartsService } from '@/services/charts/financialChartsService';
-export { MetricsChartsService } from '@/services/charts/metricsChartsService';
 
 // Domain Services
 export { CryptoService } from '@/services/crypto/cryptoService';
