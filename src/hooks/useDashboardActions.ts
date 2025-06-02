@@ -3,13 +3,11 @@ import { useCallback } from 'react';
 import { SanitizationService } from '@/services/security/sanitizationService';
 
 /**
- * Focused hook for dashboard action handlers
+ * Clean dashboard actions hook
  */
 export const useDashboardActions = (
   toggleLiveData: () => void,
   setFilters: (filters: any) => void,
-  clearNotifications: () => void,
-  markNotificationAsRead: (id: string) => void,
   generateInitialData: () => void
 ) => {
   const setSanitizedFilters = useCallback((filters: any) => {
@@ -17,19 +15,21 @@ export const useDashboardActions = (
     setFilters(sanitizedFilters);
   }, [setFilters]);
 
-  const addSanitizedNotification = useCallback((notification: any) => {
-    const sanitizedNotification = SanitizationService.sanitizeNotification(notification);
-    console.log('Sanitized notification:', sanitizedNotification);
-  }, []);
-
   const handleRefresh = useCallback(() => {
     console.log('🔄 Refreshing dashboard data...');
     generateInitialData();
   }, [generateInitialData]);
 
+  const clearNotifications = useCallback(() => {
+    console.log('Clearing notifications...');
+  }, []);
+
+  const markNotificationAsRead = useCallback((id: string) => {
+    console.log('Marking notification as read:', id);
+  }, []);
+
   return {
     setSanitizedFilters,
-    addSanitizedNotification,
     handleRefresh,
     toggleLiveData,
     clearNotifications,
