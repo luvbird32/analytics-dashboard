@@ -17,8 +17,7 @@ export const AIManagementSection = ({ data }: AIManagementSectionProps) => {
     dataQuality,
     predictions,
     cleanData,
-    retrainModel,
-    autoRetrain
+    retrainModel
   } = useAIRetraining();
 
   const handleRetrain = async () => {
