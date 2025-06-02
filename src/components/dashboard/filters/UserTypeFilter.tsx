@@ -1,45 +1,39 @@
 
+import React from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
-import { DashboardFilters } from '@/types/dashboard';
+import { Label } from '@/components/ui/label';
 import { FilterUtils } from '@/utils/filterUtils';
 
 interface UserTypeFilterProps {
-  filters: DashboardFilters;
-  onFiltersChange: (filters: DashboardFilters) => void;
+  selectedUserTypes: string[];
+  onUserTypeChange: (userTypes: string[]) => void;
 }
 
 /**
- * User type filter component for dashboard analytics
+ * User type filter component for dashboard filtering
  */
-export const UserTypeFilter = ({ filters, onFiltersChange }: UserTypeFilterProps) => {
-  const userTypes = [
-    { id: 'premium', label: 'Premium' },
-    { id: 'standard', label: 'Standard' },
-    { id: 'trial', label: 'Trial' }
-  ];
+export const UserTypeFilter = ({ selectedUserTypes, onUserTypeChange }: UserTypeFilterProps) => {
+  const userTypes = ['premium', 'standard', 'trial', 'enterprise'];
 
-  const handleUserTypeToggle = (userTypeId: string) => {
-    const newUserTypes = FilterUtils.toggleFilterValue(filters.userType, userTypeId);
-    onFiltersChange({ ...filters, userType: newUserTypes });
+  const handleUserTypeToggle = (userType: string) => {
+    const updatedUserTypes = FilterUtils.toggleFilterValue(selectedUserTypes, userType);
+    onUserTypeChange(updatedUserTypes);
   };
 
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium">User Types</label>
-      <div className="flex flex-wrap gap-2">
-        {userTypes.map(userType => (
-          <div key={userType.id} className="flex items-center space-x-2">
+      <Label className="text-sm font-medium">User Types</Label>
+      <div className="space-y-2">
+        {userTypes.map((userType) => (
+          <div key={userType} className="flex items-center space-x-2">
             <Checkbox
-              id={userType.id}
-              checked={filters.userType.includes(userType.id)}
-              onCheckedChange={() => handleUserTypeToggle(userType.id)}
+              id={userType}
+              checked={selectedUserTypes.includes(userType)}
+              onCheckedChange={() => handleUserTypeToggle(userType)}
             />
-            <label
-              htmlFor={userType.id}
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              {userType.label}
-            </label>
+            <Label htmlFor={userType} className="text-sm capitalize">
+              {userType}
+            </Label>
           </div>
         ))}
       </div>

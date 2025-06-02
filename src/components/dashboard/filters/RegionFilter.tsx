@@ -1,46 +1,39 @@
 
+import React from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
-import { DashboardFilters } from '@/types/dashboard';
+import { Label } from '@/components/ui/label';
 import { FilterUtils } from '@/utils/filterUtils';
 
 interface RegionFilterProps {
-  filters: DashboardFilters;
-  onFiltersChange: (filters: DashboardFilters) => void;
+  selectedRegions: string[];
+  onRegionChange: (regions: string[]) => void;
 }
 
 /**
- * Region filter component for dashboard data
+ * Region filter component for dashboard filtering
  */
-export const RegionFilter = ({ filters, onFiltersChange }: RegionFilterProps) => {
-  const regions = [
-    { id: 'north-america', label: 'North America' },
-    { id: 'europe', label: 'Europe' },
-    { id: 'asia-pacific', label: 'Asia Pacific' },
-    { id: 'latin-america', label: 'Latin America' }
-  ];
+export const RegionFilter = ({ selectedRegions, onRegionChange }: RegionFilterProps) => {
+  const regions = ['north-america', 'europe', 'asia-pacific', 'latin-america', 'africa'];
 
-  const handleRegionToggle = (regionId: string) => {
-    const newRegions = FilterUtils.toggleFilterValue(filters.region, regionId);
-    onFiltersChange({ ...filters, region: newRegions });
+  const handleRegionToggle = (region: string) => {
+    const updatedRegions = FilterUtils.toggleFilterValue(selectedRegions, region);
+    onRegionChange(updatedRegions);
   };
 
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium">Regions</label>
-      <div className="grid grid-cols-2 gap-2">
-        {regions.map(region => (
-          <div key={region.id} className="flex items-center space-x-2">
+      <Label className="text-sm font-medium">Regions</Label>
+      <div className="space-y-2">
+        {regions.map((region) => (
+          <div key={region} className="flex items-center space-x-2">
             <Checkbox
-              id={region.id}
-              checked={filters.region.includes(region.id)}
-              onCheckedChange={() => handleRegionToggle(region.id)}
+              id={region}
+              checked={selectedRegions.includes(region)}
+              onCheckedChange={() => handleRegionToggle(region)}
             />
-            <label
-              htmlFor={region.id}
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              {region.label}
-            </label>
+            <Label htmlFor={region} className="text-sm capitalize">
+              {region.replace('-', ' ')}
+            </Label>
           </div>
         ))}
       </div>

@@ -1,46 +1,39 @@
 
+import React from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
-import { DashboardFilters } from '@/types/dashboard';
+import { Label } from '@/components/ui/label';
 import { FilterUtils } from '@/utils/filterUtils';
 
 interface CategoryFilterProps {
-  filters: DashboardFilters;
-  onFiltersChange: (filters: DashboardFilters) => void;
+  selectedCategories: string[];
+  onCategoryChange: (categories: string[]) => void;
 }
 
 /**
- * Category filter component for dashboard metrics
+ * Category filter component for dashboard filtering
  */
-export const CategoryFilter = ({ filters, onFiltersChange }: CategoryFilterProps) => {
-  const categories = [
-    { id: 'revenue', label: 'Revenue' },
-    { id: 'users', label: 'Users' },
-    { id: 'performance', label: 'Performance' },
-    { id: 'conversion', label: 'Conversion' }
-  ];
+export const CategoryFilter = ({ selectedCategories, onCategoryChange }: CategoryFilterProps) => {
+  const categories = ['revenue', 'growth', 'marketing', 'sales', 'analytics'];
 
-  const handleCategoryToggle = (categoryId: string) => {
-    const newCategories = FilterUtils.toggleFilterValue(filters.category, categoryId);
-    onFiltersChange({ ...filters, category: newCategories });
+  const handleCategoryToggle = (category: string) => {
+    const updatedCategories = FilterUtils.toggleFilterValue(selectedCategories, category);
+    onCategoryChange(updatedCategories);
   };
 
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium">Categories</label>
-      <div className="flex flex-wrap gap-2">
-        {categories.map(category => (
-          <div key={category.id} className="flex items-center space-x-2">
+      <Label className="text-sm font-medium">Categories</Label>
+      <div className="space-y-2">
+        {categories.map((category) => (
+          <div key={category} className="flex items-center space-x-2">
             <Checkbox
-              id={category.id}
-              checked={filters.category.includes(category.id)}
-              onCheckedChange={() => handleCategoryToggle(category.id)}
+              id={category}
+              checked={selectedCategories.includes(category)}
+              onCheckedChange={() => handleCategoryToggle(category)}
             />
-            <label
-              htmlFor={category.id}
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              {category.label}
-            </label>
+            <Label htmlFor={category} className="text-sm capitalize">
+              {category}
+            </Label>
           </div>
         ))}
       </div>
