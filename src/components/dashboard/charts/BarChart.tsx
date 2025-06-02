@@ -11,7 +11,7 @@ interface CustomBarChartProps {
 /**
  * Custom bar chart for performance metrics with targets
  */
-export const BarChart = ({ data }: CustomBarChartProps) => {
+export const CustomBarChart = ({ data }: CustomBarChartProps) => {
   const chartConfig = {
     value: {
       label: "Actual",

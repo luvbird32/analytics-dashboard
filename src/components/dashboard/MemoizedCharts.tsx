@@ -12,7 +12,7 @@ import {
   DonutChart,
   SankeyChart,
   CryptoChart,
-  BarChart,
+  CustomBarChart,
   ScatterChart
 } from './charts';
 import { createMemoizedChart, defaultChartComparison, liveChartComparison, sankeyChartComparison } from '@/utils/chartMemoization';
@@ -58,5 +58,5 @@ export const MemoizedCryptoChart = createMemoizedChart(
     prevProps.symbol === nextProps.symbol
   )
 );
-export const MemoizedBarChart = createMemoizedChart(BarChart, 'BarChart', defaultChartComparison);
+export const MemoizedCustomBarChart = createMemoizedChart(CustomBarChart, 'CustomBarChart', defaultChartComparison);
 export const MemoizedScatterChart = createMemoizedChart(ScatterChart, 'ScatterChart', defaultChartComparison);

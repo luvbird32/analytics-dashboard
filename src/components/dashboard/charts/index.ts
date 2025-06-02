@@ -7,7 +7,7 @@ export { GaugeChart } from './GaugeChart';
 export { CandlestickChart } from './CandlestickChart';
 export { SankeyChart } from './SankeyChart';
 export { CryptoChart } from './CryptoChart';
-export { BarChart } from './BarChart';
+export { CustomBarChart } from './BarChart';
 export { ScatterChart } from './ScatterChart';
 export { EngagementChart } from './EngagementChart';
 export { SentimentChart } from './SentimentChart';

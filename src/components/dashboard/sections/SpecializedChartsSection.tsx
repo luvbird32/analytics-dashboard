@@ -5,7 +5,7 @@ import { ScatterChart } from '../charts/ScatterChart';
 import { FunnelChart } from '../charts/FunnelChart';
 import { GaugeChart } from '../charts/GaugeChart';
 import { DonutChart } from '../charts/DonutChart';
-import { BarChart } from '../charts/BarChart';
+import { CustomBarChart } from '../charts/BarChart';
 import {
   TreemapData,
   ScatterData,
@@ -67,9 +67,9 @@ export const SpecializedChartsSection = ({
         <DonutChart data={donutData} />
       </div>
       
-      {/* Bar Chart - Full Width Row */}
+      {/* Custom Bar Chart - Full Width Row */}
       <div className="w-full">
-        <BarChart data={barData} />
+        <CustomBarChart data={barData} />
       </div>
     </div>
   );

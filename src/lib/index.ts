@@ -25,7 +25,7 @@ export { DonutChart } from '@/components/dashboard/charts/DonutChart';
 export { GaugeChart } from '@/components/dashboard/charts/GaugeChart';
 export { CandlestickChart } from '@/components/dashboard/charts/CandlestickChart';
 export { SankeyChart } from '@/components/dashboard/charts/SankeyChart';
-export { BarChart } from '@/components/dashboard/charts/BarChart';
+export { CustomBarChart } from '@/components/dashboard/charts/BarChart';
 export { ScatterChart } from '@/components/dashboard/charts/ScatterChart';
 export { CryptoChart } from '@/components/dashboard/charts/CryptoChart';
 export { EngagementChart } from '@/components/dashboard/charts/EngagementChart';
@@ -65,6 +65,7 @@ export { useDashboardDataManager } from '@/hooks/useDashboardDataManager';
 export { useDashboardActions } from '@/hooks/useDashboardActions';
 export { useSanitizedInput } from '@/hooks/useSanitizedInput';
 export { useSecureStorage } from '@/hooks/useSecureStorage';
+export { useExportHandling } from '@/hooks/useExportHandling';
 
 // Services
 export { MetricsService } from '@/services/core/metricsService';

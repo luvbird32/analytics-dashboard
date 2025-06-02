@@ -20,7 +20,7 @@ export { DonutChart as StandaloneDonutChart } from '@/components/dashboard/chart
 export { GaugeChart as StandaloneGaugeChart } from '@/components/dashboard/charts/GaugeChart';
 export { CandlestickChart as StandaloneCandlestickChart } from '@/components/dashboard/charts/CandlestickChart';
 export { SankeyChart as StandaloneSankeyChart } from '@/components/dashboard/charts/SankeyChart';
-export { BarChart as StandaloneBarChart } from '@/components/dashboard/charts/BarChart';
+export { CustomBarChart as StandaloneCustomBarChart } from '@/components/dashboard/charts/BarChart';
 export { ScatterChart as StandaloneScatterChart } from '@/components/dashboard/charts/ScatterChart';
 
 // Social & Crypto Charts
