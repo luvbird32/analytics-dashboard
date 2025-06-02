@@ -1,0 +1,64 @@
+
+import React from 'react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useSanitizedInput } from '@/hooks/useSanitizedInput';
+import { z } from 'zod';
+
+interface SanitizedFilterInputProps {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  maxLength?: number;
+  schema?: z.ZodSchema<string>;
+}
+
+/**
+ * Sanitized input component for filter forms
+ */
+export const SanitizedFilterInput = ({
+  label,
+  value,
+  onChange,
+  placeholder,
+  maxLength = 100,
+  schema
+}: SanitizedFilterInputProps) => {
+  const {
+    value: sanitizedValue,
+    updateValue,
+    isValid,
+    errors
+  } = useSanitizedInput(
+    value,
+    schema || z.string().max(maxLength).optional()
+  );
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    updateValue(newValue);
+    onChange(newValue);
+  };
+
+  return (
+    <div className="space-y-2">
+      <Label htmlFor={label.toLowerCase()}>{label}</Label>
+      <Input
+        id={label.toLowerCase()}
+        value={sanitizedValue}
+        onChange={handleChange}
+        placeholder={placeholder}
+        maxLength={maxLength}
+        className={!isValid ? 'border-red-500' : ''}
+      />
+      {errors.length > 0 && (
+        <div className="text-sm text-red-600">
+          {errors.map((error, index) => (
+            <div key={index}>{error}</div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
