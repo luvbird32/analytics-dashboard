@@ -59,10 +59,10 @@ export const useDashboardOrchestration = () => {
 
   // Initialize data on mount with error handling
   useEffect(() => {
-    const initData = async () => {
+    const initData = () => {
       try {
         console.log('🚀 Initializing dashboard data...');
-        await generateInitialData();
+        generateInitialData();
       } catch (error) {
         console.error('❌ Error initializing data:', error);
       }
@@ -71,10 +71,10 @@ export const useDashboardOrchestration = () => {
     initData();
   }, [generateInitialData]);
 
-  const handleRefresh = useCallback(async () => {
+  const handleRefresh = useCallback(() => {
     try {
       console.log('🔄 Refreshing dashboard data...');
-      await generateInitialData();
+      generateInitialData();
     } catch (error) {
       console.error('❌ Error refreshing data:', error);
     }
